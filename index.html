@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DentalAI — Стоматология в радость · LABS67</title>
+<meta name="description" content="DentalAI — умные стоматологии нового поколения. Меняем отношение к стоматологии и лицевой хирургии.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03050e;--bg2:#060916;--panel:#08101f;--b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.14);--gold:#e8b840;--gold2:#f5cc60;--gold-dim:rgba(232,184,64,0.45);--cyan:#30dcff;--green:#1df59a;--text:#cdd8f5;--muted:rgba(160,185,240,0.42);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(232,184,64,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(232,184,64,0.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 44px;background:rgba(3,5,14,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold2));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:600;color:#03050e;}
+.logo-text{font-size:1rem;font-weight:800;letter-spacing:0.15em;}
+.logo-text em{color:var(--gold);font-style:normal;}
+.logo-parent{font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--muted);}
+.nav-links{display:flex;}
+.nl{padding:7px 16px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid transparent;border-right:1px solid var(--b1);transition:all 0.3s;}
+.nl:first-child{border-left:1px solid var(--b1);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);}
+.nl:not(:first-child){border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);}
+.nl:hover{color:var(--gold);background:rgba(232,184,64,0.05);}
+.nav-r{display:flex;align-items:center;gap:14px;}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pdot 2.5s infinite;}
+@keyframes pdot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.back-link{padding:7px 18px;border:1px solid var(--b1);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.3s;}
+.back-link:hover{border-color:var(--gold-dim);color:var(--gold);}
+.nav-cta{padding:7px 18px;border:1px solid var(--gold-dim);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+.nav-cta:hover{background:rgba(232,184,64,0.08);border-color:var(--gold);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:58px;position:relative;z-index:1;}
+.hero-left{padding:80px 60px 60px 44px;display:flex;flex-direction:column;justify-content:center;}
+.h-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:5px 16px;border:1px solid rgba(232,184,64,0.2);background:rgba(232,184,64,0.04);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:36px;width:fit-content;animation:fu 0.5s ease both;}
+@keyframes fu{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-title{font-size:clamp(2.8rem,5.5vw,5.2rem);font-weight:800;line-height:0.95;letter-spacing:-0.03em;margin-bottom:28px;animation:fu 0.5s ease 0.08s both;}
+.hero-title .ac{color:var(--gold);}
+.hero-title em{font-style:italic;-webkit-text-stroke:1px rgba(232,184,64,0.5);-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1rem;font-weight:400;line-height:1.85;color:var(--muted);max-width:460px;margin-bottom:44px;animation:fu 0.5s ease 0.16s both;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fu 0.5s ease 0.24s both;}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#03050e;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));box-shadow:0 0 28px rgba(232,184,64,0.25);}
+.btn-gold:hover{box-shadow:0 0 46px rgba(232,184,64,0.45);transform:translateY(-2px);}
+.btn-out{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border:1px solid var(--b2);color:var(--muted);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all 0.3s;text-decoration:none;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-out:hover{border-color:var(--gold-dim);color:var(--gold);}
+.hero-right{background:var(--bg2);border-left:1px solid var(--b1);display:flex;align-items:center;justify-content:center;padding:80px 44px 60px;position:relative;}
+.live-panel{background:var(--panel);border:1px solid rgba(48,220,255,0.2);width:100%;max-width:360px;box-shadow:0 0 40px rgba(48,220,255,0.06);}
+.lp-hdr{padding:11px 18px;background:rgba(48,220,255,0.04);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.lp-t{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.18em;color:var(--cyan);}
+.dots{display:flex;gap:5px;}
+.d{width:8px;height:8px;border-radius:50%;}
+.lp-body{padding:24px;}
+.metric{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.metric:last-child{border-bottom:none;}
+.mk{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:var(--muted);}
+.mv{font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:500;}
+.g{color:var(--green);}.c{color:var(--cyan);}.go{color:var(--gold);}
+.lp-ft{padding:11px 18px;background:rgba(29,245,154,0.03);border-top:1px solid rgba(29,245,154,0.08);display:flex;align-items:center;gap:8px;}
+.lp-ft-dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pdot 2.5s infinite;}
+.lp-ft-t{font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.1em;color:var(--green);}
+
+/* SECTIONS */
+.section{padding:100px 44px;position:relative;z-index:1;}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.sec-tag::before{content:'//';opacity:0.5;}
+.sec-title{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;margin-bottom:14px;}
+.sec-title .ac{color:var(--gold);}
+.sec-lead{font-size:0.9rem;line-height:1.85;color:var(--muted);max-width:560px;}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--b1);margin-top:60px;}
+.why-card{background:var(--bg2);padding:44px 36px;position:relative;overflow:hidden;transition:all 0.35s;}
+.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.4s;}
+.why-card:hover::before{transform:scaleX(1);}
+.why-card:hover{background:rgba(232,184,64,0.03);}
+.wc-num{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.2em;color:rgba(232,184,64,0.35);margin-bottom:20px;}
+.wc-ico{font-size:2rem;margin-bottom:18px;display:block;}
+.wc-title{font-size:1.15rem;font-weight:700;margin-bottom:10px;}
+.wc-desc{font-size:0.86rem;font-weight:400;line-height:1.8;color:var(--muted);}
+
+/* SERVICES */
+.services-sec{padding:100px 44px;background:var(--bg2);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);position:relative;z-index:1;}
+.svc-list{margin-top:56px;}
+.svc-row{display:grid;grid-template-columns:60px 1fr auto auto;align-items:center;gap:36px;padding:24px 0;border-bottom:1px solid var(--b1);transition:all 0.3s;cursor:default;position:relative;}
+.svc-row::before{content:'';position:absolute;inset:0;background:rgba(232,184,64,0.02);opacity:0;transition:opacity 0.3s;}
+.svc-row:hover::before{opacity:1;}
+.svc-row:hover{padding-left:16px;}
+.sr-n{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:rgba(232,184,64,0.3);}
+.sr-title{font-size:1.3rem;font-weight:600;}
+.sr-desc{font-size:0.83rem;font-weight:400;color:var(--muted);margin-top:3px;}
+.sr-price{font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--gold);white-space:nowrap;}
+.sr-arr{color:var(--b2);font-size:1.1rem;transition:all 0.3s;}
+.svc-row:hover .sr-arr{color:var(--gold);transform:translateX(5px);}
+
+/* PROCESS */
+.process-sec{padding:100px 44px;position:relative;z-index:1;}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--b1);margin-top:60px;}
+.proc-card{background:var(--bg2);padding:40px 32px;position:relative;}
+.proc-card::after{content:'→';position:absolute;top:50%;right:-16px;transform:translateY(-50%);color:var(--gold-dim);font-size:1.2rem;z-index:1;}
+.proc-card:last-child::after{display:none;}
+.pc-step{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:18px;}
+.pc-ico{font-size:1.8rem;margin-bottom:14px;display:block;}
+.pc-title{font-size:1rem;font-weight:700;margin-bottom:8px;}
+.pc-desc{font-size:0.82rem;font-weight:400;line-height:1.75;color:var(--muted);}
+
+/* BOOKING */
+.booking-sec{padding:100px 44px;background:var(--bg2);border-top:1px solid var(--b1);position:relative;z-index:1;}
+.booking-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;margin-top:56px;}
+.cinfo{display:flex;align-items:center;gap:14px;padding:15px 16px;background:var(--panel);border:1px solid var(--b1);margin-bottom:8px;transition:all 0.3s;}
+.cinfo:hover{border-color:var(--b2);}
+.ci-icon{width:34px;height:34px;min-width:34px;border:1px solid var(--b1);background:rgba(232,184,64,0.05);display:flex;align-items:center;justify-content:center;font-size:0.88rem;}
+.ci-lbl{font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.ci-val{font-size:0.86rem;font-weight:500;color:var(--text);}
+.cform{background:var(--panel);border:1px solid var(--b1);padding:42px 38px;}
+.cf-hdr{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--b1);}
+.cf-t{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);}
+.cf-id{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--muted);}
+.fg{margin-bottom:16px;}
+.fl{font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
+.fi{width:100%;padding:10px 13px;background:rgba(0,0,0,0.3);border:1px solid var(--b1);color:var(--text);font-family:'Syne',sans-serif;font-size:0.86rem;outline:none;transition:all 0.3s;}
+.fi:focus{border-color:var(--gold-dim);}
+.fi::placeholder{color:rgba(160,185,240,0.18);}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fsub{width:100%;padding:13px;margin-top:4px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#03050e;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.fsub:hover{box-shadow:0 0 28px rgba(232,184,64,0.35);transform:translateY(-1px);}
+
+footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;position:relative;z-index:1;}
+.fl-logo{font-size:0.92rem;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;}
+.fl-logo em{color:var(--gold);font-style:normal;}
+.fl-p{font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.fc{font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.9;}
+.fr2{font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--muted);text-align:right;line-height:1.9;}
+
+/* CHAT */
+#chat-bubble{position:fixed;bottom:26px;right:26px;z-index:9999;}
+.chat-trigger{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 26px rgba(232,184,64,0.45);transition:all 0.3s;animation:cp 3s infinite;}
+.chat-trigger:hover{transform:scale(1.1);}
+@keyframes cp{0%,100%{box-shadow:0 0 26px rgba(232,184,64,0.45);}50%{box-shadow:0 0 40px rgba(232,184,64,0.2),0 0 0 10px rgba(232,184,64,0.05);}}
+.chat-win{position:absolute;bottom:66px;right:0;width:340px;background:var(--panel);border:1px solid rgba(232,184,64,0.2);display:none;flex-direction:column;box-shadow:0 0 50px rgba(0,0,0,0.6);max-height:460px;}
+.chat-win.open{display:flex;}
+.chat-hdr{padding:11px 15px;background:rgba(232,184,64,0.04);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.ch-l{display:flex;align-items:center;gap:9px;}
+.ch-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:0.8rem;}
+.ch-name{font-size:0.78rem;font-weight:700;}
+.ch-stat{font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--green);}
+.chat-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.95rem;}
+.chat-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px;max-height:280px;}
+.chat-msgs::-webkit-scrollbar{width:2px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--b2);}
+.msg{max-width:88%;padding:8px 12px;font-size:0.81rem;line-height:1.6;}
+.msg-b{background:rgba(255,255,255,0.04);border:1px solid var(--b1);border-radius:0 7px 7px 7px;align-self:flex-start;}
+.msg-u{background:rgba(232,184,64,0.09);border:1px solid rgba(232,184,64,0.16);border-radius:7px 0 7px 7px;align-self:flex-end;color:var(--gold2);}
+.msg-b .ms{font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--gold);margin-bottom:3px;display:block;}
+.chat-opts{padding:6px 13px;display:flex;flex-wrap:wrap;gap:5px;}
+.copt{padding:4px 10px;border:1px solid var(--b2);background:transparent;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.53rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.copt:hover{border-color:var(--gold-dim);color:var(--gold);}
+.chat-inp-row{padding:9px 11px;border-top:1px solid var(--b1);display:flex;gap:6px;}
+.chat-inp{flex:1;padding:7px 10px;background:rgba(0,0,0,0.3);border:1px solid var(--b1);color:var(--text);font-family:'Syne',sans-serif;font-size:0.78rem;outline:none;transition:border-color 0.3s;}
+.chat-inp:focus{border-color:var(--gold-dim);}
+.chat-inp::placeholder{color:var(--muted);font-size:0.74rem;}
+.chat-snd{padding:7px 12px;background:var(--gold);border:none;color:#03050e;font-size:0.76rem;cursor:pointer;font-weight:700;}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .why-grid{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr 1fr;}
+  .proc-card::after{display:none;}
+  .booking-grid{grid-template-columns:1fr;}
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .section,.services-sec,.process-sec,.booking-sec{padding:70px 20px;}
+  footer{grid-template-columns:1fr;text-align:center;padding:28px 20px;}
+  .fr2{text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">DA</div>
+    <div>
+      <div class="logo-text">Dental<em>AI</em></div>
+      <div class="logo-parent">Концерн LABS67</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#why" class="nl">О клинике</a>
+    <a href="#services" class="nl">Услуги</a>
+    <a href="#process" class="nl">Как это работает</a>
+    <a href="#booking" class="nl">Запись</a>
+  </div>
+  <div class="nav-r">
+    <a href="//labs67.com" class="back-link">← LABS67</a>
+    <a href="#booking" class="nav-cta">Записаться</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="h-eyebrow">// DentalAI · Концерн LABS67</div>
+    <h1 class="hero-title">
+      Стоматология<br><span class="ac">в радость</span><br><em>навсегда</em>
+    </h1>
+    <p class="hero-sub">Мы меняем отношение к стоматологии и лицевой хирургии. AI-ассистент, умная среда, голосовые протоколы — всё для того, чтобы врач фокусировался на вас, а не на бумагах.</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn-gold">// Записаться на приём</a>
+      <a href="#why" class="btn-out">Узнать больше →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="live-panel">
+      <div class="lp-hdr">
+        <span class="lp-t">// DENTALAI · LIVE</span>
+        <div class="dots"><div class="d" style="background:#ff5f56;"></div><div class="d" style="background:#ffbd2e;"></div><div class="d" style="background:#27c93f;"></div></div>
+      </div>
+      <div class="lp-body">
+        <div class="metric"><span class="mk">AI_ASSISTANT</span><span class="mv g">● ACTIVE</span></div>
+        <div class="metric"><span class="mk">FACE_RECOGNITION</span><span class="mv c">ONLINE</span></div>
+        <div class="metric"><span class="mk">VOICE_PROTOCOL</span><span class="mv c">WHISPER v3</span></div>
+        <div class="metric"><span class="mk">CAMERAS</span><span class="mv go">14 / 15</span></div>
+        <div class="metric"><span class="mk">SMART_ENV</span><span class="mv g">38 DEVICES</span></div>
+        <div class="metric"><span class="mk">DATA_PRIVACY</span><span class="mv g">LOCAL ONLY</span></div>
+        <div class="metric"><span class="mk">AI_CORE</span><span class="mv go">NVIDIA 275 TOPS</span></div>
+      </div>
+      <div class="lp-ft"><div class="lp-ft-dot"></div><span class="lp-ft-t">ALL SYSTEMS NOMINAL</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="sec-tag">// Почему DentalAI</div>
+  <h2 class="sec-title">Иначе, чем вы<br><span class="ac">привыкли</span></h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="wc-num">WC_01</div>
+      <span class="wc-ico">😌</span>
+      <div class="wc-title">Вас узнают у входа</div>
+      <div class="wc-desc">Камера у двери идентифицирует вас за секунды. Карточка открыта, врач готов, среда настроена — ещё до того, как вы дошли до стойки.</div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">WC_02</div>
+      <span class="wc-ico">🤖</span>
+      <div class="wc-title">AI ассистирует врачу</div>
+      <div class="wc-desc">Камера над каждым креслом. Нейросеть анализирует снимки, ведёт протокол голосом, подсказывает на планшете — врач сосредоточен только на вас.</div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">WC_03</div>
+      <span class="wc-ico">🔒</span>
+      <div class="wc-title">Ваши данные защищены</div>
+      <div class="wc-desc">Все данные обрабатываются только локально. Никакого облака, никаких утечек. Полное соответствие требованиям законодательства.</div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">WC_04</div>
+      <span class="wc-ico">🌡️</span>
+      <div class="wc-title">Умная среда</div>
+      <div class="wc-desc">Датчики температуры, влажности, освещения. Каждый кабинет автоматически настраивается под процедуру. Комфорт — не случайность, а система.</div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">WC_05</div>
+      <span class="wc-ico">🎓</span>
+      <div class="wc-title">Врачи Academi67</div>
+      <div class="wc-desc">Все специалисты прошли сертификацию в Academi67 — институте клинических стандартов концерна LABS67. Предсказуемое качество.</div>
+    </div>
+    <div class="why-card">
+      <div class="wc-num">WC_06</div>
+      <span class="wc-ico">📊</span>
+      <div class="wc-title">История в динамике</div>
+      <div class="wc-desc">AI-система фиксирует состояние зубов при каждом визите. Вы видите прогресс, врач — полную картину. Никаких потерянных карточек.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-sec" id="services">
+  <div class="sec-tag">// Услуги</div>
+  <h2 class="sec-title">Что мы <span class="ac">лечим</span></h2>
+  <div class="svc-list">
+    <div class="svc-row">
+      <span class="sr-n">01//</span>
+      <div><div class="sr-title">Терапия</div><div class="sr-desc">Кариес, пульпит, периодонтит. AI-анализ снимка перед лечением.</div></div>
+      <span class="sr-price">от 2 500 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">02//</span>
+      <div><div class="sr-title">Ортопедия</div><div class="sr-desc">Коронки, виниры, мостовидные протезы. Цифровое планирование реставрации.</div></div>
+      <span class="sr-price">от 8 000 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">03//</span>
+      <div><div class="sr-title">Хирургия и имплантация</div><div class="sr-desc">Удаление, имплантация. Камера над креслом, AI-советы ассистенту в реальном времени.</div></div>
+      <span class="sr-price">от 3 500 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">04//</span>
+      <div><div class="sr-title">Лицевая хирургия</div><div class="sr-desc">Коррекция и реконструктивные процедуры. Полное 3D-планирование.</div></div>
+      <span class="sr-price">По запросу</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">05//</span>
+      <div><div class="sr-title">Профилактика</div><div class="sr-desc">Чистка, Air Flow, фторирование. AI-мониторинг состояния при каждом визите.</div></div>
+      <span class="sr-price">от 3 000 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">06//</span>
+      <div><div class="sr-title">Ортодонтия</div><div class="sr-desc">Брекеты, элайнеры. 3D-моделирование результата до начала лечения.</div></div>
+      <span class="sr-price">от 45 000 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+    <div class="svc-row">
+      <span class="sr-n">07//</span>
+      <div><div class="sr-title">Детская стоматология</div><div class="sr-desc">Молочные и постоянные зубы. Мягкий подход, без страха.</div></div>
+      <span class="sr-price">от 1 800 ₽</span>
+      <span class="sr-arr">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-sec" id="process">
+  <div class="sec-tag">// Как это работает</div>
+  <h2 class="sec-title">Ваш визит <span class="ac">шаг за шагом</span></h2>
+  <div class="process-grid">
+    <div class="proc-card">
+      <div class="pc-step">STEP_01</div>
+      <span class="pc-ico">📅</span>
+      <div class="pc-title">Запись онлайн</div>
+      <div class="pc-desc">Выбираете услугу, дату и время. AI подбирает свободный кабинет автоматически.</div>
+    </div>
+    <div class="proc-card">
+      <div class="pc-step">STEP_02</div>
+      <span class="pc-ico">🚪</span>
+      <div class="pc-title">Входите — вас узнают</div>
+      <div class="pc-desc">Камера у входа идентифицирует вас. Администратор уже видит вашу карточку.</div>
+    </div>
+    <div class="proc-card">
+      <div class="pc-step">STEP_03</div>
+      <span class="pc-ico">🦷</span>
+      <div class="pc-title">Лечение с AI</div>
+      <div class="pc-desc">Врач сосредоточен на вас. AI ведёт протокол, анализирует снимки, подсказывает ассистенту.</div>
+    </div>
+    <div class="proc-card">
+      <div class="pc-step">STEP_04</div>
+      <span class="pc-ico">📊</span>
+      <div class="pc-title">История сохранена</div>
+      <div class="pc-desc">Всё фиксируется автоматически. На следующем визите система уже знает вашу историю.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking-sec" id="booking">
+  <div class="sec-tag">// Запись</div>
+  <h2 class="sec-title">Запишитесь <span class="ac">онлайн</span></h2>
+  <div class="booking-grid">
+    <div>
+      <p class="sec-lead" style="margin-bottom:24px;">AI-система подберёт удобное время. Администратор подтвердит в течение 15 минут.</p>
+      <div class="cinfo"><div class="ci-icon">📞</div><div><span class="ci-lbl">Телефон</span><span class="ci-val">+48 571 719 800</span></div></div>
+      <div class="cinfo"><div class="ci-icon">✉️</div><div><span class="ci-lbl">Email</span><span class="ci-val">dental@labs67.com</span></div></div>
+      <div class="cinfo"><div class="ci-icon">🕐</div><div><span class="ci-lbl">Режим работы</span><span class="ci-val">Пн–Сб · 9:00 – 20:00</span></div></div>
+      <div class="cinfo"><div class="ci-icon">📍</div><div><span class="ci-lbl">Адрес</span><span class="ci-val">Уточняйте при записи</span></div></div>
+    </div>
+    <div class="cform">
+      <div class="cf-hdr"><span class="cf-t">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Имя</label><input type="text" class="fi" placeholder="Ваше имя"></div>
+        <div class="fg"><label class="fl">Телефон</label><input type="tel" class="fi" placeholder="+48 571 719 800"></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Услуга</label>
+        <select class="fi">
+          <option style="background:#08101f">— Выберите услугу —</option>
+          <option style="background:#08101f">Терапия</option>
+          <option style="background:#08101f">Ортопедия</option>
+          <option style="background:#08101f">Хирургия и имплантация</option>
+          <option style="background:#08101f">Лицевая хирургия</option>
+          <option style="background:#08101f">Профилактика</option>
+          <option style="background:#08101f">Ортодонтия</option>
+          <option style="background:#08101f">Детская стоматология</option>
+          <option style="background:#08101f">Консультация</option>
+        </select>
+      </div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Дата</label><input type="date" class="fi"></div>
+        <div class="fg">
+          <label class="fl">Время</label>
+          <select class="fi">
+            <option style="background:#08101f">09:00</option><option style="background:#08101f">10:00</option><option style="background:#08101f">11:00</option><option style="background:#08101f">12:00</option><option style="background:#08101f">14:00</option><option style="background:#08101f">15:00</option><option style="background:#08101f">16:00</option><option style="background:#08101f">17:00</option><option style="background:#08101f">18:00</option><option style="background:#08101f">19:00</option>
+          </select>
+        </div>
+      </div>
+      <button class="fsub" onclick="bookSubmit()">// ЗАПИСАТЬСЯ →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="fl-logo">Dental<em>AI</em></div>
+    <div class="fl-p">Концерн LABS67</div>
+  </div>
+  <div class="fc">© 2025 DentalAI · LABS67<br><span style="color:var(--green);">● AI ONLINE</span></div>
+  <div class="fr2">+48 571 719 800<br>dental@labs67.com</div>
+</footer>
+
+<!-- CHAT -->
+<div id="chat-bubble">
+  <div class="chat-win" id="cw">
+    <div class="chat-hdr">
+      <div class="ch-l"><div class="ch-av">🦷</div><div><div class="ch-name">DentalAI Assistant</div><div class="ch-stat">● Онлайн</div></div></div>
+      <button class="chat-x" onclick="tc()">✕</button>
+    </div>
+    <div class="chat-msgs" id="cm"><div class="msg msg-b"><span class="ms">// DentalAI</span>Здравствуйте! Чем могу помочь — запись, вопрос об услуге или о клинике?</div></div>
+    <div class="chat-opts" id="co">
+      <button class="copt" onclick="sm('запись')">📅 Записаться</button>
+      <button class="copt" onclick="sm('услуги')">🦷 Услуги</button>
+      <button class="copt" onclick="sm('технологии')">🤖 Технологии</button>
+      <button class="copt" onclick="sm('цены')">💰 Цены</button>
+    </div>
+    <div class="chat-inp-row">
+      <input type="text" class="chat-inp" id="ci" placeholder="Ваш вопрос..." onkeydown="if(event.key==='Enter')sc()">
+      <button class="chat-snd" onclick="sc()">→</button>
+    </div>
+  </div>
+  <button class="chat-trigger" onclick="tc()">🦷</button>
+</div>
+
+<script>
+document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();
+let o=false;
+function tc(){o=!o;document.getElementById('cw').classList.toggle('open',o);}
+function am(t,b){const m=document.getElementById('cm');const d=document.createElement('div');d.className='msg '+(b?'msg-b':'msg-u');if(b)d.innerHTML='<span class="ms">// DentalAI</span>'+t;else d.textContent=t;m.appendChild(d);m.scrollTop=m.scrollHeight;}
+function so(opts){const e=document.getElementById('co');e.innerHTML='';opts.forEach(t=>{const b=document.createElement('button');b.className='copt';b.textContent=t;b.onclick=()=>sm(t);e.appendChild(b);});}
+function sm(t){document.getElementById('co').innerHTML='';am(t,false);setTimeout(()=>{const l=t.toLowerCase();if(l.includes('запис')||l.includes('приём'))am('Отлично! Заполните форму в разделе «Запись» — AI подберёт удобное время. Или звоните: +48 571 719 800',true),so(['Другой вопрос']);else if(l.includes('услуг'))am('Лечим всё: терапия от 2500₽, ортопедия от 8000₽, имплантация от 3500₽, профилактика от 3000₽, ортодонтия от 45000₽, детская от 1800₽.',true),so(['Записаться','Лицевая хирургия','Технологии']);else if(l.includes('технолог')||l.includes('ai')||l.includes('ai'))am('Клиника работает на NVIDIA Jetson AGX Orin — распознавание лиц, голосовые протоколы, AI-анализ снимков. Все данные только локально.',true),so(['Записаться','Ещё вопросы']);else if(l.includes('цен')||l.includes('стоим'))am('Консультация бесплатная. Терапия от 2500₽, профилактика от 3000₽, ортопедия от 8000₽. Точную стоимость назовём после осмотра.',true),so(['Записаться на консультацию']);else if(l.includes('лицевая')||l.includes('хирург'))am('Лицевая хирургия — по запросу. Напишите нам: dental@labs67.com, обсудим детали конфиденциально.',true),so(['Записаться']);else am('Напишите или позвоните: +48 571 719 800 · dental@labs67.com',true),so(['Записаться','Услуги','Технологии']);},500);}
+function sc(){const i=document.getElementById('ci');const v=i.value.trim();if(!v)return;i.value='';document.getElementById('co').innerHTML='';sm(v);}
+function bookSubmit(){const b=document.querySelector('.fsub');b.textContent='// ОБРАБОТКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},1400);}
+</script>
+</body>
+</html>
