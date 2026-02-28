@@ -2,19 +2,13 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e8b840' rx='4'/%3E%3Cpolygon points='16,3 29,9.5 29,22.5 16,29 3,22.5 3,9.5' fill='%2303050e' stroke='%2303050e' stroke-width='1'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='10' font-weight='900' font-family='monospace' fill='%23e8b840'%3EDA%3C/text%3E%3C/svg%3E" type="image/svg+xml"><link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23e8b840'/%3E%3Cpolygon points='90,12 168,51 168,129 90,168 12,129 12,51' fill='%2303050e'/%3E%3Ctext x='90' y='115' text-anchor='middle' font-size='46' font-weight='900' font-family='monospace' fill='%23e8b840'%3EDA%3C/text%3E%3C/svg%3E"><meta name="theme-color" content="#03050e">
-<rect width='32' height='32' fill='%2303050e' rx='6'/><polygon points='16,2 30,9 30,23 16,30 2,23 2,9' fill='%23e8b840' opacity='0.15'/><text x='16' y='14' text-anchor='middle' font-size='7' font-weight='bold' font-family='monospace' fill='%23e8b840'>DA</text><text x='16' y='24' text-anchor='middle' font-size='11'>🦷</text></svg>">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title id="pageTitle">DentalAI — Стаматалогія ў радасць · LABS67</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="title">DentalAI — Стаматалогія ў радасць · LABS67</title>
 <meta name="description" content="DentalAI — умные стоматологии нового поколения. Меняем отношение к стоматологии и лицевой хирургии.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#03050e;--bg2:#060916;--panel:#08101f;--b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.14);--gold:#e8b840;--gold2:#f5cc60;--gold-dim:rgba(232,184,64,0.45);--cyan:#30dcff;--green:#1df59a;--text:#cdd8f5;--muted:rgba(160,185,240,0.42);}
-html{font-size:16px;}
-@media(max-width:480px){html{font-size:15px;}}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;overflow-x:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(232,184,64,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(232,184,64,0.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
 nav{position:fixed;top:0;left:0;right:0;z-index:999;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 44px;background:rgba(3,5,14,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);}
@@ -182,73 +176,14 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 }
 
 /* ── LANG SWITCHER ── */
-.lang-switcher{display:flex;gap:2px;border:1px solid var(--b1);margin-left:8px;position:relative;}
+.lang-switcher{display:flex;gap:2px;border:1px solid var(--b1);margin-left:8px;}
 .lang-btn{display:flex;align-items:center;gap:4px;padding:5px 7px;background:transparent;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.1em;color:var(--muted);transition:all 0.2s;border-right:1px solid var(--b1);}
 .lang-btn:last-child{border-right:none;}
 .lang-btn:hover,.lang-btn.active{color:var(--gold);background:rgba(232,184,64,0.07);}
 .lang-flag{width:16px;height:10px;display:inline-block;vertical-align:middle;}
 .lang-code{display:inline;}
-.lang-dropdown-btn{display:none;}
-.lang-dropdown-menu{display:none;position:absolute;top:100%;right:0;background:#09101f;border:1px solid var(--b1);z-index:200;min-width:120px;flex-direction:column;}
-.lang-dropdown-menu.open{display:flex;}
-.lang-dropdown-menu .lang-btn{border-right:none;border-bottom:1px solid var(--b1);width:100%;padding:8px 12px;justify-content:flex-start;font-size:0.52rem;}
-.lang-dropdown-menu .lang-btn:last-child{border-bottom:none;}
-@media(max-width:768px){
-  .lang-switcher>.lang-btn{display:none;}
-  .lang-dropdown-btn{display:flex;align-items:center;gap:5px;padding:6px 10px;background:transparent;border:none;cursor:pointer;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.5rem;}
-}
-@media(max-width:768px){
-  .chat-win{width:90vw;max-width:90vw;margin:20px auto;right:0;}
-}
-/* ── MOBILE OPTIMIZATION ── */
-*,*::before,*::after{box-sizing:border-box;}
-button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-body{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-input,textarea,select{font-size:1rem !important;}
-@media(max-width:480px){
-  /* NAV */
-  nav{padding:0 12px;}
-  .nav-r{gap:8px;}
-  .online-txt{display:none;}
-  .nav-cta{padding:5px 10px;font-size:0.46rem;letter-spacing:0.06em;}
+@media(max-width:768px){.lang-code{display:none;}.lang-btn{padding:5px 5px;}}
 
-  /* HERO — dental has grid layout */
-  .hero{grid-template-columns:1fr !important;padding-top:58px;}
-  .hero-left{padding:56px 16px 36px !important;}
-  .hero-right{display:none !important;}
-  .hero-title{font-size:clamp(1.9rem,7.5vw,2.8rem) !important;letter-spacing:-0.02em;}
-  .hero-sub{font-size:0.83rem !important;line-height:1.65;margin-bottom:28px;}
-  .hero-btns{flex-direction:column !important;align-items:stretch !important;gap:10px !important;}
-  .hero-stats,.hs-grid{gap:16px !important;}
-
-  /* SECTIONS */
-  [class*="-sec"],[class*="section"]{padding:44px 16px !important;}
-  .section,.services-sec,.process-sec,.booking-sec{padding:44px 16px !important;}
-
-  /* CARDS */
-  [class*="-card"],[class*="-item"],[class*="-box"]{padding:20px 16px !important;}
-  [class*="-card"] h3,[class*="-card"] .card-title{font-size:1rem !important;}
-  [class*="-card"] p{font-size:0.8rem !important;line-height:1.6;}
-  .why-card,.proc-card{padding:20px 16px !important;}
-
-  /* GRIDS */
-  [class*="-grid"]{grid-template-columns:1fr !important;}
-  .why-grid,.process-grid,.booking-grid{grid-template-columns:1fr !important;}
-
-  /* SERVICES LIST */
-  .svc-row{grid-template-columns:40px 1fr;gap:12px;}
-  .sr-price,.sr-arr{display:none;}
-
-  /* FOOTER */
-  footer{grid-template-columns:1fr !important;text-align:center;padding:32px 16px !important;gap:24px !important;}
-  footer .fr2{text-align:center !important;}
-
-  /* HIDE DECORATIVE */
-  .hero-visual,.hero-img,.hero-3d,.bg-num,.hero-bg-text{display:none !important;}
-
-  /* FAB */
-  .chat-fab,.fab,.scroll-top,.chat-trigger{bottom:16px !important;right:16px !important;width:44px !important;height:44px !important;}
-}
 </style>
 </head>
 <body>
@@ -270,26 +205,13 @@ input,textarea,select{font-size:1rem !important;}
   <div class="nav-r">
     <a href="//labs67.com" class="back-link">← LABS67</a>
     
-    <div class="lang-switcher" id="langSwitcher">
+    <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('by')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#fff"/><rect y="4" width="18" height="4" fill="#CF101A"/><rect y="8" width="18" height="4" fill="#fff"/><text x="9" y="9.5" text-anchor="middle" font-size="5" fill="white" font-family="serif">⚔</text></svg><span class="lang-code">BY</span></button>
       <button class="lang-btn" onclick="setLang('ua')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="6" fill="#005BBB"/><rect y="6" width="18" height="6" fill="#FFD500"/></svg><span class="lang-code">UA</span></button>
       <button class="lang-btn" onclick="setLang('en')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="12" fill="#012169"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#fff" stroke-width="2"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#C8102E" stroke-width="1"/><rect x="7" width="4" height="12" fill="#fff"/><rect y="4" width="18" height="4" fill="#fff"/><rect x="8" width="2" height="12" fill="#C8102E"/><rect y="5" width="18" height="2" fill="#C8102E"/></svg><span class="lang-code">EN</span></button>
       <button class="lang-btn" onclick="setLang('pl')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="6" fill="#fff"/><rect y="6" width="18" height="6" fill="#DC143C"/></svg><span class="lang-code">PL</span></button>
       <button class="lang-btn" onclick="setLang('fr')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="6" height="12" fill="#002395"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#ED2939"/></svg><span class="lang-code">FR</span></button>
       <button class="lang-btn" onclick="setLang('de')"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#DD0000"/><rect y="8" width="18" height="4" fill="#FFCE00"/></svg><span class="lang-code">DE</span></button>
-      <!-- Mobile dropdown -->
-      <button class="lang-dropdown-btn" id="langDropBtn" onclick="toggleLangMenu()">
-        <svg id="langActiveFlagMob" class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#fff"/><rect y="4" width="18" height="4" fill="#CF101A"/><rect y="8" width="18" height="4" fill="#fff"/></svg>
-        <span id="langActiveCodeMob">BY</span> ▾
-      </button>
-      <div class="lang-dropdown-menu" id="langDropMenu">
-        <button class="lang-btn" onclick="setLang('by');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#fff"/><rect y="4" width="18" height="4" fill="#CF101A"/><rect y="8" width="18" height="4" fill="#fff"/></svg><span class="lang-code">BY</span></button>
-        <button class="lang-btn" onclick="setLang('ua');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="6" fill="#005BBB"/><rect y="6" width="18" height="6" fill="#FFD500"/></svg><span class="lang-code">UA</span></button>
-        <button class="lang-btn" onclick="setLang('en');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="12" fill="#012169"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#fff" stroke-width="2"/><rect x="7" width="4" height="12" fill="#fff"/><rect y="4" width="18" height="4" fill="#fff"/></svg><span class="lang-code">EN</span></button>
-        <button class="lang-btn" onclick="setLang('pl');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="6" fill="#fff"/><rect y="6" width="18" height="6" fill="#DC143C"/></svg><span class="lang-code">PL</span></button>
-        <button class="lang-btn" onclick="setLang('fr');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="6" height="12" fill="#002395"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#ED2939"/></svg><span class="lang-code">FR</span></button>
-        <button class="lang-btn" onclick="setLang('de');toggleLangMenu()"><svg class="lang-flag" viewBox="0 0 18 12"><rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#DD0000"/><rect y="8" width="18" height="4" fill="#FFCE00"/></svg><span class="lang-code">DE</span></button>
-      </div>
     </div>
     <a href="#booking" class="nav-cta" data-i18n="nav_cta">Запісацца</a>
   </div>
@@ -298,14 +220,14 @@ input,textarea,select{font-size:1rem !important;}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="h-eyebrow" data-i18n="h_eyebrow">// DentalAI · Концерн LABS67</div>
-    <h1 class="hero-title" data-i18n="hero_h1">
+    <div class="h-eyebrow">// DentalAI · Концерн LABS67</div>
+    <h1 class="hero-title">
       Стоматология<br><span class="ac">в радость</span><br><em>навсегда</em>
     </h1>
-    <p class="hero-sub" data-i18n="hero_sub">Мы меняем отношение к стоматологии и лицевой хирургии. AI-ассистент, умная среда, голосовые протоколы — всё для того, чтобы врач фокусировался на вас, а не на бумагах.</p>
+    <p class="hero-sub">Мы меняем отношение к стоматологии и лицевой хирургии. AI-ассистент, умная среда, голосовые протоколы — всё для того, чтобы врач фокусировался на вас, а не на бумагах.</p>
     <div class="hero-btns">
-      <a href="#booking" class="btn-gold" data-i18n="hero_btn1">// Записаться на приём</a>
-      <a href="#why" class="btn-out" data-i18n="hero_btn2">Узнать больше →</a>
+      <a href="#booking" class="btn-gold">// Записаться на приём</a>
+      <a href="#why" class="btn-out">Узнать больше →</a>
     </div>
   </div>
   <div class="hero-right">
@@ -330,93 +252,93 @@ input,textarea,select{font-size:1rem !important;}
 
 <!-- WHY -->
 <section class="section" id="why">
-  <div class="sec-tag" data-i18n="why_tag">// Почему DentalAI</div>
-  <h2 class="sec-title"><span data-i18n="why_h2_1">Иначе, чем вы</span><br><span class="ac" data-i18n="why_h2_2">привыкли</span></h2>
+  <div class="sec-tag">// Почему DentalAI</div>
+  <h2 class="sec-title">Иначе, чем вы<br><span class="ac">привыкли</span></h2>
   <div class="why-grid">
     <div class="why-card">
       <div class="wc-num">WC_01</div>
       <span class="wc-ico">😌</span>
-      <div class="wc-title" data-i18n="wc1_title">Вас узнают у входа</div>
-      <div class="wc-desc" data-i18n="wc1_desc">Камера у двери идентифицирует вас за секунды. Карточка открыта, врач готов, среда настроена — ещё до того, как вы дошли до стойки.</div>
+      <div class="wc-title">Вас узнают у входа</div>
+      <div class="wc-desc">Камера у двери идентифицирует вас за секунды. Карточка открыта, врач готов, среда настроена — ещё до того, как вы дошли до стойки.</div>
     </div>
     <div class="why-card">
       <div class="wc-num">WC_02</div>
       <span class="wc-ico">🤖</span>
-      <div class="wc-title" data-i18n="wc2_title">AI ассистирует врачу</div>
-      <div class="wc-desc" data-i18n="wc2_desc">Камера над каждым креслом. Нейросеть анализирует снимки, ведёт протокол голосом, подсказывает на планшете — врач сосредоточен только на вас.</div>
+      <div class="wc-title">AI ассистирует врачу</div>
+      <div class="wc-desc">Камера над каждым креслом. Нейросеть анализирует снимки, ведёт протокол голосом, подсказывает на планшете — врач сосредоточен только на вас.</div>
     </div>
     <div class="why-card">
       <div class="wc-num">WC_03</div>
       <span class="wc-ico">🔒</span>
-      <div class="wc-title" data-i18n="wc3_title">Ваши данные защищены</div>
-      <div class="wc-desc" data-i18n="wc3_desc">Все данные обрабатываются только локально. Никакого облака, никаких утечек. Полное соответствие требованиям законодательства.</div>
+      <div class="wc-title">Ваши данные защищены</div>
+      <div class="wc-desc">Все данные обрабатываются только локально. Никакого облака, никаких утечек. Полное соответствие требованиям законодательства.</div>
     </div>
     <div class="why-card">
       <div class="wc-num">WC_04</div>
       <span class="wc-ico">🌡️</span>
-      <div class="wc-title" data-i18n="wc4_title">Умная среда</div>
-      <div class="wc-desc" data-i18n="wc4_desc">Датчики температуры, влажности, освещения. Каждый кабинет автоматически настраивается под процедуру. Комфорт — не случайность, а система.</div>
+      <div class="wc-title">Умная среда</div>
+      <div class="wc-desc">Датчики температуры, влажности, освещения. Каждый кабинет автоматически настраивается под процедуру. Комфорт — не случайность, а система.</div>
     </div>
     <div class="why-card">
       <div class="wc-num">WC_05</div>
       <span class="wc-ico">🎓</span>
-      <div class="wc-title" data-i18n="wc5_title">Врачи Academi67</div>
-      <div class="wc-desc" data-i18n="wc5_desc">Все специалисты прошли сертификацию в Academi67 — институте клинических стандартов концерна LABS67. Предсказуемое качество.</div>
+      <div class="wc-title">Врачи Academi67</div>
+      <div class="wc-desc">Все специалисты прошли сертификацию в Academi67 — институте клинических стандартов концерна LABS67. Предсказуемое качество.</div>
     </div>
     <div class="why-card">
       <div class="wc-num">WC_06</div>
       <span class="wc-ico">📊</span>
-      <div class="wc-title" data-i18n="wc6_title">История в динамике</div>
-      <div class="wc-desc" data-i18n="wc6_desc">AI-система фиксирует состояние зубов при каждом визите. Вы видите прогресс, врач — полную картину. Никаких потерянных карточек.</div>
+      <div class="wc-title">История в динамике</div>
+      <div class="wc-desc">AI-система фиксирует состояние зубов при каждом визите. Вы видите прогресс, врач — полную картину. Никаких потерянных карточек.</div>
     </div>
   </div>
 </section>
 
 <!-- SERVICES -->
 <section class="services-sec" id="services">
-  <div class="sec-tag" data-i18n="svc_tag">// Услуги</div>
-  <h2 class="sec-title"><span data-i18n="svc_h2_1">Что мы</span> <span class="ac" data-i18n="svc_h2_2">лечим</span></h2>
+  <div class="sec-tag">// Услуги</div>
+  <h2 class="sec-title">Что мы <span class="ac">лечим</span></h2>
   <div class="svc-list">
     <div class="svc-row">
       <span class="sr-n">01//</span>
       <div><div class="sr-title">Терапия</div><div class="sr-desc">Кариес, пульпит, периодонтит. AI-анализ снимка перед лечением.</div></div>
-      <span class="sr-price">від 350 zł / 85 €</span>
+      <span class="sr-price">от 2 500 ₽</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">02//</span>
       <div><div class="sr-title">Ортопедия</div><div class="sr-desc">Коронки, виниры, мостовидные протезы. Цифровое планирование реставрации.</div></div>
-      <span class="sr-price">від 2 500 zł / 600 €</span>
+      <span class="sr-price">от 8 000 ₽</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">03//</span>
       <div><div class="sr-title">Хирургия и имплантация</div><div class="sr-desc">Удаление, имплантация. Камера над креслом, AI-советы ассистенту в реальном времени.</div></div>
-      <span class="sr-price">від 500 zł / 120 €</span>
+      <span class="sr-price">от 3 500 ₽</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">04//</span>
       <div><div class="sr-title">Лицевая хирургия</div><div class="sr-desc">Коррекция и реконструктивные процедуры. Полное 3D-планирование.</div></div>
-      <span class="sr-price">Па запыце</span>
+      <span class="sr-price">По запросу</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">05//</span>
       <div><div class="sr-title">Профилактика</div><div class="sr-desc">Чистка, Air Flow, фторирование. AI-мониторинг состояния при каждом визите.</div></div>
-      <span class="sr-price">від 350 zł / 85 €</span>
+      <span class="sr-price">от 3 000 ₽</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">06//</span>
       <div><div class="sr-title">Ортодонтия</div><div class="sr-desc">Брекеты, элайнеры. 3D-моделирование результата до начала лечения.</div></div>
-      <span class="sr-price">від 6 500 zł / 1 550 €</span>
+      <span class="sr-price">от 45 000 ₽</span>
       <span class="sr-arr">→</span>
     </div>
     <div class="svc-row">
       <span class="sr-n">07//</span>
       <div><div class="sr-title">Детская стоматология</div><div class="sr-desc">Молочные и постоянные зубы. Мягкий подход, без страха.</div></div>
-      <span class="sr-price">від 200 zł / 48 €</span>
+      <span class="sr-price">от 1 800 ₽</span>
       <span class="sr-arr">→</span>
     </div>
   </div>
@@ -424,8 +346,8 @@ input,textarea,select{font-size:1rem !important;}
 
 <!-- PROCESS -->
 <section class="process-sec" id="process">
-  <div class="sec-tag" data-i18n="proc_tag">// Как это работает</div>
-  <h2 class="sec-title"><span data-i18n="proc_h2_1">Ваш визит</span> <span class="ac" data-i18n="proc_h2_2">шаг за шагом</span></h2>
+  <div class="sec-tag">// Как это работает</div>
+  <h2 class="sec-title">Ваш визит <span class="ac">шаг за шагом</span></h2>
   <div class="process-grid">
     <div class="proc-card">
       <div class="pc-step">STEP_01</div>
@@ -456,25 +378,25 @@ input,textarea,select{font-size:1rem !important;}
 
 <!-- BOOKING -->
 <section class="booking-sec" id="booking">
-  <div class="sec-tag" data-i18n="book_tag">// Запись</div>
-  <h2 class="sec-title"><span data-i18n="book_h2_1">Запишитесь</span> <span class="ac" data-i18n="book_h2_2">онлайн</span></h2>
+  <div class="sec-tag">// Запись</div>
+  <h2 class="sec-title">Запишитесь <span class="ac">онлайн</span></h2>
   <div class="booking-grid">
     <div>
-      <p class="sec-lead" style="margin-bottom:24px;" data-i18n="book_sub">AI-система подберёт удобное время. Администратор подтвердит в течение 15 минут.</p>
-      <div class="cinfo"><div class="ci-icon">📞</div><div><span class="ci-lbl" data-i18n="ci_phone">Телефон</span><span class="ci-val">+48 571 719 800</span></div></div>
+      <p class="sec-lead" style="margin-bottom:24px;">AI-система подберёт удобное время. Администратор подтвердит в течение 15 минут.</p>
+      <div class="cinfo"><div class="ci-icon">📞</div><div><span class="ci-lbl">Телефон</span><span class="ci-val">+48 571 719 800</span></div></div>
       <div class="cinfo"><div class="ci-icon">✉️</div><div><span class="ci-lbl">Email</span><span class="ci-val">dental@labs67.com</span></div></div>
-      <div class="cinfo"><div class="ci-icon">🕐</div><div><span class="ci-lbl" data-i18n="ci_hours">Режим работы</span><span class="ci-val">Пн–Сб · 9:00 – 20:00</span></div></div>
-      <div class="cinfo"><div class="ci-icon">📍</div><div><span class="ci-lbl" data-i18n="ci_addr">Адрес</span><span class="ci-val" data-i18n="ci_addr_val">Уточняйте при записи</span></div></div>
+      <div class="cinfo"><div class="ci-icon">🕐</div><div><span class="ci-lbl">Режим работы</span><span class="ci-val">Пн–Сб · 9:00 – 20:00</span></div></div>
+      <div class="cinfo"><div class="ci-icon">📍</div><div><span class="ci-lbl">Адрес</span><span class="ci-val">Уточняйте при записи</span></div></div>
     </div>
     <div class="cform">
-      <div class="cf-hdr"><span class="cf-t" data-i18n="form_title">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
+      <div class="cf-hdr"><span class="cf-t">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
       <div class="fr">
-        <div class="fg"><label class="fl" data-i18n="form_name">Имя</label><input type="text" class="fi" id="d_name" placeholder="Ваше имя"></div>
-        <div class="fg"><label class="fl" data-i18n="form_phone">Телефон</label><input type="tel" class="fi" id="d_phone" placeholder="+48 571 719 800"></div>
+        <div class="fg"><label class="fl">Имя</label><input type="text" class="fi" placeholder="Ваше имя"></div>
+        <div class="fg"><label class="fl">Телефон</label><input type="tel" class="fi" placeholder="+48 571 719 800"></div>
       </div>
       <div class="fg">
-        <label class="fl" data-i18n="form_service">Услуга</label>
-        <select class="fi" id="d_service">
+        <label class="fl">Услуга</label>
+        <select class="fi">
           <option style="background:#08101f">— Выберите услугу —</option>
           <option style="background:#08101f">Терапия</option>
           <option style="background:#08101f">Ортопедия</option>
@@ -487,15 +409,15 @@ input,textarea,select{font-size:1rem !important;}
         </select>
       </div>
       <div class="fr">
-        <div class="fg"><label class="fl" data-i18n="form_date">Дата</label><input type="date" class="fi"></div>
+        <div class="fg"><label class="fl">Дата</label><input type="date" class="fi"></div>
         <div class="fg">
-          <label class="fl" data-i18n="form_time">Время</label>
+          <label class="fl">Время</label>
           <select class="fi">
             <option style="background:#08101f">09:00</option><option style="background:#08101f">10:00</option><option style="background:#08101f">11:00</option><option style="background:#08101f">12:00</option><option style="background:#08101f">14:00</option><option style="background:#08101f">15:00</option><option style="background:#08101f">16:00</option><option style="background:#08101f">17:00</option><option style="background:#08101f">18:00</option><option style="background:#08101f">19:00</option>
           </select>
         </div>
       </div>
-      <button class="fsub" onclick="bookSubmit()" data-i18n="form_submit">// ЗАПИСАТЬСЯ →</button>
+      <button class="fsub" onclick="bookSubmit()">// ЗАПИСАТЬСЯ →</button>
     </div>
   </div>
 </section>
@@ -513,7 +435,7 @@ input,textarea,select{font-size:1rem !important;}
 <div id="chat-bubble">
   <div class="chat-win" id="cw">
     <div class="chat-hdr">
-      <div class="ch-l"><div class="ch-av">🦷</div><div><div class="ch-name">DentalAI Assistant</div><div class="ch-stat" data-i18n="chat_online">● Онлайн</div></div></div>
+      <div class="ch-l"><div class="ch-av">🦷</div><div><div class="ch-name">DentalAI Assistant</div><div class="ch-stat">● Онлайн</div></div></div>
       <button class="chat-x" onclick="tc()">✕</button>
     </div>
     <div class="chat-msgs" id="cm"><div class="msg msg-b"><span class="ms">// DentalAI</span>Здравствуйте! Чем могу помочь — запись, вопрос об услуге или о клинике?</div></div>
@@ -539,21 +461,7 @@ function am(t,b){const m=document.getElementById('cm');const d=document.createEl
 function so(opts){const e=document.getElementById('co');e.innerHTML='';opts.forEach(t=>{const b=document.createElement('button');b.className='copt';b.textContent=t;b.onclick=()=>sm(t);e.appendChild(b);});}
 function sm(t){document.getElementById('co').innerHTML='';am(t,false);setTimeout(()=>{const l=t.toLowerCase();if(l.includes('запис')||l.includes('приём'))am('Отлично! Заполните форму в разделе «Запись» — AI подберёт удобное время. Или звоните: +48 571 719 800',true),so(['Другой вопрос']);else if(l.includes('услуг'))am('Лечим всё: терапия от 2500₽, ортопедия от 8000₽, имплантация от 3500₽, профилактика от 3000₽, ортодонтия от 45000₽, детская от 1800₽.',true),so(['Записаться','Лицевая хирургия','Технологии']);else if(l.includes('технолог')||l.includes('ai')||l.includes('ai'))am('Клиника работает на NVIDIA Jetson AGX Orin — распознавание лиц, голосовые протоколы, AI-анализ снимков. Все данные только локально.',true),so(['Записаться','Ещё вопросы']);else if(l.includes('цен')||l.includes('стоим'))am('Консультация бесплатная. Терапия от 2500₽, профилактика от 3000₽, ортопедия от 8000₽. Точную стоимость назовём после осмотра.',true),so(['Записаться на консультацию']);else if(l.includes('лицевая')||l.includes('хирург'))am('Лицевая хирургия — по запросу. Напишите нам: dental@labs67.com, обсудим детали конфиденциально.',true),so(['Записаться']);else am('Напишите или позвоните: +48 571 719 800 · dental@labs67.com',true),so(['Записаться','Услуги','Технологии']);},500);}
 function sc(){const i=document.getElementById('ci');const v=i.value.trim();if(!v)return;i.value='';document.getElementById('co').innerHTML='';sm(v);}
-const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-async function bookSubmit(){
-  const b=document.querySelector('.fsub');
-  const name=document.getElementById('d_name')?.value.trim();
-  const phone=document.getElementById('d_phone')?.value.trim();
-  const service=document.getElementById('d_service')?.value;
-    const _pRe=/^[+\d][\d\s\-()]{6,}$/;
-  const _eRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if(!name||name.length<2){alert('Укажыце iмя');return;}
-  if(!phone||!_pRe.test(phone)){alert('Укажыце тэлефон');return;}
-  b.textContent='// ОТПРАВКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';
-  await fetch(`${SB_URL}/rest/v1/leads`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,phone,source:'dental',message:service||'Запись на приём',status:'new',lang:currentLang||'by'})});
-  setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();document.getElementById('d_name').value='';document.getElementById('d_phone').value='';setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},800);
-}
+function bookSubmit(){const b=document.querySelector('.fsub');b.textContent='// ОБРАБОТКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},1400);}
 </script>
 </body>
 </html>
@@ -563,309 +471,65 @@ const i18n = {
   by: {
     title: 'DentalAI — Стаматалогія ў радасць · LABS67',
     nav_cta: 'Запісацца',
-    h_eyebrow: '// DentalAI · Канцэрн LABS67',
-    hero_h1: 'Стаматалогія<br><span class="ac">ў радасць</span><br><em>назаўсёды</em>',
-    hero_sub: 'Мы мяняем стаўленне да стаматалогіі і лічэбнай хірургіі. ІІ-асістэнт, разумнае асяроддзе, галасавыя пратаколы — каб ўрач засяроджваўся на вас.',
-    hero_btn1: '// Запісацца на прыём',
-    hero_btn2: 'Даведацца больш →',
-    why_tag: '// Чаму DentalAI',
-    why_h2_1: 'Інакш, чым вы',
-    why_h2_2: 'прывыклі',
-    wc1_title: 'Вас пазнаюць у ўваходу',
-    wc1_desc: 'Камера ля дзвярэй ідэнтыфікуе вас за секунды. Карта адкрыта, ўрач гатовы, асяроддзе наладжана.',
-    wc2_title: 'ІІ асістуе ўрачу',
-    wc2_desc: 'Камера над кожным крэслам. Нейрасетка аналізуе здымкі, вядзе пратакол голасам — ўрач засяроджаны толькі на вас.',
-    wc3_title: 'Вашы даныя абаронены',
-    wc3_desc: 'Усе даныя апрацоўваюцца толькі лакальна. Аніякай хмары, аніякіх уцечак. Поўная адпаведнасць заканадаўству.',
-    wc4_title: 'Разумнае асяроддзе',
-    wc4_desc: 'Датчыкі тэмпературы, вільготнасці, асвятлення. Кожны кабінет аўтаматычна наладжваецца пад працэдуру.',
-    wc5_title: 'Урачы Academi67',
-    wc5_desc: 'Усе спецыялісты прайшлі сертыфікацыю ў Academi67 — інстытуце клінічных стандартаў канцэрна LABS67.',
-    wc6_title: 'Гісторыя ў дынаміцы',
-    wc6_desc: 'ІІ-сістэма фіксуе стан зубоў пры кожным візіце. Вы бачыце прагрэс, ўрач — поўную карціну.',
-    svc_tag: '// Паслугі',
-    svc_h2_1: 'Што мы',
-    svc_h2_2: 'лечым',
-    proc_tag: '// Як гэта працуе',
-    proc_h2_1: 'Ваш візіт',
-    proc_h2_2: 'крок за крокам',
-    book_tag: '// Запіс',
-    book_h2_1: 'Запішыцеся',
-    book_h2_2: 'анлайн',
-    book_sub: 'ІІ-сістэма падбярэ зручны час. Адміністратар пацвердзіць на працягу 15 хвілін.',
-    ci_phone: 'Тэлефон',
-    ci_hours: 'Рэжым працы',
-    ci_addr: 'Адрас',
-    ci_addr_val: 'Удакладняйце пры запісе',
-    form_title: '// НОВЫ ЗАПІС',
-    form_name: 'Імя',
-    form_phone: 'Тэлефон',
-    form_service: 'Паслуга',
-    form_date: 'Дата',
-    form_time: 'Час',
-    form_submit: '// ЗАПІСАЦЦА →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● Анлайн',
-    chat_greet: 'Вітаю! Чым магу дапамагчы — запіс, пытанне аб паслузе або клініцы?',
+    hero_tag: '// Стаматалогія · ІІ · Клопат',
+    hero_h1_1: 'Стаматалогія',
+    hero_h1_2: 'ў радасць',
+    hero_sub: 'Мяняем стаўленне да стаматалогіі і лічэбнай хірургіі — назаўсёды. Разумная клініка, якая пазнае вас, клапоціцца і лечыць на новым узроўні.',
+    back: '← LABS67',
   },
   ua: {
     title: 'DentalAI — Стоматологія із задоволенням · LABS67',
     nav_cta: 'Записатися',
-    h_eyebrow: '// DentalAI · Концерн LABS67',
-    hero_h1: 'Стоматологія<br><span class="ac">із задоволенням</span><br><em>назавжди</em>',
-    hero_sub: 'Ми змінюємо ставлення до стоматології та щелепно-лицевої хірургії. ШІ-асистент, розумне середовище, голосові протоколи — щоб лікар зосереджувався на вас.',
-    hero_btn1: '// Записатися на прийом',
-    hero_btn2: 'Дізнатися більше →',
-    why_tag: '// Чому DentalAI',
-    why_h2_1: 'Інакше, ніж ви',
-    why_h2_2: 'звикли',
-    wc1_title: 'Вас впізнають на вході',
-    wc1_desc: 'Камера біля дверей ідентифікує вас за секунди. Картка відкрита, лікар готовий, середовище налаштовано.',
-    wc2_title: 'ШІ асистує лікарю',
-    wc2_desc: 'Камера над кожним кріслом. Нейромережа аналізує знімки, веде протокол голосом — лікар зосереджений тільки на вас.',
-    wc3_title: 'Ваші дані захищені',
-    wc3_desc: 'Всі дані обробляються лише локально. Жодної хмари, жодних витоків. Повна відповідність законодавству.',
-    wc4_title: 'Розумне середовище',
-    wc4_desc: 'Датчики температури, вологості, освітлення. Кожен кабінет автоматично налаштовується під процедуру.',
-    wc5_title: 'Лікарі Academi67',
-    wc5_desc: 'Всі фахівці пройшли сертифікацію в Academi67 — інституті клінічних стандартів концерну LABS67.',
-    wc6_title: 'Історія в динаміці',
-    wc6_desc: 'ШІ-система фіксує стан зубів при кожному візиті. Ви бачите прогрес, лікар — повну картину.',
-    svc_tag: '// Послуги',
-    svc_h2_1: 'Що ми',
-    svc_h2_2: 'лікуємо',
-    proc_tag: '// Як це працює',
-    proc_h2_1: 'Ваш візит',
-    proc_h2_2: 'крок за кроком',
-    book_tag: '// Запис',
-    book_h2_1: 'Запишіться',
-    book_h2_2: 'онлайн',
-    book_sub: 'ШІ-система підбере зручний час. Адміністратор підтвердить протягом 15 хвилин.',
-    ci_phone: 'Телефон',
-    ci_hours: 'Режим роботи',
-    ci_addr: 'Адреса',
-    ci_addr_val: 'Уточнюйте при записі',
-    form_title: '// НОВИЙ ЗАПИС',
-    form_name: 'Ім\'я',
-    form_phone: 'Телефон',
-    form_service: 'Послуга',
-    form_date: 'Дата',
-    form_time: 'Час',
-    form_submit: '// ЗАПИСАТИСЯ →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● Онлайн',
-    chat_greet: 'Вітаю! Чим можу допомогти — запис, питання про послугу або клініку?',
+    hero_tag: '// Стоматологія · ШІ · Турбота',
+    hero_h1_1: 'Стоматологія',
+    hero_h1_2: 'із задоволенням',
+    hero_sub: 'Змінюємо ставлення до стоматології та щелепно-лицевої хірургії — назавжди. Розумна клініка, що вас впізнає, дбає і лікує на новому рівні.',
+    back: '← LABS67',
   },
   en: {
     title: 'DentalAI — Dentistry made joyful · LABS67',
     nav_cta: 'Book now',
-    h_eyebrow: '// DentalAI · LABS67 Concern',
-    hero_h1: 'Dentistry<br><span class="ac">made joyful</span><br><em>forever</em>',
-    hero_sub: 'We are changing the attitude to dentistry and facial surgery. AI assistant, smart environment, voice protocols — so the doctor focuses on you, not paperwork.',
-    hero_btn1: '// Book an appointment',
-    hero_btn2: 'Learn more →',
-    why_tag: '// Why DentalAI',
-    why_h2_1: 'Different from what',
-    why_h2_2: 'you\'re used to',
-    wc1_title: 'Recognised at the entrance',
-    wc1_desc: 'The camera at the door identifies you in seconds. Your file is open, the doctor is ready, the environment is set.',
-    wc2_title: 'AI assists the doctor',
-    wc2_desc: 'Camera above every chair. Neural network analyses images, keeps protocol by voice — doctor focused only on you.',
-    wc3_title: 'Your data is protected',
-    wc3_desc: 'All data processed locally only. No cloud, no leaks. Full regulatory compliance.',
-    wc4_title: 'Smart environment',
-    wc4_desc: 'Temperature, humidity, lighting sensors. Every room automatically adjusts to the procedure.',
-    wc5_title: 'Academi67 doctors',
-    wc5_desc: 'All specialists certified at Academi67 — LABS67 concern\'s Institute of Clinical Standards.',
-    wc6_title: 'History in dynamics',
-    wc6_desc: 'AI system records dental condition at every visit. You see progress, doctor sees the full picture.',
-    svc_tag: '// Services',
-    svc_h2_1: 'What we',
-    svc_h2_2: 'treat',
-    proc_tag: '// How it works',
-    proc_h2_1: 'Your visit',
-    proc_h2_2: 'step by step',
-    book_tag: '// Booking',
-    book_h2_1: 'Book',
-    book_h2_2: 'online',
-    book_sub: 'AI system will find the best time. Administrator confirms within 15 minutes.',
-    ci_phone: 'Phone',
-    ci_hours: 'Working hours',
-    ci_addr: 'Address',
-    ci_addr_val: 'Please specify when booking',
-    form_title: '// NEW BOOKING',
-    form_name: 'Name',
-    form_phone: 'Phone',
-    form_service: 'Service',
-    form_date: 'Date',
-    form_time: 'Time',
-    form_submit: '// BOOK NOW →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● Online',
-    chat_greet: 'Hello! How can I help — booking, service question or about the clinic?',
+    hero_tag: '// Dentistry · AI · Care',
+    hero_h1_1: 'Dentistry',
+    hero_h1_2: 'made joyful',
+    hero_sub: 'Changing the attitude to dentistry and facial surgery — forever. A smart clinic that recognises you, cares for you, and treats you at a new level.',
+    back: '← LABS67',
   },
   pl: {
     title: 'DentalAI — Stomatologia z radością · LABS67',
     nav_cta: 'Umów wizytę',
-    h_eyebrow: '// DentalAI · Koncern LABS67',
-    hero_h1: 'Stomatologia<br><span class="ac">z radością</span><br><em>na zawsze</em>',
-    hero_sub: 'Zmieniamy podejście do stomatologii i chirurgii twarzowej. Asystent AI, inteligentne środowisko, protokoły głosowe — by lekarz skupiał się na Tobie.',
-    hero_btn1: '// Umów wizytę',
-    hero_btn2: 'Dowiedz się więcej →',
-    why_tag: '// Dlaczego DentalAI',
-    why_h2_1: 'Inaczej niż',
-    why_h2_2: 'przyzwyczajeni',
-    wc1_title: 'Rozpoznani przy wejściu',
-    wc1_desc: 'Kamera przy drzwiach identyfikuje Cię w ciągu sekund. Karta otwarta, lekarz gotowy, środowisko ustawione.',
-    wc2_title: 'AI asystuje lekarzowi',
-    wc2_desc: 'Kamera nad każdym fotelem. Sieć neuronowa analizuje zdjęcia, prowadzi protokół głosem — lekarz skupiony tylko na Tobie.',
-    wc3_title: 'Twoje dane są chronione',
-    wc3_desc: 'Wszystkie dane przetwarzane lokalnie. Bez chmury, bez wycieków. Pełna zgodność z przepisami.',
-    wc4_title: 'Inteligentne środowisko',
-    wc4_desc: 'Czujniki temperatury, wilgotności, oświetlenia. Każdy gabinet automatycznie dostosowuje się do zabiegu.',
-    wc5_title: 'Lekarze Academi67',
-    wc5_desc: 'Wszyscy specjaliści certyfikowani w Academi67 — Instytucie Standardów Klinicznych koncernu LABS67.',
-    wc6_title: 'Historia w dynamice',
-    wc6_desc: 'System AI rejestruje stan zębów przy każdej wizycie. Widzisz postęp, lekarz — pełny obraz.',
-    svc_tag: '// Usługi',
-    svc_h2_1: 'Co',
-    svc_h2_2: 'leczymy',
-    proc_tag: '// Jak to działa',
-    proc_h2_1: 'Twoja wizyta',
-    proc_h2_2: 'krok po kroku',
-    book_tag: '// Rezerwacja',
-    book_h2_1: 'Umów wizytę',
-    book_h2_2: 'online',
-    book_sub: 'System AI dobierze odpowiedni termin. Administrator potwierdzi w ciągu 15 minut.',
-    ci_phone: 'Telefon',
-    ci_hours: 'Godziny pracy',
-    ci_addr: 'Adres',
-    ci_addr_val: 'Prosimy o podanie przy rezerwacji',
-    form_title: '// NOWA REZERWACJA',
-    form_name: 'Imię',
-    form_phone: 'Telefon',
-    form_service: 'Usługa',
-    form_date: 'Data',
-    form_time: 'Godzina',
-    form_submit: '// UMÓW WIZYTĘ →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● Online',
-    chat_greet: 'Dzień dobry! W czym mogę pomóc — rezerwacja, pytanie o usługę lub klinikę?',
+    hero_tag: '// Stomatologia · AI · Troska',
+    hero_h1_1: 'Stomatologia',
+    hero_h1_2: 'z radością',
+    hero_sub: 'Zmieniamy podejście do stomatologii i chirurgii twarzowej — na zawsze. Inteligentna klinika, która Cię rozpoznaje, dba i leczy na nowym poziomie.',
+    back: '← LABS67',
   },
   fr: {
     title: 'DentalAI — La dentisterie avec plaisir · LABS67',
     nav_cta: 'Réserver',
-    h_eyebrow: '// DentalAI · Groupe LABS67',
-    hero_h1: 'La dentisterie<br><span class="ac">avec plaisir</span><br><em>pour toujours</em>',
-    hero_sub: 'Nous changeons l\'approche de la dentisterie et de la chirurgie faciale. Assistant IA, environnement intelligent, protocoles vocaux — pour que le médecin se concentre sur vous.',
-    hero_btn1: '// Prendre rendez-vous',
-    hero_btn2: 'En savoir plus →',
-    why_tag: '// Pourquoi DentalAI',
-    why_h2_1: 'Différemment de ce',
-    why_h2_2: 'à quoi vous êtes habitués',
-    wc1_title: 'Reconnu à l\'entrée',
-    wc1_desc: 'La caméra à la porte vous identifie en quelques secondes. Votre dossier est ouvert, le médecin est prêt.',
-    wc2_title: 'L\'IA assiste le médecin',
-    wc2_desc: 'Caméra au-dessus de chaque fauteuil. Réseau neuronal analyse les images, tient le protocole vocalement.',
-    wc3_title: 'Vos données sont protégées',
-    wc3_desc: 'Toutes les données traitées localement. Aucun cloud, aucune fuite. Pleine conformité réglementaire.',
-    wc4_title: 'Environnement intelligent',
-    wc4_desc: 'Capteurs de température, humidité, éclairage. Chaque cabinet s\'ajuste automatiquement à la procédure.',
-    wc5_title: 'Médecins Academi67',
-    wc5_desc: 'Tous les spécialistes certifiés à Academi67 — l\'Institut des Standards Cliniques du groupe LABS67.',
-    wc6_title: 'Historique en dynamique',
-    wc6_desc: 'Le système IA enregistre l\'état des dents à chaque visite. Vous voyez les progrès, le médecin — le tableau complet.',
-    svc_tag: '// Services',
-    svc_h2_1: 'Ce que nous',
-    svc_h2_2: 'traitons',
-    proc_tag: '// Comment ça marche',
-    proc_h2_1: 'Votre visite',
-    proc_h2_2: 'étape par étape',
-    book_tag: '// Réservation',
-    book_h2_1: 'Prenez rendez-vous',
-    book_h2_2: 'en ligne',
-    book_sub: 'Le système IA trouvera le meilleur moment. L\'administrateur confirme en 15 minutes.',
-    ci_phone: 'Téléphone',
-    ci_hours: 'Horaires',
-    ci_addr: 'Adresse',
-    ci_addr_val: 'Précisez lors de la réservation',
-    form_title: '// NOUVELLE RÉSERVATION',
-    form_name: 'Prénom',
-    form_phone: 'Téléphone',
-    form_service: 'Service',
-    form_date: 'Date',
-    form_time: 'Heure',
-    form_submit: '// RÉSERVER →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● En ligne',
-    chat_greet: 'Bonjour! Comment puis-je vous aider — réservation, question sur le service ou la clinique?',
+    hero_tag: '// Dentisterie · IA · Soin',
+    hero_h1_1: 'La dentisterie',
+    hero_h1_2: 'avec plaisir',
+    hero_sub: 'Nous changeons l\'approche de la dentisterie et de la chirurgie faciale — pour toujours. Une clinique intelligente qui vous reconnaît, prend soin de vous et vous traite à un nouveau niveau.',
+    back: '← LABS67',
   },
   de: {
     title: 'DentalAI — Zahnmedizin mit Freude · LABS67',
-    nav_cta: 'Buchen',
-    h_eyebrow: '// DentalAI · LABS67 Konzern',
-    hero_h1: 'Zahnmedizin<br><span class="ac">mit Freude</span><br><em>für immer</em>',
-    hero_sub: 'Wir verändern die Einstellung zur Zahnmedizin und Gesichtschirurgie. KI-Assistent, intelligente Umgebung, Sprachprotokolle — damit der Arzt sich auf Sie konzentriert.',
-    hero_btn1: '// Termin buchen',
-    hero_btn2: 'Mehr erfahren →',
-    why_tag: '// Warum DentalAI',
-    why_h2_1: 'Anders als',
-    why_h2_2: 'Sie gewohnt sind',
-    wc1_title: 'Erkannt am Eingang',
-    wc1_desc: 'Die Kamera an der Tür identifiziert Sie in Sekunden. Akte geöffnet, Arzt bereit, Umgebung eingestellt.',
-    wc2_title: 'KI assistiert dem Arzt',
-    wc2_desc: 'Kamera über jedem Stuhl. Neuronales Netz analysiert Bilder, führt Protokoll per Stimme — Arzt nur auf Sie fokussiert.',
-    wc3_title: 'Ihre Daten sind geschützt',
-    wc3_desc: 'Alle Daten nur lokal verarbeitet. Keine Cloud, keine Lecks. Volle regulatorische Konformität.',
-    wc4_title: 'Intelligente Umgebung',
-    wc4_desc: 'Temperatur-, Feuchtigkeits-, Beleuchtungssensoren. Jedes Zimmer passt sich automatisch an den Eingriff an.',
-    wc5_title: 'Academi67-Ärzte',
-    wc5_desc: 'Alle Spezialisten bei Academi67 zertifiziert — dem Institut für klinische Standards des LABS67-Konzerns.',
-    wc6_title: 'Geschichte in der Dynamik',
-    wc6_desc: 'KI-System erfasst Zahnzustand bei jedem Besuch. Sie sehen Fortschritte, Arzt — das Gesamtbild.',
-    svc_tag: '// Leistungen',
-    svc_h2_1: 'Was wir',
-    svc_h2_2: 'behandeln',
-    proc_tag: '// Wie es funktioniert',
-    proc_h2_1: 'Ihr Besuch',
-    proc_h2_2: 'Schritt für Schritt',
-    book_tag: '// Buchung',
-    book_h2_1: 'Buchen Sie',
-    book_h2_2: 'online',
-    book_sub: 'KI-System findet die beste Zeit. Administrator bestätigt innerhalb von 15 Minuten.',
-    ci_phone: 'Telefon',
-    ci_hours: 'Öffnungszeiten',
-    ci_addr: 'Adresse',
-    ci_addr_val: 'Beim Buchen angeben',
-    form_title: '// NEUE BUCHUNG',
-    form_name: 'Name',
-    form_phone: 'Telefon',
-    form_service: 'Leistung',
-    form_date: 'Datum',
-    form_time: 'Uhrzeit',
-    form_submit: '// BUCHEN →',
-    footer_copy: '© 2025 DentalAI · LABS67',
-    chat_online: '● Online',
-    chat_greet: 'Hallo! Wie kann ich helfen — Buchung, Frage zum Service oder zur Klinik?',
+    nav_cta: 'Termin buchen',
+    hero_tag: '// Zahnmedizin · KI · Fürsorge',
+    hero_h1_1: 'Zahnmedizin',
+    hero_h1_2: 'mit Freude',
+    hero_sub: 'Wir verändern die Einstellung zur Zahnmedizin und Gesichtschirurgie — für immer. Eine intelligente Klinik, die Sie erkennt, sich um Sie sorgt und Sie auf einem neuen Niveau behandelt.',
+    back: '← LABS67',
   },
 };
-
-const pageTitles = {
-  by: 'DentalAI — Стаматалогія ў радасць · LABS67',
-  ua: 'DentalAI — Стоматологія із задоволенням · LABS67',
-  en: 'DentalAI — Dentistry made joyful · LABS67',
-  pl: 'DentalAI — Stomatologia z radością · LABS67',
-  fr: 'DentalAI — La dentisterie avec plaisir · LABS67',
-  de: 'DentalAI — Zahnmedizin mit Freude · LABS67',
-};
-let currentLang = localStorage.getItem('labs67_lang') || 'by';
+let currentLang = localStorage.getItem('labs67_lang_dental') || 'by';
 
 function setLang(lang) {
   if (!i18n[lang]) return;
   currentLang = lang;
   document.documentElement.lang = lang;
-  localStorage.setItem('labs67_lang', lang);
-  if (pageTitles && pageTitles[lang]) document.title = pageTitles[lang];
+  localStorage.setItem('labs67_lang_dental', lang);
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang] && i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
@@ -875,26 +539,6 @@ function setLang(lang) {
   const btns = document.querySelectorAll('.lang-btn');
   const idx = order.indexOf(lang);
   if (btns[idx]) btns[idx].classList.add('active');
-  const LANG_FLAGS = {
-    by:`<rect width="18" height="4" fill="#fff"/><rect y="4" width="18" height="4" fill="#CF101A"/><rect y="8" width="18" height="4" fill="#fff"/>`,
-    ua:`<rect width="18" height="6" fill="#005BBB"/><rect y="6" width="18" height="6" fill="#FFD500"/>`,
-    en:`<rect width="18" height="12" fill="#012169"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#fff" stroke-width="2"/><rect x="7" width="4" height="12" fill="#fff"/><rect y="4" width="18" height="4" fill="#fff"/>`,
-    pl:`<rect width="18" height="6" fill="#fff"/><rect y="6" width="18" height="6" fill="#DC143C"/>`,
-    fr:`<rect width="6" height="12" fill="#002395"/><rect x="6" width="6" height="12" fill="#fff"/><rect x="12" width="6" height="12" fill="#ED2939"/>`,
-    de:`<rect width="18" height="4" fill="#000"/><rect y="4" width="18" height="4" fill="#DD0000"/><rect y="8" width="18" height="4" fill="#FFCE00"/>`
-  };
-  const flagMob = document.getElementById('langActiveFlagMob');
-  const codeMob = document.getElementById('langActiveCodeMob');
-  if(flagMob && LANG_FLAGS[lang]) flagMob.innerHTML = LANG_FLAGS[lang];
-  if(codeMob) codeMob.textContent = lang.toUpperCase();
 }
-function toggleLangMenu(){
-  const m=document.getElementById('langDropMenu');
-  if(m) m.classList.toggle('open');
-}
-document.addEventListener('click',e=>{
-  const sw=document.getElementById('langSwitcher');
-  if(sw&&!sw.contains(e.target)){const m=document.getElementById('langDropMenu');if(m)m.classList.remove('open');}
-});
 document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
 </script>
