@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2303050e' rx='6'/><polygon points='16,2 30,9 30,23 16,30 2,23 2,9' fill='%23e8b840' opacity='0.15'/><text x='16' y='14' text-anchor='middle' font-size='7' font-weight='bold' font-family='monospace' fill='%23e8b840'>DA</text><text x='16' y='24' text-anchor='middle' font-size='11'>🦷</text></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2303050e' rx='4'/%3E%3Cpolygon points='16,3 29,9.5 29,22.5 16,29 3,22.5 3,9.5' fill='none' stroke='%23e8b840' stroke-width='2'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='10' font-weight='900' font-family='monospace' fill='%23e8b840'%3EDA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<rect width='32' height='32' fill='%2303050e' rx='6'/><polygon points='16,2 30,9 30,23 16,30 2,23 2,9' fill='%23e8b840' opacity='0.15'/><text x='16' y='14' text-anchor='middle' font-size='7' font-weight='bold' font-family='monospace' fill='%23e8b840'>DA</text><text x='16' y='24' text-anchor='middle' font-size='11'>🦷</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DentalAI — Стоматология · LABS67</title>
+<title id="pageTitle">DentalAI — Стаматалогія ў радасць · LABS67</title>
 <meta name="description" content="DentalAI — умные стоматологии нового поколения. Меняем отношение к стоматологии и лицевой хирургии.">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -769,6 +770,15 @@ const i18n = {
     chat_greet: 'Hallo! Wie kann ich helfen — Buchung, Frage zum Service oder zur Klinik?',
   },
 };
+
+const pageTitles = {
+  by: 'DentalAI — Стаматалогія ў радасць · LABS67',
+  ua: 'DentalAI — Стоматологія із задоволенням · LABS67',
+  en: 'DentalAI — Dentistry made joyful · LABS67',
+  pl: 'DentalAI — Stomatologia z radością · LABS67',
+  fr: 'DentalAI — La dentisterie avec plaisir · LABS67',
+  de: 'DentalAI — Zahnmedizin mit Freude · LABS67',
+};
 let currentLang = localStorage.getItem('labs67_lang') || 'by';
 
 function setLang(lang) {
@@ -776,6 +786,7 @@ function setLang(lang) {
   currentLang = lang;
   document.documentElement.lang = lang;
   localStorage.setItem('labs67_lang', lang);
+  if (pageTitles && pageTitles[lang]) document.title = pageTitles[lang];
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang] && i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
