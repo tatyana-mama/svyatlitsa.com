@@ -391,12 +391,12 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
     <div class="cform">
       <div class="cf-hdr"><span class="cf-t" data-i18n="form_title">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
       <div class="fr">
-        <div class="fg"><label class="fl" data-i18n="form_name">Имя</label><input type="text" class="fi" placeholder="Ваше имя"></div>
-        <div class="fg"><label class="fl" data-i18n="form_phone">Телефон</label><input type="tel" class="fi" placeholder="+48 571 719 800"></div>
+        <div class="fg"><label class="fl" data-i18n="form_name">Имя</label><input type="text" class="fi" id="d_name" placeholder="Ваше имя"></div>
+        <div class="fg"><label class="fl" data-i18n="form_phone">Телефон</label><input type="tel" class="fi" id="d_phone" placeholder="+48 571 719 800"></div>
       </div>
       <div class="fg">
         <label class="fl" data-i18n="form_service">Услуга</label>
-        <select class="fi">
+        <select class="fi" id="d_service">
           <option style="background:#08101f">— Выберите услугу —</option>
           <option style="background:#08101f">Терапия</option>
           <option style="background:#08101f">Ортопедия</option>
@@ -461,7 +461,18 @@ function am(t,b){const m=document.getElementById('cm');const d=document.createEl
 function so(opts){const e=document.getElementById('co');e.innerHTML='';opts.forEach(t=>{const b=document.createElement('button');b.className='copt';b.textContent=t;b.onclick=()=>sm(t);e.appendChild(b);});}
 function sm(t){document.getElementById('co').innerHTML='';am(t,false);setTimeout(()=>{const l=t.toLowerCase();if(l.includes('запис')||l.includes('приём'))am('Отлично! Заполните форму в разделе «Запись» — AI подберёт удобное время. Или звоните: +48 571 719 800',true),so(['Другой вопрос']);else if(l.includes('услуг'))am('Лечим всё: терапия от 2500₽, ортопедия от 8000₽, имплантация от 3500₽, профилактика от 3000₽, ортодонтия от 45000₽, детская от 1800₽.',true),so(['Записаться','Лицевая хирургия','Технологии']);else if(l.includes('технолог')||l.includes('ai')||l.includes('ai'))am('Клиника работает на NVIDIA Jetson AGX Orin — распознавание лиц, голосовые протоколы, AI-анализ снимков. Все данные только локально.',true),so(['Записаться','Ещё вопросы']);else if(l.includes('цен')||l.includes('стоим'))am('Консультация бесплатная. Терапия от 2500₽, профилактика от 3000₽, ортопедия от 8000₽. Точную стоимость назовём после осмотра.',true),so(['Записаться на консультацию']);else if(l.includes('лицевая')||l.includes('хирург'))am('Лицевая хирургия — по запросу. Напишите нам: dental@labs67.com, обсудим детали конфиденциально.',true),so(['Записаться']);else am('Напишите или позвоните: +48 571 719 800 · dental@labs67.com',true),so(['Записаться','Услуги','Технологии']);},500);}
 function sc(){const i=document.getElementById('ci');const v=i.value.trim();if(!v)return;i.value='';document.getElementById('co').innerHTML='';sm(v);}
-function bookSubmit(){const b=document.querySelector('.fsub');b.textContent='// ОБРАБОТКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},1400);}
+const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+async function bookSubmit(){
+  const b=document.querySelector('.fsub');
+  const name=document.getElementById('d_name')?.value.trim();
+  const phone=document.getElementById('d_phone')?.value.trim();
+  const service=document.getElementById('d_service')?.value;
+  if(!name){alert('Укажите имя');return;}
+  b.textContent='// ОТПРАВКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';
+  await fetch(`${SB_URL}/rest/v1/leads`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,phone,source:'dental',message:service||'Запись на приём',status:'new',lang:currentLang||'by'})});
+  setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();document.getElementById('d_name').value='';document.getElementById('d_phone').value='';setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},800);
+}
 </script>
 </body>
 </html>
