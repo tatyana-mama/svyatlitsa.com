@@ -241,14 +241,12 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="h-eyebrow">// DentalAI · Концерн LABS67</div>
-    <h1 class="hero-title">
-      Стоматология<br><span class="ac">в радость</span><br><em>навсегда</em>
-    </h1>
-    <p class="hero-sub">Мы меняем отношение к стоматологии и лицевой хирургии. AI-ассистент, умная среда, голосовые протоколы — всё для того, чтобы врач фокусировался на вас, а не на бумагах.</p>
+    <div class="h-eyebrow" data-i18n="hero_tag">// DentalAI · Концерн LABS67</div>
+    <h1 class="hero-title" data-i18n="hero_h1">Стоматология<br><span class="ac">в радость</span><br><em>навсегда</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Мы меняем отношение к стоматологии.</p>
     <div class="hero-btns">
-      <a href="#booking" class="btn-gold">// Записаться на приём</a>
-      <a href="#why" class="btn-out">Узнать больше →</a>
+      <a href="#booking" class="btn-gold" data-i18n="btn1">// Записаться на приём</a>
+      <a href="#why" class="btn-out" data-i18n="btn2">Узнать больше →</a>
     </div>
   </div>
   <div class="hero-right">
@@ -273,8 +271,8 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 
 <!-- WHY -->
 <section class="section" id="why">
-  <div class="sec-tag">// Почему DentalAI</div>
-  <h2 class="sec-title">Иначе, чем вы<br><span class="ac">привыкли</span></h2>
+  <div class="sec-tag" data-i18n="why_tag">// Почему DentalAI</div>
+  <h2 class="sec-title" data-i18n="why_title">Иначе, чем вы<br><span class="ac">привыкли</span></h2>
   <div class="why-grid">
     <div class="why-card">
       <div class="wc-num">WC_01</div>
@@ -317,8 +315,8 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 
 <!-- SERVICES -->
 <section class="services-sec" id="services">
-  <div class="sec-tag">// Услуги</div>
-  <h2 class="sec-title">Что мы <span class="ac">лечим</span></h2>
+  <div class="sec-tag" data-i18n="svc_tag">// Услуги</div>
+  <h2 class="sec-title" data-i18n="svc_title">Что мы <span class="ac">лечим</span></h2>
   <div class="svc-list">
     <div class="svc-row">
       <span class="sr-n">01//</span>
@@ -367,8 +365,8 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 
 <!-- PROCESS -->
 <section class="process-sec" id="process">
-  <div class="sec-tag">// Как это работает</div>
-  <h2 class="sec-title">Ваш визит <span class="ac">шаг за шагом</span></h2>
+  <div class="sec-tag" data-i18n="proc_tag">// Как это работает</div>
+  <h2 class="sec-title" data-i18n="proc_title">Ваш визит <span class="ac">шаг за шагом</span></h2>
   <div class="process-grid">
     <div class="proc-card">
       <div class="pc-step">STEP_01</div>
@@ -399,8 +397,8 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 
 <!-- BOOKING -->
 <section class="booking-sec" id="booking">
-  <div class="sec-tag">// Запись</div>
-  <h2 class="sec-title">Запишитесь <span class="ac">онлайн</span></h2>
+  <div class="sec-tag" data-i18n="book_tag">// Запись</div>
+  <h2 class="sec-title" data-i18n="book_title">Запишитесь <span class="ac">онлайн</span></h2>
   <div class="booking-grid">
     <div>
       <p class="sec-lead" style="margin-bottom:24px;">AI-система подберёт удобное время. Администратор подтвердит в течение 15 минут.</p>
@@ -410,7 +408,7 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
       <div class="cinfo"><div class="ci-icon">📍</div><div><span class="ci-lbl">Адрес</span><span class="ci-val">Уточняйте при записи</span></div></div>
     </div>
     <div class="cform">
-      <div class="cf-hdr"><span class="cf-t">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
+      <div class="cf-hdr"><span class="cf-t" data-i18n="form_title">// НОВАЯ ЗАПИСЬ</span><span class="cf-id" id="fid">APT_XXXXX</span></div>
       <div class="fr">
         <div class="fg"><label class="fl">Имя</label><input type="text" class="fi" placeholder="Ваше имя"></div>
         <div class="fg"><label class="fl">Телефон</label><input type="tel" class="fi" placeholder="+48 571 719 800"></div>
@@ -438,7 +436,7 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
           </select>
         </div>
       </div>
-      <button class="fsub" onclick="bookSubmit()">// ЗАПИСАТЬСЯ →</button>
+      <button class="fsub" onclick="bookSubmit()" data-i18n="form_btn">// ЗАПИСАТЬСЯ →</button>
     </div>
   </div>
 </section>
@@ -446,7 +444,7 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 <footer>
   <div>
     <div class="fl-logo">Dental<em>AI</em></div>
-    <div class="fl-p">Концерн LABS67</div>
+    <div class="fl-p" data-i18n="footer_sub">Концерн LABS67</div>
   </div>
   <div class="fc">© 2025 DentalAI · LABS67<br><span style="color:var(--green);">● AI ONLINE</span></div>
   <div class="fr2">+48 571 719 800<br>dental@labs67.com</div>
@@ -489,59 +487,89 @@ function bookSubmit(){const b=document.querySelector('.fsub');b.textContent='// 
 <script>
 // ── I18N ──
 const i18n = {
-  by: {
-    title: 'DentalAI — Стаматалогія ў радасць · LABS67',
-    nav_cta: 'Запісацца',
-    hero_tag: '// Стаматалогія · ІІ · Клопат',
-    hero_h1_1: 'Стаматалогія',
-    hero_h1_2: 'ў радасць',
-    hero_sub: 'Мяняем стаўленне да стаматалогіі і лічэбнай хірургіі — назаўсёды. Разумная клініка, якая пазнае вас, клапоціцца і лечыць на новым узроўні.',
-    back: '← LABS67',
+  by:{
+    title:'DentalAI — Стаматалогія ў радасць · LABS67',
+    nav_cta:'Запісацца',
+    hero_tag:'// DentalAI · Канцэрн LABS67',
+    hero_h1:'Стаматалогія<br><span class="ac">ў радасць</span><br><em>назаўсёды</em>',
+    hero_sub:'Мяняем стаўленне да стаматалогіі і лічэбнай хірургіі. ІІ-асістэнт, разумнае асяроддзе, галасавыя пратаколы.',
+    btn1:'// Запісацца на прыём',btn2:'Даведацца больш →',
+    why_tag:'// Чаму DentalAI',why_title:'Інакш, чым вы<br><span class="ac">прывыклі</span>',
+    svc_tag:'// Паслугі',svc_title:'Што мы <span class="ac">лечым</span>',
+    proc_tag:'// Як гэта працуе',proc_title:'Ваш візіт <span class="ac">крок за крокам</span>',
+    book_tag:'// Запіс',book_title:'Запішыцеся <span class="ac">анлайн</span>',
+    form_title:'// НОВЫ ЗАПІС',form_btn:'// ЗАПІСАЦЦА →',
+    footer_sub:'Канцэрн LABS67',
   },
-  ua: {
-    title: 'DentalAI — Стоматологія із задоволенням · LABS67',
-    nav_cta: 'Записатися',
-    hero_tag: '// Стоматологія · ШІ · Турбота',
-    hero_h1_1: 'Стоматологія',
-    hero_h1_2: 'із задоволенням',
-    hero_sub: 'Змінюємо ставлення до стоматології та щелепно-лицевої хірургії — назавжди. Розумна клініка, що вас впізнає, дбає і лікує на новому рівні.',
-    back: '← LABS67',
+  ua:{
+    title:'DentalAI — Стоматологія із задоволенням · LABS67',
+    nav_cta:'Записатися',
+    hero_tag:'// DentalAI · Концерн LABS67',
+    hero_h1:'Стоматологія<br><span class="ac">із задоволенням</span><br><em>назавжди</em>',
+    hero_sub:'Змінюємо ставлення до стоматології та щелепно-лицевої хірургії. ШІ-асистент, розумне середовище, голосові протоколи.',
+    btn1:'// Записатися на прийом',btn2:'Дізнатися більше →',
+    why_tag:'// Чому DentalAI',why_title:'Інакше, ніж ви<br><span class="ac">звикли</span>',
+    svc_tag:'// Послуги',svc_title:'Що ми <span class="ac">лікуємо</span>',
+    proc_tag:'// Як це працює',proc_title:'Ваш візит <span class="ac">крок за кроком</span>',
+    book_tag:'// Запис',book_title:'Запишіться <span class="ac">онлайн</span>',
+    form_title:'// НОВИЙ ЗАПИС',form_btn:'// ЗАПИСАТИСЯ →',
+    footer_sub:'Концерн LABS67',
   },
-  en: {
-    title: 'DentalAI — Dentistry made joyful · LABS67',
-    nav_cta: 'Book now',
-    hero_tag: '// Dentistry · AI · Care',
-    hero_h1_1: 'Dentistry',
-    hero_h1_2: 'made joyful',
-    hero_sub: 'Changing the attitude to dentistry and facial surgery — forever. A smart clinic that recognises you, cares for you, and treats you at a new level.',
-    back: '← LABS67',
+  en:{
+    title:'DentalAI — Dentistry Made Joyful · LABS67',
+    nav_cta:'Book',
+    hero_tag:'// DentalAI · LABS67 Concern',
+    hero_h1:'Dentistry<br><span class="ac">made joyful</span><br><em>forever</em>',
+    hero_sub:'Changing the attitude to dentistry and facial surgery. AI assistant, smart environment, voice protocols.',
+    btn1:'// Book an appointment',btn2:'Learn more →',
+    why_tag:'// Why DentalAI',why_title:'Different from what<br><span class="ac">you're used to</span>',
+    svc_tag:'// Services',svc_title:'What we <span class="ac">treat</span>',
+    proc_tag:'// How it works',proc_title:'Your visit <span class="ac">step by step</span>',
+    book_tag:'// Booking',book_title:'Book <span class="ac">online</span>',
+    form_title:'// NEW APPOINTMENT',form_btn:'// BOOK NOW →',
+    footer_sub:'LABS67 Concern',
   },
-  pl: {
-    title: 'DentalAI — Stomatologia z radością · LABS67',
-    nav_cta: 'Umów wizytę',
-    hero_tag: '// Stomatologia · AI · Troska',
-    hero_h1_1: 'Stomatologia',
-    hero_h1_2: 'z radością',
-    hero_sub: 'Zmieniamy podejście do stomatologii i chirurgii twarzowej — na zawsze. Inteligentna klinika, która Cię rozpoznaje, dba i leczy na nowym poziomie.',
-    back: '← LABS67',
+  pl:{
+    title:'DentalAI — Stomatologia z Radością · LABS67',
+    nav_cta:'Umów wizytę',
+    hero_tag:'// DentalAI · Koncern LABS67',
+    hero_h1:'Stomatologia<br><span class="ac">z radością</span><br><em>na zawsze</em>',
+    hero_sub:'Zmieniamy podejście do stomatologii i chirurgii twarzowej. Asystent AI, inteligentne środowisko, protokoły głosowe.',
+    btn1:'// Umów wizytę',btn2:'Dowiedz się więcej →',
+    why_tag:'// Dlaczego DentalAI',why_title:'Inaczej niż<br><span class="ac">jesteś przyzwyczajony</span>',
+    svc_tag:'// Usługi',svc_title:'Co <span class="ac">leczymy</span>',
+    proc_tag:'// Jak to działa',proc_title:'Twoja wizyta <span class="ac">krok po kroku</span>',
+    book_tag:'// Rejestracja',book_title:'Zarejestruj się <span class="ac">online</span>',
+    form_title:'// NOWA WIZYTA',form_btn:'// ZAREJESTRUJ SIĘ →',
+    footer_sub:'Koncern LABS67',
   },
-  fr: {
-    title: 'DentalAI — La dentisterie avec plaisir · LABS67',
-    nav_cta: 'Réserver',
-    hero_tag: '// Dentisterie · IA · Soin',
-    hero_h1_1: 'La dentisterie',
-    hero_h1_2: 'avec plaisir',
-    hero_sub: 'Nous changeons l\'approche de la dentisterie et de la chirurgie faciale — pour toujours. Une clinique intelligente qui vous reconnaît, prend soin de vous et vous traite à un nouveau niveau.',
-    back: '← LABS67',
+  fr:{
+    title:'DentalAI — Dentisterie avec Plaisir · LABS67',
+    nav_cta:'Rendez-vous',
+    hero_tag:'// DentalAI · Groupe LABS67',
+    hero_h1:'Dentisterie<br><span class="ac">avec plaisir</span><br><em>pour toujours</em>',
+    hero_sub:'Changer l'approche de la dentisterie et de la chirurgie faciale. Assistant IA, environnement intelligent, protocoles vocaux.',
+    btn1:'// Prendre rendez-vous',btn2:'En savoir plus →',
+    why_tag:'// Pourquoi DentalAI',why_title:'Différent de ce que<br><span class="ac">vous connaissez</span>',
+    svc_tag:'// Services',svc_title:'Ce que nous <span class="ac">soignons</span>',
+    proc_tag:'// Comment ça marche',proc_title:'Votre visite <span class="ac">étape par étape</span>',
+    book_tag:'// Rendez-vous',book_title:'Prenez rendez-vous <span class="ac">en ligne</span>',
+    form_title:'// NOUVEAU RENDEZ-VOUS',form_btn:'// RÉSERVER →',
+    footer_sub:'Groupe LABS67',
   },
-  de: {
-    title: 'DentalAI — Zahnmedizin mit Freude · LABS67',
-    nav_cta: 'Termin buchen',
-    hero_tag: '// Zahnmedizin · KI · Fürsorge',
-    hero_h1_1: 'Zahnmedizin',
-    hero_h1_2: 'mit Freude',
-    hero_sub: 'Wir verändern die Einstellung zur Zahnmedizin und Gesichtschirurgie — für immer. Eine intelligente Klinik, die Sie erkennt, sich um Sie sorgt und Sie auf einem neuen Niveau behandelt.',
-    back: '← LABS67',
+  de:{
+    title:'DentalAI — Zahnmedizin mit Freude · LABS67',
+    nav_cta:'Termin buchen',
+    hero_tag:'// DentalAI · LABS67 Konzern',
+    hero_h1:'Zahnmedizin<br><span class="ac">mit Freude</span><br><em>für immer</em>',
+    hero_sub:'Wir verändern die Einstellung zur Zahnmedizin und Gesichtschirurgie. KI-Assistent, intelligente Umgebung, Sprachprotokolle.',
+    btn1:'// Termin buchen',btn2:'Mehr erfahren →',
+    why_tag:'// Warum DentalAI',why_title:'Anders als Sie es<br><span class="ac">gewohnt sind</span>',
+    svc_tag:'// Leistungen',svc_title:'Was wir <span class="ac">behandeln</span>',
+    proc_tag:'// So funktioniert es',proc_title:'Ihr Besuch <span class="ac">Schritt für Schritt</span>',
+    book_tag:'// Termin',book_title:'Jetzt <span class="ac">online</span> buchen',
+    form_title:'// NEUER TERMIN',form_btn:'// TERMIN BUCHEN →',
+    footer_sub:'LABS67 Konzern',
   },
 };
 let currentLang = localStorage.getItem('labs67_lang_dental') || 'by';
