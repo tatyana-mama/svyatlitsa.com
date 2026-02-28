@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e8b840' rx='4'/%3E%3Cpolygon points='16,3 29,9.5 29,22.5 16,29 3,22.5 3,9.5' fill='%2303050e' stroke='%2303050e' stroke-width='1'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-size='10' font-weight='900' font-family='monospace' fill='%23e8b840'%3EDA%3C/text%3E%3C/svg%3E" type="image/svg+xml"><link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23e8b840'/%3E%3Cpolygon points='90,12 168,51 168,129 90,168 12,129 12,51' fill='%2303050e'/%3E%3Ctext x='90' y='115' text-anchor='middle' font-size='46' font-weight='900' font-family='monospace' fill='%23e8b840'%3EDA%3C/text%3E%3C/svg%3E"><meta name="theme-color" content="#03050e">
 <rect width='32' height='32' fill='%2303050e' rx='6'/><polygon points='16,2 30,9 30,23 16,30 2,23 2,9' fill='%23e8b840' opacity='0.15'/><text x='16' y='14' text-anchor='middle' font-size='7' font-weight='bold' font-family='monospace' fill='%23e8b840'>DA</text><text x='16' y='24' text-anchor='middle' font-size='11'>🦷</text></svg>">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title id="pageTitle">DentalAI — Стаматалогія ў радасць · LABS67</title>
 <meta name="description" content="DentalAI — умные стоматологии нового поколения. Меняем отношение к стоматологии и лицевой хирургии.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#03050e;--bg2:#060916;--panel:#08101f;--b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.14);--gold:#e8b840;--gold2:#f5cc60;--gold-dim:rgba(232,184,64,0.45);--cyan:#30dcff;--green:#1df59a;--text:#cdd8f5;--muted:rgba(160,185,240,0.42);}
-*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;overflow-x:hidden;}
 body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(232,184,64,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(232,184,64,0.022) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
 nav{position:fixed;top:0;left:0;right:0;z-index:999;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 44px;background:rgba(3,5,14,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1);}
@@ -196,7 +198,26 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
 @media(max-width:768px){
   .chat-win{width:90vw;max-width:90vw;margin:20px auto;right:0;}
 }
-
+/* ── MOBILE OPTIMIZATION ── */
+*,*::before,*::after{box-sizing:border-box;}
+button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+body{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+input,textarea,select{font-size:1rem !important;}
+@media(max-width:480px){
+  .hero{grid-template-columns:1fr !important;padding-top:58px;}
+  .hero-left{padding:60px 16px 32px !important;}
+  .hero-right{display:none;}
+  .hero-title{font-size:clamp(2rem,8vw,3rem) !important;}
+  .hero-sub{font-size:0.85rem;line-height:1.7;}
+  .hero-btns{flex-direction:column;align-items:stretch;gap:10px;}
+  .section,.feat-sec,.cases-sec,.tech-sec,.contact-sec,.certs-sec{padding:48px 16px !important;}
+  .feat-grid,.cases-grid,.tech-grid,.certs-grid{grid-template-columns:1fr !important;}
+  .feat-card,.case-card,.tech-card,.cert-card{padding:22px 16px !important;}
+  footer{padding:28px 16px;}
+  nav{padding:0 12px;}
+  .online-txt{display:none;}
+  .nav-cta{padding:6px 10px;font-size:0.48rem;}
+}
 </style>
 </head>
 <body>
