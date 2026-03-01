@@ -205,10 +205,10 @@ footer{padding:34px 44px;border-top:1px solid var(--b1);display:grid;grid-templa
     </div>
   </a>
   <div class="nav-links">
-    <a href="#why" class="nl">О клинике</a>
-    <a href="#services" class="nl">Услуги</a>
-    <a href="#process" class="nl">Как это работает</a>
-    <a href="#booking" class="nl">Запись</a>
+    <a href="#why" class="nl" data-i18n="nav_why">О клинике</a>
+    <a href="#services" class="nl" data-i18n="nav_services">Услуги</a>
+    <a href="#process" class="nl" data-i18n="nav_process">Как это работает</a>
+    <a href="#booking" class="nl" data-i18n="nav_booking">Запись</a>
   </div>
   <div class="nav-r">
     <a href="//labs67.com" class="back-link">← LABS67</a>
@@ -547,6 +547,10 @@ const i18n = {
     fl_3:'Паслуга',
     fl_4:'Дата',
     fl_5:'Час',
+    nav_why:'Аб клініцы',
+    nav_services:'Паслугі',
+    nav_process:'Як гэта працуе',
+    nav_booking:'Запіс',
   },
   ua:{
     title:'DentalAI — Стоматологія із задоволенням · LABS67',
@@ -608,6 +612,10 @@ const i18n = {
     fl_3:'Послуга',
     fl_4:'Дата',
     fl_5:'Час',
+    nav_why:'Про клініку',
+    nav_services:'Послуги',
+    nav_process:'Як це працює',
+    nav_booking:'Запис',
   },
   en:{
     title:'DentalAI — Dentistry Made Joyful · LABS67',
@@ -669,6 +677,10 @@ const i18n = {
     fl_3:'Service',
     fl_4:'Date',
     fl_5:'Time',
+    nav_why:'About',
+    nav_services:'Services',
+    nav_process:'How it works',
+    nav_booking:'Booking',
   },
   pl:{
     title:'DentalAI — Stomatologia z Radością · LABS67',
@@ -730,6 +742,10 @@ const i18n = {
     fl_3:'Usługa',
     fl_4:'Data',
     fl_5:'Godzina',
+    nav_why:'O klinice',
+    nav_services:'Usługi',
+    nav_process:'Jak to działa',
+    nav_booking:'Rejestracja',
   },
   fr:{
     title:'DentalAI — Dentisterie avec Plaisir · LABS67',
@@ -791,6 +807,10 @@ const i18n = {
     fl_3:'Service',
     fl_4:'Date',
     fl_5:'Heure',
+    nav_why:'La clinique',
+    nav_services:'Services',
+    nav_process:'Comment ça marche',
+    nav_booking:'Rendez-vous',
   },
   de:{
     title:'DentalAI — Zahnmedizin mit Freude · LABS67',
@@ -852,6 +872,10 @@ const i18n = {
     fl_3:'Leistung',
     fl_4:'Datum',
     fl_5:'Uhrzeit',
+    nav_why:'Über uns',
+    nav_services:'Leistungen',
+    nav_process:'So funktioniert es',
+    nav_booking:'Termin',
   },
 };
 let currentLang = localStorage.getItem('labs67_lang_dental') || 'by';
