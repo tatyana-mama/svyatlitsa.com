@@ -483,8 +483,8 @@ function sm(t){document.getElementById('co').innerHTML='';am(t,false);setTimeout
 function sc(){const i=document.getElementById('ci');const v=i.value.trim();if(!v)return;i.value='';document.getElementById('co').innerHTML='';sm(v);}
 function bookSubmit(){const b=document.querySelector('.fsub');b.textContent='// ОБРАБОТКА...';b.style.background='rgba(232,184,64,0.3)';b.style.color='var(--gold)';setTimeout(()=>{b.textContent='// ЗАПИСЬ ПРИНЯТА ✓';b.style.background='var(--green)';b.style.color='#03050e';document.getElementById('fid').textContent='APT_'+Math.random().toString(36).substr(2,6).toUpperCase();setTimeout(()=>{b.textContent='// ЗАПИСАТЬСЯ →';b.style.background='';b.style.color='';},3000);},1400);}
 </script>
-</body>
-</html>
+
+
 <script>
 // ── I18N ──
 const LANG_FLAGS_SUB = {
@@ -1007,3 +1007,5 @@ function setLang(lang) {
 }
 document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
 </script>
+</body>
+</html>
