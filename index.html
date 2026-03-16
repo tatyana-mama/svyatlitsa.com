@@ -49,9 +49,10 @@
   .lang-option.active { color: var(--red); font-weight: 500; }
 
   /* BChB — бела-чырвона-белы */
-  /* flags: rendered as inline SVG via JS, these are just sizing defaults */
-  .lang-flag { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+  /* flags: inline SVG */
+  .lang-flag { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; line-height:0; }
   .flag-by,.flag-ru,.flag-ua,.flag-de,.flag-fr,.flag-en,.flag-es { background:none; }
+  #lcf { display:inline-flex; align-items:center; line-height:0; }
 
   /* HAMBURGER */
   .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 12px; background: none; border: none; z-index: 200; -webkit-tap-highlight-color: transparent; min-width: 48px; min-height: 48px; align-items: center; justify-content: center; }
