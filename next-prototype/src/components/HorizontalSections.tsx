@@ -1,7 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect, useState, useCallback } from 'react';
 
 // ─── Panel wrapper ──────────────────────────────────────────
 function Panel({
@@ -13,7 +12,7 @@ function Panel({
 }) {
   return (
     <div
-      className="w-screen h-screen flex-shrink-0 flex items-center overflow-hidden"
+      className="w-screen h-screen flex-shrink-0 flex items-center overflow-hidden snap-start snap-always"
       style={{ background: bg }}
     >
       <div className="w-full h-full flex items-center px-8 md:px-16 lg:px-24">
@@ -225,7 +224,11 @@ function FooterPanel() {
           &#9679; AI-POWERED CLINIC
         </div>
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            const el = document.getElementById('horizontal-sections');
+            if (el) el.scrollTo({ left: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="mt-8 font-mono text-[9px] tracking-[0.1em] uppercase text-[#faf9f6]/15 hover:text-[#c9a96e] transition-colors cursor-pointer bg-transparent border-none"
         >
           ↑ Наверх
@@ -239,39 +242,65 @@ function FooterPanel() {
 const PANEL_COUNT = 5;
 
 export default function HorizontalSections() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isScrolling = useRef(false);
+  const [progress, setProgress] = useState(0);
 
-  // x percentage is relative to the container width (PANEL_COUNT * 100vw).
-  // To scroll (PANEL_COUNT-1) panels we need -(PANEL_COUNT-1)/PANEL_COUNT * 100%.
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ['0%', `${-((PANEL_COUNT - 1) / PANEL_COUNT) * 100}%`]
-  );
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (isScrolling.current) { e.preventDefault(); return; }
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return;
+
+    // At boundaries, let the page scroll normally
+    if (el.scrollLeft <= 0 && e.deltaY < 0) return;
+    if (el.scrollLeft >= maxScroll - 1 && e.deltaY > 0) return;
+
+    e.preventDefault();
+
+    // Determine which panel to snap to
+    const panelWidth = el.clientWidth;
+    const currentPanel = Math.round(el.scrollLeft / panelWidth);
+    const nextPanel = e.deltaY > 0
+      ? Math.min(currentPanel + 1, PANEL_COUNT - 1)
+      : Math.max(currentPanel - 1, 0);
+
+    el.scrollTo({ left: nextPanel * panelWidth, behavior: 'smooth' });
+    setProgress((nextPanel * panelWidth) / maxScroll);
+
+    isScrolling.current = true;
+    setTimeout(function() { isScrolling.current = false; }, 800);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative"
-      style={{ height: `${PANEL_COUNT * 100}vh` }}
-    >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div
-          className="flex h-full"
-          style={{ x, width: `${PANEL_COUNT * 100}vw` }}
-        >
-          <AboutPanel />
-          <ServicesPanel />
-          <ProcessPanel />
-          <BookingPanel />
-          <FooterPanel />
-        </motion.div>
+    <section id="horizontal-sections" className="relative">
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto h-screen snap-x snap-mandatory"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        <AboutPanel />
+        <ServicesPanel />
+        <ProcessPanel />
+        <BookingPanel />
+        <FooterPanel />
+      </div>
 
-        {/* Progress bar */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-[2px] bg-[#c9a96e]/30 origin-left"
-          style={{ scaleX: scrollYProgress, width: '100%' }}
+      {/* Progress bar */}
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
+        <div
+          className="h-full bg-[#c9a96e]/30 origin-left transition-transform duration-100"
+          style={{ transform: `scaleX(${progress})` }}
         />
       </div>
     </section>
