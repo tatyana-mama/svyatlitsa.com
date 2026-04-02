@@ -15,7 +15,7 @@ function Panel({
       className="w-screen h-screen flex-shrink-0 flex items-center overflow-hidden snap-start snap-always"
       style={{ background: bg }}
     >
-      <div className="w-full h-full flex items-center px-8 md:px-16 lg:px-24">
+      <div className="w-full h-full flex items-center px-5 sm:px-8 md:px-16 lg:px-24">
         {children}
       </div>
     </div>
@@ -27,30 +27,30 @@ function AboutPanel() {
   return (
     <Panel>
       <div className="w-full max-w-2xl">
-        <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-5">
+        <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-4 sm:mb-5">
           Пра нас
         </p>
-        <h2 className="text-[clamp(28px,4.5vw,56px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-6">
+        <h2 className="text-[28px] sm:text-[clamp(28px,4.5vw,56px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-4 sm:mb-6">
           Не проста клініка.<br />
           <span className="text-[#c9a96e]">Прастора для жыцця.</span>
         </h2>
-        <div className="w-12 h-px bg-[#1d1d1f]/10 mb-6" />
-        <p className="text-[15px] font-light leading-[1.8] text-[#1d1d1f]/45 max-w-md">
+        <div className="w-10 sm:w-12 h-px bg-[#1d1d1f]/10 mb-4 sm:mb-6" />
+        <p className="text-[14px] sm:text-[15px] font-light leading-[1.7] sm:leading-[1.8] text-[#1d1d1f]/45 max-w-md">
           Святліца — гэта месца, дзе тэхналогіі невідочныя, але адчуваюцца.
           Кожная дэталь прадумана: ад святла да гуку, ад матэрыялаў да руху паветра.
         </p>
-        <div className="flex gap-10 mt-10">
+        <div className="flex gap-8 sm:gap-10 mt-8 sm:mt-10">
           <div>
-            <div className="text-[28px] font-light text-[#c9a96e]">AI</div>
-            <div className="font-mono text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Асістэнт</div>
+            <div className="text-[24px] sm:text-[28px] font-light text-[#c9a96e]">AI</div>
+            <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Асістэнт</div>
           </div>
           <div>
-            <div className="text-[28px] font-light text-[#c9a96e]">0ms</div>
-            <div className="font-mono text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Latency</div>
+            <div className="text-[24px] sm:text-[28px] font-light text-[#c9a96e]">0ms</div>
+            <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Latency</div>
           </div>
           <div>
-            <div className="text-[28px] font-light text-[#c9a96e]">100%</div>
-            <div className="font-mono text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Прыватнасць</div>
+            <div className="text-[24px] sm:text-[28px] font-light text-[#c9a96e]">100%</div>
+            <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.1em] uppercase text-[#1d1d1f]/25 mt-1">Прыватнасць</div>
           </div>
         </div>
       </div>
@@ -61,32 +61,32 @@ function AboutPanel() {
 // ─── Services ───────────────────────────────────────────────
 function ServicesPanel() {
   const services = [
-    { num: '01', title: 'Вініры', desc: 'Ідэальная ўсмешка за адзін дзень. AI-кантроль якасці.' },
+    { num: '01', title: 'Вініры', desc: 'Ідэальная ўсмешка за адзін дзень.' },
     { num: '02', title: 'Імплантацыя', desc: '3D-навігацыя, хірургічныя шаблоны.' },
-    { num: '03', title: 'Артадонтыя', desc: 'Нябачныя элайнеры. AI-прагноз руху зубоў.' },
+    { num: '03', title: 'Артадонтыя', desc: 'Нябачныя элайнеры. AI-прагноз.' },
     { num: '04', title: 'Эстэтыка', desc: 'Адбельванне, digital smile design.' },
-    { num: '05', title: 'Хірургія', desc: 'Мікраскоп, piezo, PRF. Дакладнасць.' },
-    { num: '06', title: 'Тэрапія', desc: 'SCYRA.AI мониторыць кожны этап.' },
+    { num: '05', title: 'Хірургія', desc: 'Мікраскоп, piezo, PRF.' },
+    { num: '06', title: 'Тэрапія', desc: 'SCYRA.AI кожны этап.' },
   ];
 
   return (
     <Panel bg="#f5f5f7">
       <div className="w-full max-w-4xl mx-auto">
-        <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-5">
+        <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-4 sm:mb-5">
           Паслугі
         </p>
-        <h2 className="text-[clamp(28px,4.5vw,48px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-10">
+        <h2 className="text-[24px] sm:text-[clamp(28px,4.5vw,48px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-6 sm:mb-10">
           Кожная паслуга —<br />
           <span className="text-[#c9a96e]">новы стандарт</span>
         </h2>
-        <div className="grid grid-cols-3 gap-px bg-[#1d1d1f]/[0.06]">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-[#1d1d1f]/[0.06]">
           {services.map((s) => (
-            <div key={s.num} className="bg-[#f5f5f7] p-5 hover:bg-white transition-colors duration-300 group">
-              <div className="font-mono text-[9px] tracking-[0.15em] text-[#c9a96e]/50 mb-2 group-hover:text-[#c9a96e] transition-colors">
+            <div key={s.num} className="bg-[#f5f5f7] p-4 sm:p-5 hover:bg-white transition-colors duration-300 group">
+              <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.15em] text-[#c9a96e]/50 mb-1.5 sm:mb-2 group-hover:text-[#c9a96e] transition-colors">
                 {s.num}
               </div>
-              <div className="text-[15px] font-medium text-[#1d1d1f] mb-1.5">{s.title}</div>
-              <div className="text-[12px] font-light leading-[1.6] text-[#1d1d1f]/35 group-hover:text-[#1d1d1f]/55 transition-colors">
+              <div className="text-[14px] sm:text-[15px] font-medium text-[#1d1d1f] mb-1">{s.title}</div>
+              <div className="text-[11px] sm:text-[12px] font-light leading-[1.5] sm:leading-[1.6] text-[#1d1d1f]/35 group-hover:text-[#1d1d1f]/55 transition-colors">
                 {s.desc}
               </div>
             </div>
@@ -109,22 +109,22 @@ function ProcessPanel() {
   return (
     <Panel>
       <div className="w-full max-w-3xl mx-auto">
-        <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-5">
+        <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-4 sm:mb-5">
           Працэс
         </p>
-        <h2 className="text-[clamp(28px,4.5vw,48px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-14">
+        <h2 className="text-[24px] sm:text-[clamp(28px,4.5vw,48px)] font-light tracking-[-0.03em] leading-[1.1] text-[#1d1d1f] mb-8 sm:mb-14">
           Чатыры крокі да<br />
           <span className="text-[#c9a96e]">вашай усмешкі</span>
         </h2>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-6">
           {steps.map((step, i) => (
             <div key={step.num} className="relative">
               {i < steps.length - 1 && (
-                <div className="absolute top-4 left-[60%] w-[80%] h-px bg-[#c9a96e]/15" />
+                <div className="hidden sm:block absolute top-4 left-[60%] w-[80%] h-px bg-[#c9a96e]/15" />
               )}
-              <div className="text-[24px] font-light text-[#c9a96e]/30 mb-3">{step.num}</div>
-              <div className="text-[15px] font-medium text-[#1d1d1f] mb-2">{step.title}</div>
-              <div className="text-[12px] font-light leading-[1.7] text-[#1d1d1f]/35">{step.desc}</div>
+              <div className="text-[20px] sm:text-[24px] font-light text-[#c9a96e]/30 mb-2 sm:mb-3">{step.num}</div>
+              <div className="text-[14px] sm:text-[15px] font-medium text-[#1d1d1f] mb-1.5 sm:mb-2">{step.title}</div>
+              <div className="text-[12px] font-light leading-[1.6] sm:leading-[1.7] text-[#1d1d1f]/35">{step.desc}</div>
             </div>
           ))}
         </div>
@@ -137,8 +137,9 @@ function ProcessPanel() {
 function BookingPanel() {
   return (
     <Panel bg="#1d1d1f">
-      <div className="w-full max-w-4xl mx-auto flex gap-12 items-start">
-        <div className="flex-1 min-w-0">
+      <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+        {/* Info — hidden on mobile, form is enough */}
+        <div className="hidden md:block flex-1 min-w-0">
           <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#c9a96e] mb-5">
             Запіс
           </p>
@@ -167,18 +168,28 @@ function BookingPanel() {
             ))}
           </div>
         </div>
-        <div className="flex-1 min-w-0 bg-[#faf9f6]/[0.04] border border-[#faf9f6]/[0.06] rounded-2xl p-7">
-          <div className="font-mono text-[9px] tracking-[0.1em] uppercase text-[#c9a96e] mb-5">
+
+        {/* Form — always visible */}
+        <div className="w-full md:flex-1 md:min-w-0 bg-[#faf9f6]/[0.04] border border-[#faf9f6]/[0.06] rounded-2xl p-5 sm:p-7">
+          {/* Mobile title */}
+          <div className="md:hidden mb-4">
+            <h2 className="text-[24px] font-light text-[#faf9f6] mb-1">
+              Пачніце <span className="text-[#c9a96e]">зараз</span>
+            </h2>
+            <p className="text-[12px] text-[#faf9f6]/30">+48 571 719 800 · Пн–Пт 9:00–20:00</p>
+          </div>
+
+          <div className="font-mono text-[9px] tracking-[0.1em] uppercase text-[#c9a96e] mb-4 sm:mb-5">
             Запіс на прыём
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Імя</label>
-              <input type="text" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="Як вас завуць?" />
+              <input type="text" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="Як вас завуць?" />
             </div>
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Тэлефон</label>
-              <input type="tel" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="+48 000 000 000" />
+              <input type="tel" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="+48 000 000 000" />
             </div>
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Паслуга</label>
@@ -191,7 +202,7 @@ function BookingPanel() {
                 <option value="t" className="bg-[#1d1d1f]">Тэрапія</option>
               </select>
             </div>
-            <button className="w-full mt-4 py-3.5 rounded-full bg-[#c9a96e] text-[#1d1d1f] text-[14px] font-medium hover:bg-[#d4b477] transition-colors">
+            <button className="w-full mt-3 sm:mt-4 py-3 sm:py-3.5 rounded-full bg-[#c9a96e] text-[#1d1d1f] text-[14px] font-medium hover:bg-[#d4b477] active:scale-[0.98] transition-all">
               Адправіць
             </button>
           </div>
@@ -209,27 +220,30 @@ function FooterPanel() {
   return (
     <Panel bg="#0d0d0e">
       <div className="w-full text-center">
-        <div className="text-[clamp(40px,8vw,100px)] font-light tracking-[-0.04em] text-[#faf9f6]/[0.05] leading-none mb-6">
+        <div className="text-[48px] sm:text-[clamp(40px,8vw,100px)] font-light tracking-[-0.04em] text-[#faf9f6]/[0.05] leading-none mb-5 sm:mb-6">
           svyatlitsa
         </div>
-        <div className="flex gap-5 justify-center flex-wrap mb-6">
+        <div className="flex gap-4 sm:gap-5 justify-center flex-wrap mb-5 sm:mb-6">
           {['LABS67', 'SCYRA.AI', 'SLYAH.AI', 'SKARBY', 'SVITA'].map((b) => (
-            <a key={b} href="#" className="font-mono text-[9px] tracking-[0.08em] text-[#faf9f6]/15 hover:text-[#c9a96e] transition-colors no-underline">{b}</a>
+            <a key={b} href="#" className="font-mono text-[8px] sm:text-[9px] tracking-[0.08em] text-[#faf9f6]/15 hover:text-[#c9a96e] transition-colors no-underline">{b}</a>
           ))}
         </div>
-        <div className="font-mono text-[9px] tracking-[0.06em] text-[#faf9f6]/12">
+        <div className="font-mono text-[8px] sm:text-[9px] tracking-[0.06em] text-[#faf9f6]/12">
           &copy; 2026 svyatlitsa &middot; LABS67
         </div>
-        <div className="mt-1.5 font-mono text-[8px] text-[#c9a96e]/30">
+        <div className="mt-1.5 font-mono text-[7px] sm:text-[8px] text-[#c9a96e]/30">
           &#9679; AI-POWERED CLINIC
         </div>
         <button
           onClick={() => {
             const el = document.getElementById('horizontal-sections');
-            if (el) el.scrollTo({ left: 0, behavior: 'smooth' });
+            if (el) {
+              const container = el.querySelector('div');
+              if (container) container.scrollTo({ left: 0, behavior: 'smooth' });
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="mt-8 font-mono text-[9px] tracking-[0.1em] uppercase text-[#faf9f6]/15 hover:text-[#c9a96e] transition-colors cursor-pointer bg-transparent border-none"
+          className="mt-6 sm:mt-8 font-mono text-[9px] tracking-[0.1em] uppercase text-[#faf9f6]/15 hover:text-[#c9a96e] active:text-[#c9a96e] transition-colors cursor-pointer bg-transparent border-none"
         >
           ↑ Наверх
         </button>
@@ -293,17 +307,14 @@ export default function HorizontalSections() {
     const dx = e.touches[0].clientX - touchStart.current.x;
     const dy = e.touches[0].clientY - touchStart.current.y;
 
-    // Lock direction after 10px of movement
     if (!touchLocked.current && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
       touchLocked.current = Math.abs(dy) > Math.abs(dx) ? 'vertical' : 'horizontal';
     }
 
     if (touchLocked.current === 'vertical') {
       const maxScroll = el.scrollWidth - el.clientWidth;
-      // At boundaries, allow normal page scroll
       if (el.scrollLeft <= 0 && dy > 0) return;
       if (el.scrollLeft >= maxScroll - 1 && dy < 0) return;
-
       e.preventDefault();
     }
   }, []);
@@ -313,21 +324,17 @@ export default function HorizontalSections() {
     if (!el) return;
 
     const dy = e.changedTouches[0].clientY - touchStart.current.y;
-    const dx = e.changedTouches[0].clientX - touchStart.current.x;
 
     const panelWidth = el.clientWidth;
     const currentPanel = Math.round(el.scrollLeft / panelWidth);
 
-    // Vertical swipe → switch panels
     if (touchLocked.current === 'vertical' && Math.abs(dy) > 50) {
       const nextPanel = dy < 0
         ? Math.min(currentPanel + 1, PANEL_COUNT - 1)
         : Math.max(currentPanel - 1, 0);
       el.scrollTo({ left: nextPanel * panelWidth, behavior: 'smooth' });
       setTimeout(updateProgress, 500);
-    }
-    // Horizontal swipe works natively via snap
-    else if (touchLocked.current === 'horizontal') {
+    } else if (touchLocked.current === 'horizontal') {
       setTimeout(updateProgress, 500);
     }
 
