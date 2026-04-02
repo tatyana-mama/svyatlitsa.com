@@ -244,8 +244,18 @@ const PANEL_COUNT = 5;
 export default function HorizontalSections() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
+  const touchStart = useRef({ x: 0, y: 0 });
+  const touchLocked = useRef<'horizontal' | 'vertical' | null>(null);
   const [progress, setProgress] = useState(0);
 
+  const updateProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll > 0) setProgress(el.scrollLeft / maxScroll);
+  }, []);
+
+  // Desktop: wheel → horizontal snap
   const handleWheel = useCallback((e: WheelEvent) => {
     if (isScrolling.current) { e.preventDefault(); return; }
     const el = scrollRef.current;
@@ -254,13 +264,11 @@ export default function HorizontalSections() {
     const maxScroll = el.scrollWidth - el.clientWidth;
     if (maxScroll <= 0) return;
 
-    // At boundaries, let the page scroll normally
     if (el.scrollLeft <= 0 && e.deltaY < 0) return;
     if (el.scrollLeft >= maxScroll - 1 && e.deltaY > 0) return;
 
     e.preventDefault();
 
-    // Determine which panel to snap to
     const panelWidth = el.clientWidth;
     const currentPanel = Math.round(el.scrollLeft / panelWidth);
     const nextPanel = e.deltaY > 0
@@ -268,26 +276,87 @@ export default function HorizontalSections() {
       : Math.max(currentPanel - 1, 0);
 
     el.scrollTo({ left: nextPanel * panelWidth, behavior: 'smooth' });
-    setProgress((nextPanel * panelWidth) / maxScroll);
-
     isScrolling.current = true;
-    setTimeout(function() { isScrolling.current = false; }, 800);
+    setTimeout(function() { isScrolling.current = false; updateProgress(); }, 800);
+  }, [updateProgress]);
+
+  // Mobile: vertical swipe → horizontal scroll
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    touchLocked.current = null;
   }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const dx = e.touches[0].clientX - touchStart.current.x;
+    const dy = e.touches[0].clientY - touchStart.current.y;
+
+    // Lock direction after 10px of movement
+    if (!touchLocked.current && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+      touchLocked.current = Math.abs(dy) > Math.abs(dx) ? 'vertical' : 'horizontal';
+    }
+
+    if (touchLocked.current === 'vertical') {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      // At boundaries, allow normal page scroll
+      if (el.scrollLeft <= 0 && dy > 0) return;
+      if (el.scrollLeft >= maxScroll - 1 && dy < 0) return;
+
+      e.preventDefault();
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+
+    const panelWidth = el.clientWidth;
+    const currentPanel = Math.round(el.scrollLeft / panelWidth);
+
+    // Vertical swipe → switch panels
+    if (touchLocked.current === 'vertical' && Math.abs(dy) > 50) {
+      const nextPanel = dy < 0
+        ? Math.min(currentPanel + 1, PANEL_COUNT - 1)
+        : Math.max(currentPanel - 1, 0);
+      el.scrollTo({ left: nextPanel * panelWidth, behavior: 'smooth' });
+      setTimeout(updateProgress, 500);
+    }
+    // Horizontal swipe works natively via snap
+    else if (touchLocked.current === 'horizontal') {
+      setTimeout(updateProgress, 500);
+    }
+
+    touchLocked.current = null;
+  }, [updateProgress]);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
-  }, [handleWheel]);
+    el.addEventListener('touchstart', handleTouchStart, { passive: true });
+    el.addEventListener('touchmove', handleTouchMove, { passive: false });
+    el.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchmove', handleTouchMove);
+      el.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   return (
     <section id="horizontal-sections" className="relative">
       <div
         ref={scrollRef}
         className="flex overflow-x-auto h-screen snap-x snap-mandatory"
-        style={{ scrollbarWidth: 'none' }}
+        style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
       >
         <AboutPanel />
         <ServicesPanel />
@@ -296,8 +365,19 @@ export default function HorizontalSections() {
         <FooterPanel />
       </div>
 
-      {/* Progress bar */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent">
+      {/* Progress dots (mobile) */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
+        {Array.from({ length: PANEL_COUNT }).map((_, i) => (
+          <div
+            key={i}
+            className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+            style={{ background: progress >= (i / (PANEL_COUNT - 1)) - 0.05 && progress <= (i / (PANEL_COUNT - 1)) + 0.15 ? '#c9a96e' : 'rgba(255,255,255,0.15)' }}
+          />
+        ))}
+      </div>
+
+      {/* Progress bar (desktop) */}
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent hidden md:block">
         <div
           className="h-full bg-[#c9a96e]/30 origin-left transition-transform duration-100"
           style={{ transform: `scaleX(${progress})` }}
