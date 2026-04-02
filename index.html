@@ -126,7 +126,9 @@
   .feature-text { font-size: 12px; line-height: 1.9; color: var(--muted); letter-spacing: 0.3px; font-weight: 300; }
 
   /* SERVICES */
-  .services-list { display: flex; flex-direction: column; }
+  .services-list { display: flex; flex-direction: column; width: 100%; overflow: hidden; }
+  .service-card { padding: 28px 0; border-bottom: 1px solid var(--gray2); }
+  .service-card:first-child { border-top: 1px solid var(--gray2); }
   .service-item { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid var(--gray2); cursor: pointer; transition: padding-left 0.3s; text-decoration: none; color: inherit; }
   .service-item:first-child { border-top: 1px solid var(--gray2); }
   .service-item:hover { padding-left: 16px; }
@@ -229,7 +231,7 @@
     .nav-center { display: none; }
     .nav-cta { display: none; }
     .nav-hamburger { display: flex; }
-    .lang-switcher { display: none; }
+    .nav-right > .lang-switcher { display: none; }
     .nav-ver { display: none; }
     .pulse-nav { display: none; }
 
