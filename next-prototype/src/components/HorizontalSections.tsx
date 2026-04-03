@@ -135,6 +135,34 @@ function ProcessPanel() {
 
 // ─── Booking ────────────────────────────────────────────────
 function BookingPanel() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [service, setService] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
+
+  const handleSubmit = async () => {
+    if (!name.trim() || !phone.trim()) return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), phone: phone.trim(), service }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setStatus('ok');
+        setName('');
+        setPhone('');
+        setService('');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
   return (
     <Panel bg="#1d1d1f">
       <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row gap-8 md:gap-12 items-start">
@@ -185,15 +213,15 @@ function BookingPanel() {
           <div className="space-y-3 sm:space-y-4">
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Імя</label>
-              <input type="text" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="Як вас завуць?" />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="Як вас завуць?" />
             </div>
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Тэлефон</label>
-              <input type="tel" className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="+48 000 000 000" />
+              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6] text-[14px] sm:text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors placeholder:text-[#faf9f6]/12" placeholder="+48 000 000 000" />
             </div>
             <div>
               <label className="block text-[11px] text-[#faf9f6]/25 mb-1.5">Паслуга</label>
-              <select className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6]/40 text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors">
+              <select value={service} onChange={(e) => setService(e.target.value)} className="w-full bg-transparent border-b border-[#faf9f6]/10 text-[#faf9f6]/40 text-[14px] pb-2 outline-none focus:border-[#c9a96e]/50 transition-colors">
                 <option value="" className="bg-[#1d1d1f]">Абярыце</option>
                 <option value="v" className="bg-[#1d1d1f]">Вініры</option>
                 <option value="i" className="bg-[#1d1d1f]">Імплантацыя</option>
@@ -202,12 +230,19 @@ function BookingPanel() {
                 <option value="t" className="bg-[#1d1d1f]">Тэрапія</option>
               </select>
             </div>
-            <button className="w-full mt-3 sm:mt-4 py-3 sm:py-3.5 rounded-full bg-[#c9a96e] text-[#1d1d1f] text-[14px] font-medium hover:bg-[#d4b477] active:scale-[0.98] transition-all">
-              Адправіць
+            <button
+              onClick={handleSubmit}
+              disabled={status === 'sending' || !name.trim() || !phone.trim()}
+              className="w-full mt-3 sm:mt-4 py-3 sm:py-3.5 rounded-full bg-[#c9a96e] text-[#1d1d1f] text-[14px] font-medium hover:bg-[#d4b477] active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {status === 'sending' ? 'Адпраўляем...' : status === 'ok' ? '✓ Адпраўлена!' : 'Адправіць'}
             </button>
           </div>
+          {status === 'error' && (
+            <p className="text-[12px] text-red-400 mt-2 text-center">Памылка. Паспрабуйце яшчэ раз.</p>
+          )}
           <p className="font-mono text-[8px] tracking-[0.06em] text-[#faf9f6]/15 mt-3 text-center">
-            Адкажам на працягу 2 гадзін
+            {status === 'ok' ? 'Мы звяжамся з вамі!' : 'Адкажам на працягу 2 гадзін'}
           </p>
         </div>
       </div>
