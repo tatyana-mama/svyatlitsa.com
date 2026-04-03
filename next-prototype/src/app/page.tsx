@@ -1,6 +1,7 @@
 import Nav from '@/components/Nav';
 import HeroSection from '@/components/HeroSection';
 import HorizontalSections from '@/components/HorizontalSections';
+import SidePanel from '@/components/SidePanel';
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Nav />
       <HeroSection />
       <HorizontalSections />
+      <SidePanel />
     </main>
   );
 }
