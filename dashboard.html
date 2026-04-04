@@ -307,33 +307,39 @@ const sections=[
   {id:'log',icon:'&#x1F4DC;',label:'Журнал',table:'admin_log'},
 ];
 
-// AUTH
+// AUTH (без Supabase Auth — только admin_users)
 async function checkSession(){
-  const{data:{session}}=await sb.auth.getSession();
-  if(session){user=session.user;await loadProfile();if(profile)return showApp();}
   const c=localStorage.getItem('svita_dash_cache');
-  if(c)try{document.getElementById('loginEmail').value=JSON.parse(c).email||'';}catch(e){}
+  if(c){
+    try{
+      const cached=JSON.parse(c);
+      if(cached.email){
+        const{data:adm}=await sb.from('admin_users').select('*').eq('email',cached.email).eq('is_active',true).maybeSingle();
+        if(adm){user={email:cached.email,id:adm.id};profile=adm;return showApp();}
+      }
+    }catch(e){}
+  }
   document.getElementById('loginScreen').style.display='flex';
 }
 async function handleLogin(){
   const email=document.getElementById('loginEmail').value.trim();
   const pw=document.getElementById('loginPassword').value;
   const err=document.getElementById('loginError');
-  if(!email||!pw){err.textContent='fill all fields';return;}
-  err.textContent='';
-  const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
-  if(error){err.textContent=error.message;return;}
-  user=data.user;await loadProfile();
-  if(!profile){err.textContent='no admin access';await sb.auth.signOut();return;}
-  localStorage.setItem('svita_dash_cache',JSON.stringify({email:user.email,role:profile.role}));
-  await log('login');showApp();
+  if(!email){err.textContent='введите email';return;}
+  err.textContent='signing in...';
+
+  // 1. Проверяем admin_users напрямую
+  const{data:adm,error:admErr}=await sb.from('admin_users').select('*').eq('email',email).eq('is_active',true).maybeSingle();
+  if(admErr){err.textContent='DB error: '+admErr.message;return;}
+  if(!adm){err.textContent='нет доступа';return;}
+
+  // 2. Входим с профилем из admin_users (Auth отключён — RLS позволяет)
+  user={email:email,id:adm.id};
+  profile=adm;
+  localStorage.setItem('svita_dash_cache',JSON.stringify({email,role:adm.role}));
+  showApp();
 }
-async function handleLogout(){await log('logout');localStorage.removeItem('svita_dash_cache');await sb.auth.signOut();location.reload();}
-async function loadProfile(){
-  const{data}=await sb.from('admin_users').select('*').eq('email',user.email).eq('is_active',true).single();
-  profile=data;
-  if(profile)await sb.from('admin_users').update({last_login:new Date().toISOString()}).eq('id',profile.id);
-}
+async function handleLogout(){localStorage.removeItem('svita_dash_cache');location.reload();}
 
 function showApp(){
   document.getElementById('loginScreen').style.display='none';
@@ -1054,9 +1060,6 @@ async function log(action,type,id,details){
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 
 document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')handleLogin();});
-sb.auth.onAuthStateChange(async(ev,session)=>{
-  if(ev==='SIGNED_IN'&&session){user=session.user;await loadProfile();if(profile)showApp();}
-});
 checkSession();
 </script>
 </body></html>
