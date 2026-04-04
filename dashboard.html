@@ -240,23 +240,49 @@ let user=null,profile=null,currentSection=null,currentItems=[],selectedItem=null
 
 // NAV CONFIG
 const sections=[
+  // === PROJECT (what you chose) ===
   {type:'divider',label:'Project'},
   {id:'overview',icon:'&#x25A3;',label:'Overview',table:null},
+  {id:'project_equipment',icon:'&#x2705;',label:'Selected Equipment',table:'equipment',filter:{status_in:['shortlist','ordered','delivered']}},
+  {id:'project_premises',icon:'&#x1F3E0;',label:'Selected Premises',table:'equipment',filter:{category:'premises',status_in:['shortlist','ordered']}},
   {id:'tasks',icon:'&#x2611;',label:'Tasks',table:'project_tasks'},
-  {id:'budget',icon:'&#x24;',label:'Budget',table:'project_budget'},
-  {type:'divider',label:'Equipment'},
-  {id:'equipment',icon:'&#x1FAB7;',label:'All Equipment',table:'equipment'},
-  {id:'premises',icon:'&#x1F3E0;',label:'Premises',table:'equipment',filter:{category:'premises'}},
-  {type:'divider',label:'Services'},
-  {id:'services',icon:'&#x26A1;',label:'Works & Services',table:'services'},
   {id:'requests',icon:'&#x1F4CB;',label:'Requests (TZ)',table:'service_requests'},
   {id:'quotations',icon:'&#x1F4B0;',label:'Quotations',table:'service_quotations'},
+  {id:'budget',icon:'&#x24;',label:'Budget',table:'project_budget'},
+  {id:'team',icon:'&#x1F464;',label:'Team',table:'clinic_contacts',filter:{category:'admin'}},
+
+  // === CATALOG (where you search) ===
+  {type:'divider',label:'Catalog'},
+  {id:'cat_dental_units',icon:'&#x1FAB7;',label:'Dental Units',table:'equipment',filter:{category:'dental_units'}},
+  {id:'cat_premises',icon:'&#x1F3E0;',label:'Premises',table:'equipment',filter:{category:'premises'}},
+  {id:'cat_autoclaves',icon:'&#x2668;',label:'Autoclaves',table:'equipment',filter:{category:'autoclaves'}},
+  {id:'cat_xray',icon:'&#x2622;',label:'X-Ray',table:'equipment',filter:{category:'xray'}},
+  {id:'cat_compressors',icon:'&#x1F4A8;',label:'Compressors',table:'equipment',filter:{category:'compressors'}},
+  {id:'cat_instruments',icon:'&#x1F527;',label:'Instruments',table:'equipment',filter:{category:'instruments'}},
+  {id:'cat_furniture',icon:'&#x1FA91;',label:'Furniture',table:'equipment',filter:{category:'furniture'}},
+  {id:'cat_sterilization',icon:'&#x1F9FC;',label:'Sterilization',table:'equipment',filter:{category:'sterilization'}},
+  {id:'cat_lighting',icon:'&#x1F4A1;',label:'Lighting',table:'equipment',filter:{category:'lighting'}},
+  {id:'cat_consumables',icon:'&#x1F4E6;',label:'Consumables',table:'equipment',filter:{category:'consumables'}},
+
+  // === SERVICES (works catalog) ===
+  {type:'divider',label:'Services'},
+  {id:'svc_engineering',icon:'&#x26A1;',label:'Engineering Networks',table:'services',filter:{svc_category:'electrical'}},
+  {id:'svc_plumbing',icon:'&#x1F527;',label:'Plumbing',table:'services',filter:{svc_category:'plumbing'}},
+  {id:'svc_hvac',icon:'&#x2744;',label:'HVAC',table:'services',filter:{svc_category:'hvac'}},
+  {id:'svc_finishing',icon:'&#x1F3A8;',label:'Finishing',table:'services',filter:{svc_category:'finishing'}},
+  {id:'svc_it',icon:'&#x1F310;',label:'IT / Networking',table:'services',filter:{svc_category:'it_network'}},
+  {id:'svc_medical',icon:'&#x1F3E5;',label:'Medical Install',table:'services',filter:{svc_category:'medical_install'}},
+  {id:'svc_all',icon:'&#x1F4CB;',label:'All Services',table:'services'},
+
+  // === PEOPLE (contacts catalog) ===
   {type:'divider',label:'People'},
   {id:'contractors',icon:'&#x1F528;',label:'Contractors',table:'clinic_contacts',filter:{category:'contractors'}},
   {id:'suppliers',icon:'&#x1F69A;',label:'Suppliers',table:'clinic_contacts',filter:{category:'suppliers'}},
-  {id:'team',icon:'&#x1F464;',label:'Team',table:'clinic_contacts',filter:{category:'admin'}},
+  {id:'owners',icon:'&#x1F451;',label:'Owners',table:'clinic_contacts',filter:{category:'owner'}},
+
+  // === SYSTEM ===
   {type:'divider',label:'System'},
-  {id:'admins',icon:'&#x1F451;',label:'Admins',table:'admin_users',superadmin:true},
+  {id:'admins',icon:'&#x1F6E1;',label:'Admins',table:'admin_users',superadmin:true},
   {id:'log',icon:'&#x1F4DC;',label:'Activity Log',table:'admin_log'},
 ];
 
@@ -311,13 +337,37 @@ function renderNav(){
 }
 
 async function loadCounts(){
-  const tables={equipment:'equipment',services:'services',tasks:'project_tasks',requests:'service_requests',quotations:'service_quotations'};
-  for(const[id,t]of Object.entries(tables)){
-    const{count}=await sb.from(t).select('id',{count:'exact',head:true});
-    const el=document.getElementById('count-'+id);
-    if(el)el.textContent=count||'';
+  // Project counts (selected items)
+  const projEq=await sb.from('equipment').select('id',{count:'exact',head:true}).in('status',['shortlist','ordered','delivered']);
+  setCount('project_equipment',projEq.count);
+  const projPrem=await sb.from('equipment').select('id',{count:'exact',head:true}).in('status',['shortlist','ordered']);
+  // We'd need category filter too, skip for now
+  setCount('tasks',(await sb.from('project_tasks').select('id',{count:'exact',head:true})).count);
+  setCount('requests',(await sb.from('service_requests').select('id',{count:'exact',head:true})).count);
+  setCount('quotations',(await sb.from('service_quotations').select('id',{count:'exact',head:true})).count);
+
+  // Catalog counts by category
+  const{data:eqCats}=await sb.from('equipment_categories').select('id,slug');
+  if(eqCats){
+    for(const cat of eqCats){
+      const{count}=await sb.from('equipment').select('id',{count:'exact',head:true}).eq('category_id',cat.id);
+      setCount('cat_'+cat.slug,count);
+    }
+  }
+
+  // Services count
+  setCount('svc_all',(await sb.from('services').select('id',{count:'exact',head:true})).count);
+
+  // People counts
+  const{data:cCats}=await sb.from('clinic_contact_categories').select('id,slug');
+  if(cCats){
+    for(const cat of cCats){
+      const{count}=await sb.from('clinic_contacts').select('id',{count:'exact',head:true}).eq('category_id',cat.id);
+      setCount(cat.slug,count);
+    }
   }
 }
+function setCount(id,n){const el=document.getElementById('count-'+id);if(el)el.textContent=n||'';}
 
 // NAVIGATE
 async function navigate(id){
@@ -340,12 +390,34 @@ async function loadList(){
   const s=currentSection;
   if(!s.table){document.getElementById('listBody').innerHTML='<div class="list-empty">no data</div>';return;}
   let q=sb.from(s.table).select('*').order('created_at',{ascending:false});
+
+  // Filter by equipment category (dental_units, premises, etc.)
   if(s.filter&&s.filter.category){
-    const{data:cat}=await sb.from(s.id==='premises'?'equipment_categories':'clinic_contact_categories').select('id').eq('slug',s.filter.category).single();
+    const catTable=s.table==='clinic_contacts'?'clinic_contact_categories':'equipment_categories';
+    const{data:cat}=await sb.from(catTable).select('id').eq('slug',s.filter.category).single();
     if(cat)q=q.eq('category_id',cat.id);
   }
+
+  // Filter by service category (electrical, plumbing, etc.)
+  if(s.filter&&s.filter.svc_category){
+    const{data:cat}=await sb.from('service_categories').select('id').eq('slug',s.filter.svc_category).single();
+    if(cat)q=q.eq('category_id',cat.id);
+  }
+
+  // Filter by status (project section — only shortlist/ordered/delivered)
+  if(s.filter&&s.filter.status_in){
+    q=q.in('status',s.filter.status_in);
+  }
+
   const{data}=await q;
   currentItems=data||[];
+
+  // Show add-to-project button in catalog sections
+  const isCatalog=s.id&&s.id.startsWith('cat_');
+  document.getElementById('listToolbar').innerHTML=isCatalog
+    ?'<span style="font-size:9px;color:var(--muted);letter-spacing:1px">CATALOG — click item to view & add to project</span>'
+    :'';
+
   renderList();
 }
 
@@ -420,8 +492,12 @@ async function renderEquipmentDetail(){
         </div>
       </div>
       <div class="detail-actions">
+        ${i.status==='candidate'?`<button class="btn btn-gold" onclick="setStatus('${i.id}','shortlist')">+ to project</button>`:''}
+        ${i.status==='shortlist'?`<button class="btn btn-gold" onclick="setStatus('${i.id}','ordered')">mark ordered</button><button class="btn" onclick="setStatus('${i.id}','candidate')">remove</button>`:''}
+        ${i.status==='ordered'?`<button class="btn btn-gold" onclick="setStatus('${i.id}','delivered')">mark delivered</button>`:''}
+        ${i.status==='delivered'?`<span class="list-item-badge bg-done">delivered</span>`:''}
         ${i.source_url?`<a class="btn" href="${i.source_url}" target="_blank">source</a>`:''}
-        <button class="btn btn-gold" onclick="mobileBack()">close</button>
+        <button class="btn" onclick="mobileBack()">close</button>
       </div>
     </div>
     <div class="detail-tabs">
@@ -697,6 +773,19 @@ async function renderLogList(){
 }
 
 // QUOTATION STATUS
+// SET EQUIPMENT STATUS (candidate → shortlist → ordered → delivered)
+async function setStatus(id,status){
+  await sb.from('equipment').update({status,updated_at:new Date().toISOString()}).eq('id',id);
+  await log('status_'+status,'equipment',id);
+  toast(status==='shortlist'?'added to project':status==='candidate'?'removed from project':'status: '+status);
+  // Refresh item in memory
+  const idx=currentItems.findIndex(i=>i.id===id);
+  if(idx>=0)currentItems[idx].status=status;
+  selectedItem.status=status;
+  selectItem(id);
+  loadCounts();
+}
+
 async function updateQuotStatus(qid,status){
   await sb.from('service_quotations').update({status}).eq('id',qid);
   await sb.from('quotation_history').insert({
