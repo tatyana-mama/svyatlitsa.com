@@ -1,0 +1,731 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>dashboard — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;--text:#2a2a28;--muted:#8a8a82;
+  --green:#4a9d5b;--red-err:#c0392b;--blue:#3b82f6;
+  --sidebar-w:240px;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{width:100%;max-width:360px;background:var(--white);border:1px solid var(--gray2);padding:48px 32px}
+.login-logo{font-family:var(--font-display);font-size:24px;letter-spacing:4px;color:var(--black);text-align:center;margin-bottom:8px;text-transform:lowercase}
+.login-sub{font-size:10px;letter-spacing:3px;color:var(--muted);text-align:center;text-transform:uppercase;margin-bottom:32px}
+.login-field{margin-bottom:16px}
+.login-label{display:block;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.login-input{width:100%;padding:10px 14px;border:1px solid var(--gray2);background:transparent;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s;font-weight:300}
+.login-input:focus{border-color:var(--gold)}
+.login-btn{width:100%;padding:12px;background:var(--gold);color:var(--white);border:none;font-family:var(--font-body);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.login-btn:hover{background:var(--gold-dark)}
+.login-error{font-size:11px;color:var(--red-err);text-align:center;margin-top:12px;min-height:18px}
+
+/* LAYOUT */
+.app{display:none;height:100vh;overflow:hidden}
+.sidebar{width:var(--sidebar-w);height:100vh;background:var(--white);border-right:1px solid var(--gray2);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:50;overflow-y:auto}
+.sidebar-header{padding:16px 20px;border-bottom:1px solid var(--gray2)}
+.sidebar-logo{font-family:var(--font-display);font-size:16px;letter-spacing:3px;color:var(--black);text-transform:lowercase}
+.sidebar-role{font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.sidebar-nav{flex:1;padding:12px 0}
+.sidebar-section{font-size:8px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:16px 20px 6px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;font-size:12px;color:var(--text);transition:all 0.15s;font-weight:300;border-left:3px solid transparent}
+.sidebar-item:hover{background:var(--gray);color:var(--gold)}
+.sidebar-item.active{background:var(--gold-glow);color:var(--gold);border-left-color:var(--gold);font-weight:400}
+.sidebar-item .icon{font-size:15px;width:20px;text-align:center}
+.sidebar-item .count{margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--muted);background:var(--gray);padding:2px 6px}
+.sidebar-footer{padding:12px 20px;border-top:1px solid var(--gray2);display:flex;align-items:center;justify-content:space-between}
+.sidebar-user{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+.sidebar-logout{font-size:9px;color:var(--muted);background:none;border:1px solid var(--gray2);padding:4px 10px;cursor:pointer;font-family:var(--font-body);letter-spacing:1px;text-transform:uppercase}
+.sidebar-logout:hover{border-color:var(--gold);color:var(--gold)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);height:100vh;display:flex;overflow:hidden}
+.list-panel{width:380px;min-width:320px;height:100vh;border-right:1px solid var(--gray2);display:flex;flex-direction:column;background:var(--cream)}
+.list-header{padding:16px 20px;border-bottom:1px solid var(--gray2);background:var(--white)}
+.list-title{font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--black);margin-bottom:8px}
+.list-search{width:100%;padding:8px 12px;border:1px solid var(--gray2);font-family:var(--font-body);font-size:12px;font-weight:300;color:var(--text);outline:none;background:transparent}
+.list-search:focus{border-color:var(--gold)}
+.list-toolbar{display:flex;gap:8px;margin-top:8px}
+.list-toolbar-btn{font-size:9px;letter-spacing:1px;padding:4px 10px;border:1px solid var(--gray2);background:transparent;cursor:pointer;font-family:var(--font-body);color:var(--muted);text-transform:uppercase}
+.list-toolbar-btn:hover,.list-toolbar-btn.active{border-color:var(--gold);color:var(--gold)}
+.list-body{flex:1;overflow-y:auto}
+.list-item{padding:14px 20px;border-bottom:1px solid var(--gray);cursor:pointer;transition:background 0.15s}
+.list-item:hover{background:var(--white)}
+.list-item.active{background:var(--gold-glow);border-left:3px solid var(--gold)}
+.list-item-title{font-size:13px;font-weight:400;color:var(--black);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-item-sub{font-size:10px;color:var(--muted);display:flex;gap:12px;align-items:center}
+.list-item-badge{font-size:8px;letter-spacing:1px;padding:2px 6px;text-transform:uppercase}
+.list-item-price{font-family:var(--font-mono);font-size:10px}
+.list-empty{padding:40px;text-align:center;font-size:12px;color:var(--muted)}
+
+/* DETAIL PANEL */
+.detail-panel{flex:1;height:100vh;display:flex;flex-direction:column;background:var(--white);overflow:hidden}
+.detail-empty{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);letter-spacing:2px}
+.detail-header{padding:20px 24px;border-bottom:1px solid var(--gray2);display:flex;align-items:start;justify-content:space-between;gap:16px}
+.detail-header-left{flex:1;min-width:0}
+.detail-brand{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:2px}
+.detail-title{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--black);margin-bottom:4px}
+.detail-meta{font-size:11px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+.detail-actions{display:flex;gap:8px;flex-shrink:0}
+.btn{padding:8px 16px;font-family:var(--font-body);font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:1px solid var(--gray2);background:transparent;color:var(--text)}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn-gold{background:var(--gold);color:var(--white);border-color:var(--gold)}
+.btn-gold:hover{background:var(--gold-dark)}
+
+/* DETAIL TABS */
+.detail-tabs{display:flex;border-bottom:1px solid var(--gray2);background:var(--cream)}
+.detail-tab{padding:10px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-body)}
+.detail-tab:hover,.detail-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.detail-content{flex:1;overflow-y:auto;padding:24px}
+
+/* DETAIL SECTIONS */
+.detail-section{margin-bottom:24px}
+.detail-section-title{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.detail-field{padding:12px;background:var(--gray);display:flex;flex-direction:column;gap:4px}
+.detail-field-label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.detail-field-value{font-size:13px;color:var(--text);font-weight:400}
+.detail-gallery{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}
+.detail-gallery img{height:200px;object-fit:contain;background:var(--gray);flex-shrink:0;cursor:pointer}
+.detail-notes{font-size:13px;line-height:1.7;color:var(--text);font-weight:300;background:var(--cream);padding:16px;border-left:3px solid var(--gold-light)}
+
+/* MESSAGES */
+.messages-list{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;max-height:400px;overflow-y:auto}
+.msg{padding:12px 16px;background:var(--cream);border-left:3px solid var(--gray2)}
+.msg.msg-owner{border-left-color:var(--gold)}
+.msg.msg-contractor{border-left-color:var(--blue)}
+.msg-header{display:flex;justify-content:space-between;margin-bottom:4px}
+.msg-author{font-size:10px;font-weight:500;color:var(--text)}
+.msg-time{font-family:var(--font-mono);font-size:9px;color:var(--muted)}
+.msg-text{font-size:12px;line-height:1.6;color:var(--text);font-weight:300}
+.msg-input-wrap{display:flex;gap:8px}
+.msg-input{flex:1;padding:10px 14px;border:1px solid var(--gray2);font-family:var(--font-body);font-size:12px;font-weight:300;outline:none;resize:none;min-height:40px;background:transparent}
+.msg-input:focus{border-color:var(--gold)}
+.msg-send{padding:10px 20px;background:var(--gold);color:var(--white);border:none;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:var(--font-body)}
+
+/* QUOTATION */
+.quot-card{border:1px solid var(--gray2);padding:16px;margin-bottom:12px;background:var(--cream)}
+.quot-card.accepted{border-color:var(--green);background:#f0faf3}
+.quot-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.quot-contractor{font-size:13px;font-weight:400;color:var(--text)}
+.quot-badge{font-size:8px;letter-spacing:1px;padding:3px 8px;text-transform:uppercase}
+.quot-prices{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.quot-price-item{text-align:center}
+.quot-price-label{font-size:8px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.quot-price-val{font-family:var(--font-mono);font-size:14px;color:var(--text)}
+.quot-price-val.final{color:var(--gold);font-weight:500;font-size:16px}
+.quot-justify{font-size:11px;line-height:1.6;color:var(--muted);padding:8px 12px;background:var(--white);margin-top:8px;font-weight:300}
+
+/* BUDGET */
+.budget-total{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.budget-card{background:var(--cream);border:1px solid var(--gray2);padding:20px;text-align:center}
+.budget-card-val{font-family:var(--font-display);font-size:28px;color:var(--black)}
+.budget-card-label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:4px}
+.budget-card-val.over{color:var(--red-err)}
+.budget-bar{height:6px;background:var(--gray2);margin-top:8px;overflow:hidden}
+.budget-bar-fill{height:100%;background:var(--gold);transition:width 0.3s}
+
+/* TASKS */
+.task-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray)}
+.task-check{width:18px;height:18px;border:1px solid var(--gray2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.2s;flex-shrink:0}
+.task-check:hover{border-color:var(--gold)}
+.task-check.done{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.task-info{flex:1}
+.task-title{font-size:12px;color:var(--text)}
+.task-title.done{text-decoration:line-through;color:var(--muted)}
+.task-meta{font-size:10px;color:var(--muted);display:flex;gap:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--black);color:var(--white);padding:12px 24px;font-size:11px;letter-spacing:1px;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:300}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* BADGE COLORS */
+.bg-candidate{background:#FFF3CD;color:#856404}
+.bg-shortlist{background:#D4EDDA;color:#155724}
+.bg-ordered{background:#D6EAF8;color:#1B4F72}
+.bg-todo{background:#FFF3CD;color:#856404}
+.bg-in_progress{background:#D6EAF8;color:#1B4F72}
+.bg-done{background:#D4EDDA;color:#155724}
+.bg-draft{background:var(--gray);color:var(--muted)}
+.bg-published{background:#D6EAF8;color:#1B4F72}
+.bg-quoted{background:#E8D5F5;color:#6C3483}
+.bg-accepted{background:#D4EDDA;color:#155724}
+.bg-pending{background:#FFF3CD;color:#856404}
+.bg-estimate{background:var(--gray);color:var(--muted)}
+.bg-active{background:#D5F5E3;color:#1E8449}
+
+@media(max-width:1024px){
+  .sidebar{width:56px}
+  .sidebar-header,.sidebar-section,.sidebar-item span:not(.icon),.sidebar-item .count,.sidebar-footer .sidebar-user{display:none}
+  .sidebar-item{justify-content:center;padding:12px}
+  .sidebar-item .icon{width:auto}
+  .main{margin-left:56px}
+  .list-panel{width:280px;min-width:240px}
+}
+@media(max-width:768px){
+  .list-panel{width:100%}
+  .detail-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:60}
+  .detail-panel.open{display:flex}
+}
+</style></head><body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">svyatlitsa</div>
+    <div class="login-sub">project dashboard</div>
+    <div class="login-field">
+      <label class="login-label">email</label>
+      <input class="login-input" type="email" id="loginEmail" autofocus>
+    </div>
+    <div class="login-field">
+      <label class="login-label">password</label>
+      <input class="login-input" type="password" id="loginPassword">
+    </div>
+    <button class="login-btn" onclick="handleLogin()">sign in</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">svyatlitsa</div>
+      <div class="sidebar-role" id="sideRole"></div>
+    </div>
+    <div class="sidebar-nav" id="sideNav"></div>
+    <div class="sidebar-footer">
+      <span class="sidebar-user" id="sideUser"></span>
+      <button class="sidebar-logout" onclick="handleLogout()">exit</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="list-panel" id="listPanel">
+      <div class="list-header">
+        <div class="list-title" id="listTitle">Dashboard</div>
+        <input type="text" class="list-search" id="listSearch" placeholder="search..." oninput="filterList()">
+        <div class="list-toolbar" id="listToolbar"></div>
+      </div>
+      <div class="list-body" id="listBody">
+        <div class="list-empty">select a section</div>
+      </div>
+    </div>
+
+    <div class="detail-panel" id="detailPanel">
+      <div class="detail-empty" id="detailEmpty">select an item to view details</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let user=null,profile=null,currentSection=null,currentItems=[],selectedItem=null;
+
+// NAV CONFIG
+const sections=[
+  {type:'divider',label:'Project'},
+  {id:'overview',icon:'&#x25A3;',label:'Overview',table:null},
+  {id:'tasks',icon:'&#x2611;',label:'Tasks',table:'project_tasks'},
+  {id:'budget',icon:'&#x24;',label:'Budget',table:'project_budget'},
+  {type:'divider',label:'Equipment'},
+  {id:'equipment',icon:'&#x1FAB7;',label:'All Equipment',table:'equipment'},
+  {id:'premises',icon:'&#x1F3E0;',label:'Premises',table:'equipment',filter:{category:'premises'}},
+  {type:'divider',label:'Services'},
+  {id:'services',icon:'&#x26A1;',label:'Works & Services',table:'services'},
+  {id:'requests',icon:'&#x1F4CB;',label:'Requests (TZ)',table:'service_requests'},
+  {id:'quotations',icon:'&#x1F4B0;',label:'Quotations',table:'service_quotations'},
+  {type:'divider',label:'People'},
+  {id:'contractors',icon:'&#x1F528;',label:'Contractors',table:'clinic_contacts',filter:{category:'contractors'}},
+  {id:'suppliers',icon:'&#x1F69A;',label:'Suppliers',table:'clinic_contacts',filter:{category:'suppliers'}},
+  {id:'team',icon:'&#x1F464;',label:'Team',table:'clinic_contacts',filter:{category:'admin'}},
+  {type:'divider',label:'System'},
+  {id:'admins',icon:'&#x1F451;',label:'Admins',table:'admin_users',superadmin:true},
+  {id:'log',icon:'&#x1F4DC;',label:'Activity Log',table:'admin_log'},
+];
+
+// AUTH
+async function checkSession(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(session){user=session.user;await loadProfile();if(profile)return showApp();}
+  const c=localStorage.getItem('svita_dash_cache');
+  if(c)try{document.getElementById('loginEmail').value=JSON.parse(c).email||'';}catch(e){}
+  document.getElementById('loginScreen').style.display='flex';
+}
+async function handleLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pw=document.getElementById('loginPassword').value;
+  const err=document.getElementById('loginError');
+  if(!email||!pw){err.textContent='fill all fields';return;}
+  err.textContent='';
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  if(error){err.textContent=error.message;return;}
+  user=data.user;await loadProfile();
+  if(!profile){err.textContent='no admin access';await sb.auth.signOut();return;}
+  localStorage.setItem('svita_dash_cache',JSON.stringify({email:user.email,role:profile.role}));
+  await log('login');showApp();
+}
+async function handleLogout(){await log('logout');localStorage.removeItem('svita_dash_cache');await sb.auth.signOut();location.reload();}
+async function loadProfile(){
+  const{data}=await sb.from('admin_users').select('*').eq('email',user.email).eq('is_active',true).single();
+  profile=data;
+  if(profile)await sb.from('admin_users').update({last_login:new Date().toISOString()}).eq('id',profile.id);
+}
+
+function showApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('sideRole').textContent=profile.role;
+  document.getElementById('sideUser').textContent=user.email;
+  renderNav();
+  navigate('overview');
+}
+
+// NAV
+function renderNav(){
+  const nav=document.getElementById('sideNav');
+  nav.innerHTML=sections.map(s=>{
+    if(s.type==='divider')return`<div class="sidebar-section">${s.label}</div>`;
+    if(s.superadmin&&profile.role!=='superadmin')return'';
+    return`<div class="sidebar-item" data-id="${s.id}" onclick="navigate('${s.id}')">
+      <span class="icon">${s.icon}</span><span>${s.label}</span><span class="count" id="count-${s.id}"></span>
+    </div>`;
+  }).join('');
+  loadCounts();
+}
+
+async function loadCounts(){
+  const tables={equipment:'equipment',services:'services',tasks:'project_tasks',requests:'service_requests',quotations:'service_quotations'};
+  for(const[id,t]of Object.entries(tables)){
+    const{count}=await sb.from(t).select('id',{count:'exact',head:true});
+    const el=document.getElementById('count-'+id);
+    if(el)el.textContent=count||'';
+  }
+}
+
+// NAVIGATE
+async function navigate(id){
+  currentSection=sections.find(s=>s.id===id)||{id,label:id};
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.toggle('active',el.dataset.id===id));
+  document.getElementById('listTitle').textContent=currentSection.label||id;
+  document.getElementById('listSearch').value='';
+  document.getElementById('listToolbar').innerHTML='';
+  selectedItem=null;
+  document.getElementById('detailPanel').innerHTML='<div class="detail-empty">select an item</div>';
+
+  if(id==='overview')return renderOverview();
+  if(id==='budget')return renderBudget();
+  if(id==='log')return renderLogList();
+  await loadList();
+}
+
+// LOAD LIST
+async function loadList(){
+  const s=currentSection;
+  if(!s.table){document.getElementById('listBody').innerHTML='<div class="list-empty">no data</div>';return;}
+  let q=sb.from(s.table).select('*').order('created_at',{ascending:false});
+  if(s.filter&&s.filter.category){
+    const{data:cat}=await sb.from(s.id==='premises'?'equipment_categories':'clinic_contact_categories').select('id').eq('slug',s.filter.category).single();
+    if(cat)q=q.eq('category_id',cat.id);
+  }
+  const{data}=await q;
+  currentItems=data||[];
+  renderList();
+}
+
+function renderList(){
+  const body=document.getElementById('listBody');
+  if(!currentItems.length){body.innerHTML='<div class="list-empty">no items yet</div>';return;}
+  body.innerHTML=currentItems.map(i=>{
+    const title=i.name||i.title||i.email||'untitled';
+    const sub=i.brand||i.company||i.action||i.status||'';
+    const price=i.price_pln||i.price||i.price_final||null;
+    const status=i.status||'';
+    return`<div class="list-item" data-id="${i.id}" onclick="selectItem('${i.id}')">
+      <div class="list-item-title">${title}</div>
+      <div class="list-item-sub">
+        <span>${sub}</span>
+        ${price?`<span class="list-item-price">${Number(price).toLocaleString('pl')} PLN</span>`:''}
+        ${status?`<span class="list-item-badge bg-${status}">${status}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterList(){
+  const q=document.getElementById('listSearch').value.toLowerCase();
+  if(!q){renderList();return;}
+  const filtered=currentItems.filter(i=>JSON.stringify(i).toLowerCase().includes(q));
+  const body=document.getElementById('listBody');
+  body.innerHTML=filtered.map(i=>{
+    const title=i.name||i.title||i.email||'untitled';
+    return`<div class="list-item" data-id="${i.id}" onclick="selectItem('${i.id}')">
+      <div class="list-item-title">${title}</div>
+    </div>`;
+  }).join('')||'<div class="list-empty">no matches</div>';
+}
+
+// SELECT ITEM
+async function selectItem(id){
+  selectedItem=currentItems.find(i=>i.id===id);
+  if(!selectedItem)return;
+  document.querySelectorAll('.list-item').forEach(el=>el.classList.toggle('active',el.dataset.id===id));
+  const dp=document.getElementById('detailPanel');
+  dp.classList.add('open');
+
+  const s=currentSection;
+  if(s.table==='equipment')renderEquipmentDetail();
+  else if(s.table==='services')renderServiceDetail();
+  else if(s.table==='service_requests')renderRequestDetail();
+  else if(s.table==='service_quotations')renderQuotationDetail();
+  else if(s.table==='clinic_contacts')renderContactDetail();
+  else if(s.table==='admin_users')renderAdminDetail();
+  else if(s.table==='project_tasks')renderTaskDetail();
+  else renderGenericDetail();
+}
+
+// EQUIPMENT DETAIL
+async function renderEquipmentDetail(){
+  const i=selectedItem;
+  const[msgs,files]=await Promise.all([
+    sb.from('project_messages').select('*').eq('linked_type','equipment').eq('linked_id',i.id).order('created_at'),
+    sb.from('project_files').select('*').eq('linked_type','equipment').eq('linked_id',i.id).order('created_at')
+  ]);
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-brand">${i.brand||''}</div>
+        <div class="detail-title">${i.name}</div>
+        <div class="detail-meta">
+          <span>${i.supplier_name||'unknown'}</span>
+          <span>${i.model||''}</span>
+          <span class="list-item-badge bg-${i.status}">${i.status}</span>
+        </div>
+      </div>
+      <div class="detail-actions">
+        ${i.source_url?`<a class="btn" href="${i.source_url}" target="_blank">source</a>`:''}
+        <button class="btn btn-gold" onclick="mobileBack()">close</button>
+      </div>
+    </div>
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="dtab(this,'dt-info')">Info</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-photos')">Photos (${(i.images||[]).length})</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-msgs')">Messages (${(msgs.data||[]).length})</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-files')">Files (${(files.data||[]).length})</button>
+    </div>
+    <div class="detail-content">
+      <div id="dt-info">
+        <div class="detail-section">
+          <div class="detail-grid">
+            <div class="detail-field"><div class="detail-field-label">Price</div><div class="detail-field-value">${i.price_pln?Number(i.price_pln).toLocaleString('pl')+' PLN':'on request'}</div></div>
+            ${i.price_old_pln?`<div class="detail-field"><div class="detail-field-label">Old price</div><div class="detail-field-value" style="text-decoration:line-through;color:var(--muted)">${Number(i.price_old_pln).toLocaleString('pl')} PLN</div></div>`:''}
+            <div class="detail-field"><div class="detail-field-label">Brand</div><div class="detail-field-value">${i.brand||'-'}</div></div>
+            <div class="detail-field"><div class="detail-field-label">Model</div><div class="detail-field-value">${i.model||'-'}</div></div>
+            <div class="detail-field"><div class="detail-field-label">Supplier</div><div class="detail-field-value">${i.supplier_name||'unknown'}</div></div>
+            <div class="detail-field"><div class="detail-field-label">Status</div><div class="detail-field-value">${i.status}</div></div>
+          </div>
+        </div>
+        ${i.notes?`<div class="detail-section"><div class="detail-section-title">Notes</div><div class="detail-notes">${i.notes}</div></div>`:''}
+      </div>
+      <div id="dt-photos" style="display:none">
+        <div class="detail-gallery">${(i.images||[]).map(src=>`<img src="${src}" loading="lazy" onclick="window.open('${src}','_blank')">`).join('')||'<div class="list-empty">no photos</div>'}</div>
+      </div>
+      <div id="dt-msgs" style="display:none">${renderMessages(msgs.data||[],'equipment',i.id)}</div>
+      <div id="dt-files" style="display:none">${renderFiles(files.data||[])}</div>
+    </div>`;
+}
+
+// SERVICE DETAIL
+async function renderServiceDetail(){
+  const i=selectedItem;
+  const[msgs,quots]=await Promise.all([
+    sb.from('project_messages').select('*').eq('linked_type','service').eq('linked_id',i.id).order('created_at'),
+    sb.from('service_quotations').select('*').eq('request_id',i.id).order('created_at')
+  ]);
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-title">${i.name}</div>
+        <div class="detail-meta">
+          <span>${i.price?Number(i.price).toLocaleString('pl')+' PLN/'+i.price_unit:'no price'}</span>
+          <span class="list-item-badge bg-${i.status}">${i.status}</span>
+        </div>
+      </div>
+      <div class="detail-actions"><button class="btn btn-gold" onclick="mobileBack()">close</button></div>
+    </div>
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="dtab(this,'dt-info')">Info</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-msgs')">Messages</button>
+    </div>
+    <div class="detail-content">
+      <div id="dt-info">
+        ${i.description?`<div class="detail-notes">${i.description}</div>`:''}
+        ${i.notes?`<div class="detail-section" style="margin-top:16px"><div class="detail-section-title">Notes</div><div class="detail-notes">${i.notes}</div></div>`:''}
+      </div>
+      <div id="dt-msgs" style="display:none">${renderMessages(msgs.data||[],'service',i.id)}</div>
+    </div>`;
+}
+
+// REQUEST (TZ) DETAIL
+async function renderRequestDetail(){
+  const i=selectedItem;
+  const[msgs,quots]=await Promise.all([
+    sb.from('project_messages').select('*').eq('linked_type','request').eq('linked_id',i.id).order('created_at'),
+    sb.from('service_quotations').select('*').eq('request_id',i.id).order('created_at')
+  ]);
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-title">${i.title}</div>
+        <div class="detail-meta">
+          <span>${i.volume?i.volume+' '+i.volume_unit:''}</span>
+          <span class="list-item-badge bg-${i.status}">${i.status}</span>
+          <span class="list-item-badge bg-${i.priority}">${i.priority}</span>
+        </div>
+      </div>
+      <div class="detail-actions"><button class="btn btn-gold" onclick="mobileBack()">close</button></div>
+    </div>
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="dtab(this,'dt-tz')">TZ</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-quots')">Quotations (${(quots.data||[]).length})</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-msgs')">Messages (${(msgs.data||[]).length})</button>
+    </div>
+    <div class="detail-content">
+      <div id="dt-tz">
+        <div class="detail-notes">${i.description||'no description'}</div>
+        ${i.deadline?`<div class="detail-field" style="margin-top:16px"><div class="detail-field-label">Deadline</div><div class="detail-field-value">${i.deadline}</div></div>`:''}
+      </div>
+      <div id="dt-quots" style="display:none">
+        ${(quots.data||[]).map(q=>`
+          <div class="quot-card ${q.status==='accepted'?'accepted':''}">
+            <div class="quot-header">
+              <span class="quot-contractor">${q.contractor_name||'unknown'}</span>
+              <span class="quot-badge bg-${q.status}">${q.status}</span>
+            </div>
+            <div class="quot-prices">
+              <div class="quot-price-item"><div class="quot-price-label">per unit</div><div class="quot-price-val">${q.price_per_unit||'-'}</div></div>
+              <div class="quot-price-item"><div class="quot-price-label">qty</div><div class="quot-price-val">${q.quantity||'-'}</div></div>
+              <div class="quot-price-item"><div class="quot-price-label">discount</div><div class="quot-price-val">${q.discount_percent||0}%</div></div>
+              <div class="quot-price-item"><div class="quot-price-label">final</div><div class="quot-price-val final">${q.price_final?Number(q.price_final).toLocaleString('pl')+' PLN':'-'}</div></div>
+            </div>
+            ${q.justification?`<div class="quot-justify">${q.justification}</div>`:''}
+            ${q.status==='pending'?`<div style="margin-top:8px;display:flex;gap:8px">
+              <button class="btn btn-gold" onclick="updateQuotStatus('${q.id}','accepted')">accept</button>
+              <button class="btn" onclick="updateQuotStatus('${q.id}','rejected')">reject</button>
+            </div>`:''}
+          </div>
+        `).join('')||'<div class="list-empty">no quotations yet</div>'}
+      </div>
+      <div id="dt-msgs" style="display:none">${renderMessages(msgs.data||[],'request',i.id)}</div>
+    </div>`;
+}
+
+// CONTACT DETAIL
+async function renderContactDetail(){
+  const i=selectedItem;
+  const msgs=await sb.from('project_messages').select('*').eq('linked_type','contact').eq('linked_id',i.id).order('created_at');
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-title">${i.name}</div>
+        <div class="detail-meta">
+          <span>${i.company||''}</span>
+          <span class="list-item-badge bg-${i.status}">${i.status}</span>
+        </div>
+      </div>
+      <div class="detail-actions"><button class="btn btn-gold" onclick="mobileBack()">close</button></div>
+    </div>
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="dtab(this,'dt-info')">Info</button>
+      <button class="detail-tab" onclick="dtab(this,'dt-msgs')">Messages</button>
+    </div>
+    <div class="detail-content">
+      <div id="dt-info">
+        <div class="detail-grid">
+          <div class="detail-field"><div class="detail-field-label">Phone</div><div class="detail-field-value">${i.phone||'-'}</div></div>
+          <div class="detail-field"><div class="detail-field-label">Email</div><div class="detail-field-value">${i.email||'-'}</div></div>
+          <div class="detail-field"><div class="detail-field-label">Website</div><div class="detail-field-value">${i.website?`<a href="${i.website}" target="_blank" style="color:var(--gold)">${i.website}</a>`:'-'}</div></div>
+          <div class="detail-field"><div class="detail-field-label">Address</div><div class="detail-field-value">${i.address||'-'}</div></div>
+        </div>
+        ${i.notes?`<div class="detail-section" style="margin-top:16px"><div class="detail-section-title">Notes</div><div class="detail-notes">${i.notes}</div></div>`:''}
+      </div>
+      <div id="dt-msgs" style="display:none">${renderMessages(msgs.data||[],'contact',i.id)}</div>
+    </div>`;
+}
+
+// GENERIC DETAIL
+function renderGenericDetail(){
+  const i=selectedItem;
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left"><div class="detail-title">${i.name||i.title||i.email||'Item'}</div></div>
+      <div class="detail-actions"><button class="btn btn-gold" onclick="mobileBack()">close</button></div>
+    </div>
+    <div class="detail-content"><pre style="font-size:11px;font-family:var(--font-mono);white-space:pre-wrap;color:var(--muted)">${JSON.stringify(i,null,2)}</pre></div>`;
+}
+function renderTaskDetail(){renderGenericDetail();}
+function renderAdminDetail(){renderGenericDetail();}
+function renderQuotationDetail(){renderGenericDetail();}
+
+// MESSAGES
+function renderMessages(msgs,type,id){
+  return`<div class="messages-list">${msgs.map(m=>`
+    <div class="msg ${m.author_role==='owner'?'msg-owner':'msg-contractor'}">
+      <div class="msg-header">
+        <span class="msg-author">${m.author_name||m.author_email||'?'} <span style="font-weight:300;color:var(--muted)">(${m.author_role||''})</span></span>
+        <span class="msg-time">${new Date(m.created_at).toLocaleString()}</span>
+      </div>
+      <div class="msg-text">${m.message}</div>
+    </div>`).join('')||'<div style="padding:20px;color:var(--muted);font-size:12px">no messages yet</div>'}
+  </div>
+  <div class="msg-input-wrap">
+    <textarea class="msg-input" id="msgInput" placeholder="write a message..."></textarea>
+    <button class="msg-send" onclick="sendMessage('${type}','${id}')">send</button>
+  </div>`;
+}
+
+async function sendMessage(type,id){
+  const input=document.getElementById('msgInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  await sb.from('project_messages').insert({
+    linked_type:type,linked_id:id,
+    author_email:user.email,author_name:profile.name||user.email,author_role:'owner',
+    message:msg
+  });
+  await log('message',type,id,{preview:msg.substring(0,50)});
+  input.value='';
+  toast('message sent');
+  selectItem(selectedItem.id);
+}
+
+function renderFiles(files){
+  return files.map(f=>`
+    <div style="padding:8px 0;border-bottom:1px solid var(--gray);display:flex;align-items:center;gap:12px">
+      <span style="font-size:12px">${f.filename}</span>
+      <a href="${f.url}" target="_blank" class="btn" style="padding:4px 10px;font-size:8px">download</a>
+    </div>`).join('')||'<div class="list-empty">no files</div>';
+}
+
+// OVERVIEW
+async function renderOverview(){
+  const[eq,svc,tasks,reqs,budget]=await Promise.all([
+    sb.from('equipment').select('id,price_pln,status',{count:'exact'}),
+    sb.from('services').select('id',{count:'exact',head:true}),
+    sb.from('project_tasks').select('id,status'),
+    sb.from('service_requests').select('id,status'),
+    sb.from('project_budget').select('planned,actual,paid')
+  ]);
+  const eqCount=eq.data?.length||0;
+  const eqTotal=(eq.data||[]).reduce((s,i)=>s+(Number(i.price_pln)||0),0);
+  const tasksDone=(tasks.data||[]).filter(t=>t.status==='done').length;
+  const tasksTotal=tasks.data?.length||0;
+  const bPlanned=(budget.data||[]).reduce((s,b)=>s+(Number(b.planned)||0),0);
+  const bActual=(budget.data||[]).reduce((s,b)=>s+(Number(b.actual)||0),0);
+
+  document.getElementById('listBody').innerHTML=`
+    <div style="padding:20px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+        <div class="detail-field"><div class="detail-field-label">Equipment</div><div class="detail-field-value">${eqCount} items</div></div>
+        <div class="detail-field"><div class="detail-field-label">Total value</div><div class="detail-field-value">${eqTotal.toLocaleString('pl')} PLN</div></div>
+        <div class="detail-field"><div class="detail-field-label">Tasks</div><div class="detail-field-value">${tasksDone}/${tasksTotal} done</div></div>
+        <div class="detail-field"><div class="detail-field-label">Requests</div><div class="detail-field-value">${reqs.data?.length||0}</div></div>
+        <div class="detail-field"><div class="detail-field-label">Budget planned</div><div class="detail-field-value">${bPlanned.toLocaleString('pl')} PLN</div></div>
+        <div class="detail-field"><div class="detail-field-label">Budget actual</div><div class="detail-field-value">${bActual.toLocaleString('pl')} PLN</div></div>
+      </div>
+    </div>`;
+  document.getElementById('detailPanel').innerHTML='<div class="detail-empty">project overview</div>';
+}
+
+// BUDGET
+async function renderBudget(){
+  const{data}=await sb.from('project_budget').select('*').order('created_at');
+  const planned=(data||[]).reduce((s,b)=>s+(Number(b.planned)||0),0);
+  const actual=(data||[]).reduce((s,b)=>s+(Number(b.actual)||0),0);
+  const paid=(data||[]).reduce((s,b)=>s+(Number(b.paid)||0),0);
+  document.getElementById('listBody').innerHTML=`
+    <div style="padding:20px">
+      <div class="budget-total">
+        <div class="budget-card"><div class="budget-card-val">${planned.toLocaleString('pl')}</div><div class="budget-card-label">Planned PLN</div></div>
+        <div class="budget-card"><div class="budget-card-val ${actual>planned?'over':''}">${actual.toLocaleString('pl')}</div><div class="budget-card-label">Actual PLN</div><div class="budget-bar"><div class="budget-bar-fill" style="width:${planned?Math.min(actual/planned*100,100):0}%"></div></div></div>
+        <div class="budget-card"><div class="budget-card-val">${paid.toLocaleString('pl')}</div><div class="budget-card-label">Paid PLN</div></div>
+      </div>
+      ${(data||[]).map(b=>`<div style="padding:10px 0;border-bottom:1px solid var(--gray);display:flex;justify-content:space-between">
+        <div><div style="font-size:12px;font-weight:400">${b.item}</div><div style="font-size:10px;color:var(--muted)">${b.category}</div></div>
+        <div style="text-align:right;font-family:var(--font-mono);font-size:11px">
+          <div>${Number(b.planned||0).toLocaleString('pl')} PLN</div>
+          <div style="color:${Number(b.actual)>Number(b.planned)?'var(--red-err)':'var(--green)'}">${Number(b.actual||0).toLocaleString('pl')} PLN</div>
+        </div>
+      </div>`).join('')||'<div class="list-empty">no budget items — add via admin</div>'}
+    </div>`;
+}
+
+// LOG
+async function renderLogList(){
+  const{data}=await sb.from('admin_log').select('*').order('created_at',{ascending:false}).limit(200);
+  currentItems=data||[];
+  const body=document.getElementById('listBody');
+  body.innerHTML=currentItems.map(l=>`
+    <div class="list-item" style="cursor:default">
+      <div class="list-item-title" style="font-family:var(--font-mono);font-size:10px">${l.action}${l.target_type?' → '+l.target_type:''}</div>
+      <div class="list-item-sub">
+        <span style="color:var(--gold)">${l.email||''}</span>
+        <span>${new Date(l.created_at).toLocaleString()}</span>
+      </div>
+    </div>`).join('')||'<div class="list-empty">no activity</div>';
+}
+
+// QUOTATION STATUS
+async function updateQuotStatus(qid,status){
+  await sb.from('service_quotations').update({status}).eq('id',qid);
+  await sb.from('quotation_history').insert({
+    quotation_id:qid,action:status==='accepted'?'accepted':'rejected',
+    actor:user.email,comment:status+' by '+user.email
+  });
+  await log('quotation_'+status,'service_quotations',qid);
+  toast('quotation '+status);
+  selectItem(selectedItem.id);
+}
+
+// HELPERS
+function dtab(btn,id){
+  btn.closest('.detail-panel,.detail-tabs').parentElement.querySelectorAll('.detail-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const content=btn.closest('.detail-panel,.detail-tabs').parentElement.querySelector('.detail-content');
+  content.querySelectorAll(':scope > div').forEach(d=>d.style.display='none');
+  document.getElementById(id).style.display='';
+}
+function mobileBack(){document.getElementById('detailPanel').classList.remove('open');}
+async function log(action,type,id,details){
+  await sb.from('admin_log').insert({user_id:profile?.id,email:user?.email,action,target_type:type||null,target_id:id||null,details:details||{}});
+}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+
+document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')handleLogin();});
+sb.auth.onAuthStateChange(async(ev,session)=>{
+  if(ev==='SIGNED_IN'&&session){user=session.user;await loadProfile();if(profile)showApp();}
+});
+checkSession();
+</script>
+</body></html>
