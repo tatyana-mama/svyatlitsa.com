@@ -240,51 +240,61 @@ let user=null,profile=null,currentSection=null,currentItems=[],selectedItem=null
 
 // NAV CONFIG
 const sections=[
-  // === PROJECT (what you chose) ===
-  {type:'divider',label:'Project'},
-  {id:'overview',icon:'&#x25A3;',label:'Overview',table:null},
-  {id:'project_equipment',icon:'&#x2705;',label:'Selected Equipment',table:'equipment',filter:{status_in:['shortlist','ordered','delivered']}},
-  {id:'project_premises',icon:'&#x1F3E0;',label:'Selected Premises',table:'equipment',filter:{category:'premises',status_in:['shortlist','ordered']}},
-  {id:'tasks',icon:'&#x2611;',label:'Tasks',table:'project_tasks'},
-  {id:'requests',icon:'&#x1F4CB;',label:'Requests (TZ)',table:'service_requests'},
-  {id:'quotations',icon:'&#x1F4B0;',label:'Quotations',table:'service_quotations'},
-  {id:'budget',icon:'&#x24;',label:'Budget',table:'project_budget'},
-  {id:'team',icon:'&#x1F464;',label:'Team',table:'clinic_contacts',filter:{category:'admin'}},
+  // ═══════════════════════════════
+  // КОНЦЕПЦИЯ — твой проект клиники
+  // ═══════════════════════════════
+  {type:'divider',label:'Концепция'},
+  {id:'overview',icon:'&#x25A3;',label:'Обзор проекта',table:null},
+  {id:'concept_premises',icon:'&#x1F3E0;',label:'Помещение',table:'equipment',filter:{category:'premises',status_in:['shortlist','ordered']}},
+  {id:'concept_rooms',icon:'&#x1F6AA;',label:'Планировка комнат',table:'premise_rooms'},
+  {id:'concept_equipment',icon:'&#x2705;',label:'Оборудование',table:'equipment',filter:{status_in:['shortlist','ordered','delivered']},exclude_category:'premises'},
+  {id:'concept_works',icon:'&#x1F527;',label:'Работы и услуги',table:'concept_items'},
+  {id:'concept_team',icon:'&#x1F464;',label:'Команда',table:'clinic_contacts',filter:{category:'admin'}},
+  {id:'concept_contractors',icon:'&#x1F528;',label:'Мои подрядчики',table:'clinic_contacts',filter:{status:'active',categories:['contractors','landlord']}},
+  {id:'tasks',icon:'&#x2611;',label:'Задачи',table:'project_tasks'},
+  {id:'budget',icon:'&#x1F4B0;',label:'Бюджет',table:'project_budget'},
+  {id:'contracts',icon:'&#x1F4DD;',label:'Договоры',table:'contracts'},
+  {id:'tz',icon:'&#x1F4CB;',label:'ТЗ / Запросы',table:'quote_requests'},
 
-  // === CATALOG (where you search) ===
-  {type:'divider',label:'Catalog'},
-  {id:'cat_dental_units',icon:'&#x1FAB7;',label:'Dental Units',table:'equipment',filter:{category:'dental_units'}},
-  {id:'cat_premises',icon:'&#x1F3E0;',label:'Premises',table:'equipment',filter:{category:'premises'}},
-  {id:'cat_autoclaves',icon:'&#x2668;',label:'Autoclaves',table:'equipment',filter:{category:'autoclaves'}},
-  {id:'cat_xray',icon:'&#x2622;',label:'X-Ray',table:'equipment',filter:{category:'xray'}},
-  {id:'cat_compressors',icon:'&#x1F4A8;',label:'Compressors',table:'equipment',filter:{category:'compressors'}},
-  {id:'cat_instruments',icon:'&#x1F527;',label:'Instruments',table:'equipment',filter:{category:'instruments'}},
-  {id:'cat_furniture',icon:'&#x1FA91;',label:'Furniture',table:'equipment',filter:{category:'furniture'}},
-  {id:'cat_sterilization',icon:'&#x1F9FC;',label:'Sterilization',table:'equipment',filter:{category:'sterilization'}},
-  {id:'cat_lighting',icon:'&#x1F4A1;',label:'Lighting',table:'equipment',filter:{category:'lighting'}},
-  {id:'cat_consumables',icon:'&#x1F4E6;',label:'Consumables',table:'equipment',filter:{category:'consumables'}},
+  // ═══════════════════════════════
+  // РЫНОК — каталог, ищи и привязывай
+  // ═══════════════════════════════
+  {type:'divider',label:'Рынок — Оборудование'},
+  {id:'mkt_dental_units',icon:'&#x1FAB7;',label:'Стом. установки',table:'equipment',filter:{category:'dental_units'}},
+  {id:'mkt_autoclaves',icon:'&#x2668;',label:'Автоклавы',table:'equipment',filter:{category:'autoclaves'}},
+  {id:'mkt_xray',icon:'&#x2622;',label:'Рентген',table:'equipment',filter:{category:'xray'}},
+  {id:'mkt_compressors',icon:'&#x1F4A8;',label:'Компрессоры',table:'equipment',filter:{category:'compressors'}},
+  {id:'mkt_instruments',icon:'&#x1F527;',label:'Инструменты',table:'equipment',filter:{category:'instruments'}},
+  {id:'mkt_furniture',icon:'&#x1FA91;',label:'Мебель',table:'equipment',filter:{category:'furniture'}},
+  {id:'mkt_sterilization',icon:'&#x1F9FC;',label:'Стерилизация',table:'equipment',filter:{category:'sterilization'}},
+  {id:'mkt_lighting',icon:'&#x1F4A1;',label:'Освещение',table:'equipment',filter:{category:'lighting'}},
+  {id:'mkt_consumables',icon:'&#x1F4E6;',label:'Расходники',table:'equipment',filter:{category:'consumables'}},
 
-  // === SERVICES (works catalog) ===
-  {type:'divider',label:'Services'},
-  {id:'svc_engineering',icon:'&#x26A1;',label:'Engineering Networks',table:'services',filter:{svc_category:'electrical'}},
-  {id:'svc_plumbing',icon:'&#x1F527;',label:'Plumbing',table:'services',filter:{svc_category:'plumbing'}},
-  {id:'svc_hvac',icon:'&#x2744;',label:'HVAC',table:'services',filter:{svc_category:'hvac'}},
-  {id:'svc_finishing',icon:'&#x1F3A8;',label:'Finishing',table:'services',filter:{svc_category:'finishing'}},
-  {id:'svc_it',icon:'&#x1F310;',label:'IT / Networking',table:'services',filter:{svc_category:'it_network'}},
-  {id:'svc_medical',icon:'&#x1F3E5;',label:'Medical Install',table:'services',filter:{svc_category:'medical_install'}},
-  {id:'svc_all',icon:'&#x1F4CB;',label:'All Services',table:'services'},
+  {type:'divider',label:'Рынок — Помещения'},
+  {id:'mkt_premises',icon:'&#x1F3E0;',label:'Все помещения',table:'equipment',filter:{category:'premises'}},
 
-  // === PEOPLE (contacts catalog) ===
-  {type:'divider',label:'People'},
-  {id:'contractors',icon:'&#x1F528;',label:'Contractors',table:'clinic_contacts',filter:{category:'contractors'}},
-  {id:'suppliers',icon:'&#x1F69A;',label:'Suppliers',table:'clinic_contacts',filter:{category:'suppliers'}},
-  {id:'owners',icon:'&#x1F451;',label:'Owners',table:'clinic_contacts',filter:{category:'owner'}},
-  {id:'landlords',icon:'&#x1F3E0;',label:'Landlords',table:'clinic_contacts',filter:{category:'landlord'}},
+  {type:'divider',label:'Рынок — Работы'},
+  {id:'mkt_engineering',icon:'&#x26A1;',label:'Инженерные сети',table:'services',filter:{svc_category:'electrical'}},
+  {id:'mkt_plumbing',icon:'&#x1F527;',label:'Сантехника',table:'services',filter:{svc_category:'plumbing'}},
+  {id:'mkt_hvac',icon:'&#x2744;',label:'Вентиляция',table:'services',filter:{svc_category:'hvac'}},
+  {id:'mkt_finishing',icon:'&#x1F3A8;',label:'Отделка',table:'services',filter:{svc_category:'finishing'}},
+  {id:'mkt_demolition',icon:'&#x1F528;',label:'Демонтаж',table:'services',filter:{svc_category:'demolition'}},
+  {id:'mkt_it',icon:'&#x1F310;',label:'IT / Сети',table:'services',filter:{svc_category:'it_network'}},
+  {id:'mkt_medical',icon:'&#x1F3E5;',label:'Монтаж мед.',table:'services',filter:{svc_category:'medical_install'}},
+  {id:'mkt_design',icon:'&#x1F4D0;',label:'Проектирование',table:'services',filter:{svc_category:'design_project'}},
+  {id:'mkt_cleaning',icon:'&#x1F9F9;',label:'Уборка',table:'services',filter:{svc_category:'cleaning'}},
 
-  // === SYSTEM ===
-  {type:'divider',label:'System'},
-  {id:'admins',icon:'&#x1F6E1;',label:'Admins',table:'admin_users',superadmin:true},
-  {id:'log',icon:'&#x1F4DC;',label:'Activity Log',table:'admin_log'},
+  {type:'divider',label:'Рынок — Люди'},
+  {id:'mkt_contractors',icon:'&#x1F528;',label:'Подрядчики',table:'clinic_contacts',filter:{category:'contractors'}},
+  {id:'mkt_suppliers',icon:'&#x1F69A;',label:'Поставщики',table:'clinic_contacts',filter:{category:'suppliers'}},
+  {id:'mkt_landlords',icon:'&#x1F3E0;',label:'Арендодатели',table:'clinic_contacts',filter:{category:'landlord'}},
+
+  // ═══════════════════════════════
+  // СИСТЕМА
+  // ═══════════════════════════════
+  {type:'divider',label:'Система'},
+  {id:'admins',icon:'&#x1F6E1;',label:'Админы',table:'admin_users',superadmin:true},
+  {id:'log',icon:'&#x1F4DC;',label:'Журнал',table:'admin_log'},
 ];
 
 // AUTH
