@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>admin — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;--text:#2a2a28;--muted:#8a8a82;
+  --green:#4a9d5b;--red-err:#c0392b;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;-webkit-font-smoothing:antialiased}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{width:100%;max-width:380px;background:var(--white);border:1px solid var(--gray2);padding:48px 36px}
+.login-logo{font-family:var(--font-display);font-size:24px;letter-spacing:4px;color:var(--black);text-align:center;margin-bottom:8px;text-transform:lowercase}
+.login-sub{font-size:10px;letter-spacing:3px;color:var(--muted);text-align:center;text-transform:uppercase;margin-bottom:36px}
+.login-field{margin-bottom:20px}
+.login-label{display:block;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.login-input{width:100%;padding:12px 16px;border:1px solid var(--gray2);background:transparent;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s;font-weight:300}
+.login-input:focus{border-color:var(--gold)}
+.login-btn{width:100%;padding:14px;background:var(--gold);color:var(--white);border:none;font-family:var(--font-body);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.login-btn:hover{background:var(--gold-dark)}
+.login-btn:disabled{opacity:0.5;cursor:not-allowed}
+.login-error{font-size:11px;color:var(--red-err);text-align:center;margin-top:16px;min-height:20px}
+.login-magic{font-size:11px;color:var(--muted);text-align:center;margin-top:20px}
+.login-magic a{color:var(--gold);text-decoration:none}
+
+/* ADMIN PANEL */
+.admin-wrap{display:none}
+.admin-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 24px;background:rgba(253,251,247,0.95);backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.admin-nav-left{display:flex;align-items:center;gap:16px}
+.admin-nav-logo{font-family:var(--font-display);font-size:16px;letter-spacing:3px;color:var(--black);text-decoration:none;text-transform:lowercase}
+.admin-nav-role{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding:4px 10px;border:1px solid var(--gold-light);background:var(--gold-glow)}
+.admin-nav-right{display:flex;align-items:center;gap:16px}
+.admin-nav-user{font-size:11px;color:var(--muted)}
+.admin-nav-btn{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;background:none;border:1px solid var(--gray2);padding:6px 14px;cursor:pointer;font-family:var(--font-body);transition:all 0.2s}
+.admin-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* TABS */
+.admin-body{padding:68px 24px 24px}
+.admin-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.admin-tab{padding:8px 18px;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--gray2);background:transparent;cursor:pointer;font-family:var(--font-body);color:var(--muted);transition:all 0.2s}
+.admin-tab:hover,.admin-tab.active{border-color:var(--gold);color:var(--gold)}
+
+/* STATS */
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:var(--white);border:1px solid var(--gray2);padding:20px;text-align:center}
+.stat-number{font-family:var(--font-display);font-size:32px;color:var(--black)}
+.stat-label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:4px}
+
+/* TABLE */
+.admin-table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 16px;border-bottom:2px solid var(--gray2);font-weight:400}
+td{padding:12px 16px;border-bottom:1px solid var(--gray);color:var(--text);font-weight:300}
+tr:hover td{background:var(--gold-glow)}
+.badge{font-size:9px;letter-spacing:1px;padding:3px 8px;text-transform:uppercase}
+.badge-candidate{background:#FFF3CD;color:#856404}
+.badge-shortlist{background:#D4EDDA;color:#155724}
+.badge-superadmin{background:var(--gold-glow);color:var(--gold-dark);border:1px solid var(--gold-light)}
+.badge-admin{background:#D6EAF8;color:#1B4F72}
+.badge-active{background:#D5F5E3;color:#1E8449}
+.badge-inactive{background:#FADBD8;color:#922B21}
+
+/* ADD ADMIN FORM */
+.add-form{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;align-items:end}
+.add-form .field{display:flex;flex-direction:column;gap:4px}
+.add-form label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.add-form input,.add-form select{padding:8px 12px;border:1px solid var(--gray2);font-family:var(--font-body);font-size:12px;font-weight:300;background:var(--white)}
+.add-form button{padding:8px 20px;background:var(--gold);color:var(--white);border:none;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:var(--font-body)}
+
+/* LOG */
+.log-entry{font-size:11px;padding:8px 0;border-bottom:1px solid var(--gray);display:flex;gap:16px;font-weight:300}
+.log-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);white-space:nowrap}
+.log-action{color:var(--text)}
+.log-email{color:var(--gold);font-weight:400}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--black);color:var(--white);padding:12px 24px;font-size:11px;letter-spacing:1px;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:300}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:768px){
+  .admin-nav{padding:0 12px}
+  .admin-body{padding:60px 12px 12px}
+  .add-form{flex-direction:column}
+  .admin-nav-user{display:none}
+}
+</style></head><body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">svyatlitsa</div>
+    <div class="login-sub">admin panel</div>
+    <div class="login-field">
+      <label class="login-label">email</label>
+      <input class="login-input" type="email" id="loginEmail" placeholder="scyraai@proton.me" autofocus>
+    </div>
+    <div class="login-field">
+      <label class="login-label">password</label>
+      <input class="login-input" type="password" id="loginPassword" placeholder="password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="handleLogin()">sign in</button>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-magic">
+      <a href="#" onclick="handleMagicLink(); return false;">send magic link instead</a>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="adminPanel">
+  <nav class="admin-nav">
+    <div class="admin-nav-left">
+      <a href="/" class="admin-nav-logo">svyatlitsa</a>
+      <span class="admin-nav-role" id="navRole"></span>
+    </div>
+    <div class="admin-nav-right">
+      <span class="admin-nav-user" id="navEmail"></span>
+      <a href="/catalog" class="admin-nav-btn">catalog</a>
+      <button class="admin-nav-btn" onclick="handleLogout()">logout</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <!-- STATS -->
+    <div class="admin-stats" id="stats"></div>
+
+    <!-- TABS -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('equipment', this)">equipment</button>
+      <button class="admin-tab" onclick="switchTab('services', this)">services</button>
+      <button class="admin-tab" onclick="switchTab('contacts', this)">contacts</button>
+      <button class="admin-tab" onclick="switchTab('admins', this)" id="tabAdmins" style="display:none">admins</button>
+      <button class="admin-tab" onclick="switchTab('log', this)">log</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="tabContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let adminProfile = null;
+
+// ===== AUTH =====
+
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    await loadAdminProfile();
+    showAdmin();
+  } else {
+    // Check cached role for faster UX
+    const cached = localStorage.getItem('svita_admin_cache');
+    if (cached) {
+      try {
+        const c = JSON.parse(cached);
+        // Show login, but pre-fill email
+        document.getElementById('loginEmail').value = c.email || '';
+      } catch(e) {}
+    }
+    showLogin();
+  }
+}
+
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+
+  if (!email || !password) { errEl.textContent = 'fill all fields'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'signing in...';
+  errEl.textContent = '';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    // Try sign up if first time
+    if (error.message.includes('Invalid login')) {
+      errEl.textContent = 'wrong email or password';
+    } else {
+      errEl.textContent = error.message;
+    }
+    btn.disabled = false;
+    btn.textContent = 'sign in';
+    return;
+  }
+
+  currentUser = data.user;
+  await loadAdminProfile();
+
+  if (!adminProfile) {
+    errEl.textContent = 'no admin access for this email';
+    await sb.auth.signOut();
+    btn.disabled = false;
+    btn.textContent = 'sign in';
+    return;
+  }
+
+  // Cache role
+  localStorage.setItem('svita_admin_cache', JSON.stringify({
+    email: currentUser.email,
+    role: adminProfile.role,
+    name: adminProfile.name
+  }));
+
+  await logAction('login', null, null, {});
+  showAdmin();
+}
+
+async function handleMagicLink() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const errEl = document.getElementById('loginError');
+
+  if (!email) { errEl.textContent = 'enter email first'; return; }
+
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin + '/admin' }
+  });
+
+  if (error) { errEl.textContent = error.message; return; }
+  errEl.style.color = 'var(--green)';
+  errEl.textContent = 'check your email for login link';
+}
+
+async function handleLogout() {
+  await logAction('logout', null, null, {});
+  localStorage.removeItem('svita_admin_cache');
+  await sb.auth.signOut();
+  currentUser = null;
+  adminProfile = null;
+  showLogin();
+}
+
+async function loadAdminProfile() {
+  const { data } = await sb.from('admin_users')
+    .select('*')
+    .eq('email', currentUser.email)
+    .eq('is_active', true)
+    .single();
+
+  adminProfile = data;
+
+  if (adminProfile) {
+    // Update last_login
+    await sb.from('admin_users').update({ last_login: new Date().toISOString() }).eq('id', adminProfile.id);
+  }
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+}
+
+function showAdmin() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  document.getElementById('navEmail').textContent = currentUser.email;
+  document.getElementById('navRole').textContent = adminProfile.role;
+
+  // Show admins tab only for superadmin
+  if (adminProfile.role === 'superadmin') {
+    document.getElementById('tabAdmins').style.display = '';
+  }
+
+  loadStats();
+  switchTab('equipment', document.querySelector('.admin-tab.active'));
+}
+
+// ===== STATS =====
+
+async function loadStats() {
+  const [eq, svc, contacts, admins] = await Promise.all([
+    sb.from('equipment').select('id', { count: 'exact', head: true }),
+    sb.from('services').select('id', { count: 'exact', head: true }),
+    sb.from('clinic_contacts').select('id', { count: 'exact', head: true }),
+    sb.from('admin_users').select('id', { count: 'exact', head: true })
+  ]);
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="stat-number">${eq.count || 0}</div><div class="stat-label">equipment</div></div>
+    <div class="stat-card"><div class="stat-number">${svc.count || 0}</div><div class="stat-label">services</div></div>
+    <div class="stat-card"><div class="stat-number">${contacts.count || 0}</div><div class="stat-label">contacts</div></div>
+    <div class="stat-card"><div class="stat-number">${admins.count || 0}</div><div class="stat-label">admins</div></div>
+  `;
+}
+
+// ===== TABS =====
+
+async function switchTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  const content = document.getElementById('tabContent');
+  content.innerHTML = '<div class="loading" style="padding:40px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:2px">loading...</div>';
+
+  if (tab === 'equipment') await renderEquipment();
+  else if (tab === 'services') await renderServices();
+  else if (tab === 'contacts') await renderContacts();
+  else if (tab === 'admins') await renderAdmins();
+  else if (tab === 'log') await renderLog();
+}
+
+// ===== EQUIPMENT =====
+
+async function renderEquipment() {
+  const { data } = await sb.from('equipment').select('*').order('created_at', { ascending: false });
+  const content = document.getElementById('tabContent');
+
+  content.innerHTML = `
+    <div class="admin-table-wrap">
+      <table>
+        <tr><th>name</th><th>brand</th><th>supplier</th><th>price</th><th>photos</th><th>status</th></tr>
+        ${(data || []).map(i => `<tr>
+          <td><strong>${i.name}</strong><br><span style="font-size:10px;color:var(--muted)">${i.model || ''}</span></td>
+          <td>${i.brand || '-'}</td>
+          <td>${i.supplier_name || 'unknown'}</td>
+          <td>${i.price_pln ? Number(i.price_pln).toLocaleString('pl') + ' PLN' : '-'}</td>
+          <td>${(i.images || []).length}</td>
+          <td><span class="badge badge-${i.status}">${i.status}</span></td>
+        </tr>`).join('')}
+      </table>
+    </div>
+  `;
+}
+
+// ===== SERVICES =====
+
+async function renderServices() {
+  const { data } = await sb.from('services').select('*').order('created_at', { ascending: false });
+  const content = document.getElementById('tabContent');
+
+  if (!data || data.length === 0) {
+    content.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-size:12px">no services yet</div>';
+    return;
+  }
+
+  content.innerHTML = `
+    <div class="admin-table-wrap">
+      <table>
+        <tr><th>name</th><th>price</th><th>unit</th><th>status</th></tr>
+        ${data.map(s => `<tr>
+          <td>${s.name}</td>
+          <td>${s.price ? Number(s.price).toLocaleString('pl') + ' PLN' : '-'}</td>
+          <td>${s.price_unit || '-'}</td>
+          <td><span class="badge badge-${s.status}">${s.status}</span></td>
+        </tr>`).join('')}
+      </table>
+    </div>
+  `;
+}
+
+// ===== CONTACTS =====
+
+async function renderContacts() {
+  const { data } = await sb.from('clinic_contacts').select('*').order('created_at', { ascending: false });
+  const content = document.getElementById('tabContent');
+
+  if (!data || data.length === 0) {
+    content.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-size:12px">no contacts yet</div>';
+    return;
+  }
+
+  content.innerHTML = `
+    <div class="admin-table-wrap">
+      <table>
+        <tr><th>name</th><th>company</th><th>phone</th><th>email</th><th>status</th></tr>
+        ${data.map(c => `<tr>
+          <td>${c.name}</td>
+          <td>${c.company || '-'}</td>
+          <td>${c.phone || '-'}</td>
+          <td>${c.email || '-'}</td>
+          <td><span class="badge badge-${c.status}">${c.status}</span></td>
+        </tr>`).join('')}
+      </table>
+    </div>
+  `;
+}
+
+// ===== ADMINS (superadmin only) =====
+
+async function renderAdmins() {
+  if (adminProfile.role !== 'superadmin') return;
+
+  const { data } = await sb.from('admin_users').select('*').order('created_at');
+  const content = document.getElementById('tabContent');
+
+  content.innerHTML = `
+    <div class="add-form" id="addAdminForm">
+      <div class="field">
+        <label>email</label>
+        <input type="email" id="newAdminEmail" placeholder="email@example.com">
+      </div>
+      <div class="field">
+        <label>name</label>
+        <input type="text" id="newAdminName" placeholder="Name">
+      </div>
+      <div class="field">
+        <label>role</label>
+        <select id="newAdminRole">
+          <option value="admin">admin</option>
+          <option value="manager">manager</option>
+          <option value="viewer">viewer</option>
+        </select>
+      </div>
+      <button onclick="addAdmin()">add admin</button>
+    </div>
+    <div class="admin-table-wrap">
+      <table>
+        <tr><th>email</th><th>name</th><th>role</th><th>status</th><th>last login</th><th>actions</th></tr>
+        ${(data || []).map(a => `<tr>
+          <td>${a.email}</td>
+          <td>${a.name || '-'}</td>
+          <td><span class="badge badge-${a.role}">${a.role}</span></td>
+          <td><span class="badge badge-${a.is_active ? 'active' : 'inactive'}">${a.is_active ? 'active' : 'disabled'}</span></td>
+          <td style="font-family:var(--font-mono);font-size:10px">${a.last_login ? new Date(a.last_login).toLocaleString() : 'never'}</td>
+          <td>${a.role !== 'superadmin' ? `<button class="admin-nav-btn" style="font-size:8px;padding:4px 8px" onclick="toggleAdmin('${a.id}', ${!a.is_active})">${a.is_active ? 'disable' : 'enable'}</button>` : ''}</td>
+        </tr>`).join('')}
+      </table>
+    </div>
+  `;
+}
+
+async function addAdmin() {
+  const email = document.getElementById('newAdminEmail').value.trim();
+  const name = document.getElementById('newAdminName').value.trim();
+  const role = document.getElementById('newAdminRole').value;
+
+  if (!email) { toast('enter email'); return; }
+
+  const { error } = await sb.from('admin_users').insert({
+    email, name, role, created_by: adminProfile.id
+  });
+
+  if (error) { toast('error: ' + error.message); return; }
+
+  await logAction('create_admin', 'admin_users', null, { email, role });
+  toast('admin added: ' + email);
+  renderAdmins();
+}
+
+async function toggleAdmin(id, active) {
+  await sb.from('admin_users').update({ is_active: active }).eq('id', id);
+  await logAction(active ? 'enable_admin' : 'disable_admin', 'admin_users', id, {});
+  toast(active ? 'admin enabled' : 'admin disabled');
+  renderAdmins();
+}
+
+// ===== LOG =====
+
+async function renderLog() {
+  const { data } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(100);
+  const content = document.getElementById('tabContent');
+
+  if (!data || data.length === 0) {
+    content.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-size:12px">no log entries yet</div>';
+    return;
+  }
+
+  content.innerHTML = data.map(l => `
+    <div class="log-entry">
+      <span class="log-time">${new Date(l.created_at).toLocaleString()}</span>
+      <span class="log-email">${l.email || '-'}</span>
+      <span class="log-action">${l.action}${l.target_type ? ` → ${l.target_type}` : ''}${l.details && Object.keys(l.details).length ? ` (${JSON.stringify(l.details)})` : ''}</span>
+    </div>
+  `).join('');
+}
+
+// ===== LOG ACTION =====
+
+async function logAction(action, targetType, targetId, details) {
+  await sb.from('admin_log').insert({
+    user_id: adminProfile?.id,
+    email: currentUser?.email,
+    action,
+    target_type: targetType,
+    target_id: targetId,
+    details
+  });
+}
+
+// ===== TOAST =====
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ===== ENTER KEY =====
+
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleLogin();
+});
+document.getElementById('loginEmail').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('loginPassword').focus();
+});
+
+// ===== AUTH STATE CHANGE =====
+
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    currentUser = session.user;
+    await loadAdminProfile();
+    if (adminProfile) {
+      localStorage.setItem('svita_admin_cache', JSON.stringify({
+        email: currentUser.email,
+        role: adminProfile.role,
+        name: adminProfile.name
+      }));
+      await logAction('login', null, null, { method: 'magic_link' });
+      showAdmin();
+    }
+  }
+});
+
+// ===== INIT =====
+checkSession();
+</script>
+</body></html>
