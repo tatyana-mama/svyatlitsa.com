@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>catalog — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;--text:#2a2a28;--muted:#8a8a82;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;letter-spacing:0.01em;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-back{font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-back:hover{color:var(--gold)}
+
+/* HERO */
+.catalog-hero{padding:100px 48px 48px;text-align:center}
+.catalog-hero h1{font-family:var(--font-display);font-size:clamp(32px,6vw,64px);font-weight:400;letter-spacing:4px;color:var(--black);text-transform:lowercase}
+.catalog-hero p{font-size:11px;letter-spacing:4px;color:var(--muted);text-transform:lowercase;margin-top:12px;font-weight:300}
+
+/* CATEGORIES */
+.categories{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:0 48px 32px}
+.cat-btn{padding:10px 20px;border:1px solid var(--gray2);background:transparent;cursor:pointer;font-family:var(--font-body);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;gap:8px}
+.cat-btn:hover,.cat-btn.active{border-color:var(--gold);color:var(--gold)}
+.cat-btn .cat-icon{font-size:14px}
+.cat-btn .cat-count{font-family:'JetBrains Mono',monospace;font-size:9px;opacity:0.6}
+
+/* SEARCH */
+.search-wrap{max-width:480px;margin:0 auto 40px;padding:0 48px}
+.search-input{width:100%;padding:12px 20px 12px 44px;border:1px solid var(--gray2);background:var(--white);font-family:var(--font-body);font-size:13px;font-weight:300;color:var(--text);outline:none;transition:border-color 0.2s;letter-spacing:0.5px}
+.search-input:focus{border-color:var(--gold)}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:60px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);pointer-events:none}
+
+/* GRID */
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding:0 48px 80px;max-width:1400px;margin:0 auto}
+
+/* CARD */
+.card{border:1px solid var(--gray2);background:var(--white);transition:all 0.3s;cursor:pointer;overflow:hidden}
+.card:hover{border-color:var(--gold);box-shadow:0 8px 40px rgba(196,154,45,0.08)}
+.card-img{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--gray);display:block}
+.card-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--gray2)}
+.card-body{padding:20px}
+.card-brand{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;font-weight:400;margin-bottom:4px}
+.card-name{font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--black);line-height:1.3;margin-bottom:6px}
+.card-supplier{font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-weight:300}
+.card-specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.card-spec{font-size:10px;letter-spacing:1px;padding:4px 10px;background:var(--gray);color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--gray);padding-top:16px}
+.card-price{font-family:var(--font-display);font-size:22px;color:var(--black);font-weight:400}
+.card-price-old{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:8px;font-family:var(--font-body);font-weight:300}
+.card-price-ask{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:lowercase}
+.card-link{font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;text-transform:uppercase;transition:color 0.2s;padding:8px 0}
+.card-link:hover{color:var(--gold-dark)}
+.card-images-count{font-size:9px;color:var(--muted);position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.9);padding:4px 8px;letter-spacing:1px}
+.card-img-wrap{position:relative}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--muted);z-index:10;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--black)}
+.modal-gallery{display:flex;gap:2px;overflow-x:auto;background:var(--gray)}
+.modal-gallery img{height:300px;object-fit:contain;background:var(--gray);flex-shrink:0}
+.modal-body{padding:32px}
+.modal-brand{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.modal-name{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black);margin-bottom:6px}
+.modal-supplier{font-size:11px;letter-spacing:1px;color:var(--muted);margin-bottom:20px;font-weight:300}
+.modal-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.modal-price{font-family:var(--font-display);font-size:32px;color:var(--black)}
+.modal-price-old{font-size:16px;color:var(--muted);text-decoration:line-through}
+.modal-notes{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:24px;font-weight:300}
+.modal-specs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.modal-spec{font-size:10px;letter-spacing:1px;padding:6px 12px;background:var(--gray);color:var(--text)}
+.modal-actions{display:flex;gap:12px}
+.modal-btn{padding:12px 24px;font-family:var(--font-body);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-decoration:none;text-align:center}
+.modal-btn-primary{background:var(--gold);color:var(--white);border:1px solid var(--gold)}
+.modal-btn-primary:hover{background:var(--gold-dark)}
+.modal-btn-secondary{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.modal-btn-secondary:hover{background:var(--gold-glow)}
+
+/* LOADING */
+.loading{text-align:center;padding:80px;font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:lowercase}
+.no-results{text-align:center;padding:80px;font-size:13px;color:var(--muted);font-weight:300}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .catalog-hero{padding:80px 24px 32px}
+  .categories{padding:0 16px 24px;gap:8px}
+  .cat-btn{padding:8px 14px;font-size:9px}
+  .search-wrap{padding:0 16px}
+  .search-icon{left:28px}
+  .catalog-grid{grid-template-columns:1fr;padding:0 16px 60px;gap:16px}
+  .modal{margin:0;max-height:100vh;height:100%}
+  .modal-gallery img{height:220px}
+  .modal-body{padding:24px 16px}
+  .modal-actions{flex-direction:column}
+}
+</style></head><body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <a href="/" class="nav-back">home</a>
+</nav>
+
+<!-- HERO -->
+<div class="catalog-hero">
+  <h1>catalog</h1>
+  <p>equipment for your clinic</p>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories" id="categories"></div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <span class="search-icon">&#x2315;</span>
+  <input type="text" class="search-input" id="searchInput" placeholder="search...">
+</div>
+
+<!-- GRID -->
+<div class="catalog-grid" id="catalogGrid">
+  <div class="loading">loading...</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-gallery" id="modalGallery"></div>
+    <div class="modal-body">
+      <div class="modal-brand" id="modalBrand"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-supplier" id="modalSupplier"></div>
+      <div class="modal-price-row">
+        <span class="modal-price" id="modalPrice"></span>
+        <span class="modal-price-old" id="modalPriceOld"></span>
+      </div>
+      <div class="modal-notes" id="modalNotes"></div>
+      <div class="modal-specs" id="modalSpecs"></div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" id="modalLink" href="#" target="_blank">see on website</a>
+        <button class="modal-btn modal-btn-secondary" id="modalFav" onclick="toggleFav()">add to favorites</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+
+const api = (path) => fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+  headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+}).then(r => r.json());
+
+let allItems = [];
+let categories = [];
+let activeCategory = null;
+
+async function init() {
+  const [cats, items] = await Promise.all([
+    api('equipment_categories?order=sort_order'),
+    api('equipment?select=*&order=price_pln.asc.nullslast')
+  ]);
+  categories = cats;
+  allItems = items;
+  renderCategories();
+  renderGrid(allItems);
+}
+
+function renderCategories() {
+  const el = document.getElementById('categories');
+  const counts = {};
+  allItems.forEach(item => { counts[item.category_id] = (counts[item.category_id] || 0) + 1; });
+
+  let html = `<button class="cat-btn active" onclick="filterCategory(null, this)">
+    <span>all</span><span class="cat-count">${allItems.length}</span>
+  </button>`;
+
+  categories.forEach(cat => {
+    const count = counts[cat.id] || 0;
+    if (count === 0) return;
+    const name = cat.name.en || cat.name.pl || cat.slug;
+    html += `<button class="cat-btn" onclick="filterCategory('${cat.id}', this)">
+      <span class="cat-icon">${cat.icon || ''}</span>
+      <span>${name}</span>
+      <span class="cat-count">${count}</span>
+    </button>`;
+  });
+  el.innerHTML = html;
+}
+
+function filterCategory(catId, btn) {
+  activeCategory = catId;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  let filtered = allItems;
+
+  if (activeCategory) {
+    filtered = filtered.filter(i => i.category_id === activeCategory);
+  }
+  if (query) {
+    filtered = filtered.filter(i =>
+      (i.name || '').toLowerCase().includes(query) ||
+      (i.brand || '').toLowerCase().includes(query) ||
+      (i.model || '').toLowerCase().includes(query) ||
+      (i.notes || '').toLowerCase().includes(query)
+    );
+  }
+  renderGrid(filtered);
+}
+
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+function formatPrice(price) {
+  if (!price) return null;
+  return Number(price).toLocaleString('pl-PL') + ' PLN';
+}
+
+function renderGrid(items) {
+  const grid = document.getElementById('catalogGrid');
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="no-results">no items found</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(item => {
+    const img = item.images && item.images.length > 0
+      ? `<div class="card-img-wrap">
+           <img class="card-img" src="${item.images[0]}" alt="${item.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>&#x1FAB7;</div>'">
+           ${item.images.length > 1 ? `<span class="card-images-count">${item.images.length} photos</span>` : ''}
+         </div>`
+      : '<div class="card-img-placeholder">&#x1FAB7;</div>';
+
+    const price = item.price_pln
+      ? `<span class="card-price">${formatPrice(item.price_pln)}</span>${item.price_old_pln ? `<span class="card-price-old">${formatPrice(item.price_old_pln)}</span>` : ''}`
+      : '<span class="card-price-ask">price on request</span>';
+
+    const specs = [];
+    if (item.brand) specs.push(item.brand);
+    if (item.model) specs.push(item.model);
+
+    return `<div class="card" onclick="openModal('${item.id}')">
+      ${img}
+      <div class="card-body">
+        <div class="card-brand">${item.brand || ''}</div>
+        <div class="card-name">${item.name}</div>
+        <div class="card-supplier">${item.supplier_name || 'unknown'}</div>
+        <div class="card-specs">
+          ${specs.map(s => `<span class="card-spec">${s}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+          <div>${price}</div>
+          ${item.source_url ? `<a class="card-link" href="${item.source_url}" target="_blank" onclick="event.stopPropagation()">source &rarr;</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id) {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+
+  const gallery = document.getElementById('modalGallery');
+  if (item.images && item.images.length > 0) {
+    gallery.innerHTML = item.images.map(src =>
+      `<img src="${src}" alt="${item.name}" loading="lazy">`
+    ).join('');
+    gallery.style.display = 'flex';
+  } else {
+    gallery.style.display = 'none';
+  }
+
+  document.getElementById('modalBrand').textContent = item.brand || '';
+  document.getElementById('modalName').textContent = item.name;
+  document.getElementById('modalSupplier').textContent = item.supplier_name ? `supplier: ${item.supplier_name}` : 'supplier: unknown';
+  document.getElementById('modalPrice').textContent = formatPrice(item.price_pln) || '';
+  document.getElementById('modalPriceOld').textContent = item.price_old_pln ? formatPrice(item.price_old_pln) : '';
+  document.getElementById('modalNotes').textContent = item.notes || '';
+  document.getElementById('modalLink').href = item.source_url || '#';
+
+  const specsEl = document.getElementById('modalSpecs');
+  const specs = [];
+  if (item.brand) specs.push(item.brand);
+  if (item.model) specs.push(item.model);
+  if (item.status) specs.push(item.status);
+  specsEl.innerHTML = specs.map(s => `<span class="modal-spec">${s}</span>`).join('');
+
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function toggleFav() {
+  const btn = document.getElementById('modalFav');
+  btn.textContent = btn.textContent.includes('add') ? 'in favorites' : 'add to favorites';
+  btn.style.background = btn.textContent.includes('in') ? 'var(--gold-glow)' : 'transparent';
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+init();
+</script>
+</body></html>
