@@ -42,6 +42,15 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--text);font
 .sidebar-item.active{background:var(--gold-glow);color:var(--gold);border-left-color:var(--gold);font-weight:400}
 .sidebar-item .icon{font-size:15px;width:20px;text-align:center}
 .sidebar-item .count{margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--muted);background:var(--gray);padding:2px 6px}
+.sidebar-item.expandable::after{content:'▸';margin-left:auto;font-size:10px;color:var(--muted);transition:transform 0.2s}
+.sidebar-item.expandable.expanded::after{transform:rotate(90deg);color:var(--gold)}
+.sidebar-item.expandable .count{margin-left:0}
+.sidebar-subcats{max-height:0;overflow:hidden;transition:max-height 0.3s ease}
+.sidebar-subcats.open{max-height:600px}
+.sidebar-subcat{display:flex;align-items:center;gap:8px;padding:6px 20px 6px 44px;cursor:pointer;font-size:11px;color:var(--muted);transition:all 0.15s;font-weight:300;border-left:3px solid transparent}
+.sidebar-subcat:hover{color:var(--gold);background:var(--gray)}
+.sidebar-subcat.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow)}
+.sidebar-subcat .sub-count{margin-left:auto;font-family:var(--font-mono);font-size:8px;color:var(--muted)}
 .sidebar-footer{padding:12px 20px;border-top:1px solid var(--gray2);display:flex;align-items:center;justify-content:space-between}
 .sidebar-user{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
 .sidebar-logout{font-size:9px;color:var(--muted);background:none;border:1px solid var(--gray2);padding:4px 10px;cursor:pointer;font-family:var(--font-body);letter-spacing:1px;text-transform:uppercase}
@@ -274,15 +283,16 @@ const sections=[
   {id:'mkt_premises',icon:'&#x1F3E0;',label:'Все помещения',table:'equipment',filter:{category:'premises'}},
 
   {type:'divider',label:'Рынок — Работы'},
-  {id:'mkt_engineering',icon:'&#x26A1;',label:'Инженерные сети',table:'services',filter:{svc_category:'electrical'}},
-  {id:'mkt_plumbing',icon:'&#x1F527;',label:'Сантехника',table:'services',filter:{svc_category:'plumbing'}},
-  {id:'mkt_hvac',icon:'&#x2744;',label:'Вентиляция',table:'services',filter:{svc_category:'hvac'}},
-  {id:'mkt_finishing',icon:'&#x1F3A8;',label:'Отделка',table:'services',filter:{svc_category:'finishing'}},
-  {id:'mkt_demolition',icon:'&#x1F528;',label:'Демонтаж',table:'services',filter:{svc_category:'demolition'}},
-  {id:'mkt_it',icon:'&#x1F310;',label:'IT / Сети',table:'services',filter:{svc_category:'it_network'}},
-  {id:'mkt_medical',icon:'&#x1F3E5;',label:'Монтаж мед.',table:'services',filter:{svc_category:'medical_install'}},
-  {id:'mkt_design',icon:'&#x1F4D0;',label:'Проектирование',table:'services',filter:{svc_category:'design_project'}},
-  {id:'mkt_cleaning',icon:'&#x1F9F9;',label:'Уборка',table:'services',filter:{svc_category:'cleaning'}},
+  {id:'mkt_demolition',icon:'&#x1F528;',label:'Демонтаж',table:'services',filter:{svc_category:'demolition'},expandable:true},
+  {id:'mkt_engineering',icon:'&#x26A1;',label:'Инженерные сети',table:'services',filter:{svc_category:'electrical'},expandable:true},
+  {id:'mkt_plumbing',icon:'&#x1F527;',label:'Сантехника',table:'services',filter:{svc_category:'plumbing'},expandable:true},
+  {id:'mkt_hvac',icon:'&#x2744;',label:'Вентиляция',table:'services',filter:{svc_category:'hvac'},expandable:true},
+  {id:'mkt_finishing',icon:'&#x1F3A8;',label:'Отделка',table:'services',filter:{svc_category:'finishing'},expandable:true},
+  {id:'mkt_it',icon:'&#x1F310;',label:'IT / Сети',table:'services',filter:{svc_category:'it_network'},expandable:true},
+  {id:'mkt_medical',icon:'&#x1F3E5;',label:'Монтаж мед.',table:'services',filter:{svc_category:'medical_install'},expandable:true},
+  {id:'mkt_furniture',icon:'&#x1FA91;',label:'Монтаж мебели',table:'services',filter:{svc_category:'furniture_assembly'},expandable:true},
+  {id:'mkt_design',icon:'&#x1F4D0;',label:'Проектирование',table:'services',filter:{svc_category:'design_project'},expandable:true},
+  {id:'mkt_cleaning',icon:'&#x1F9F9;',label:'Уборка',table:'services',filter:{svc_category:'cleaning'},expandable:true},
 
   {type:'divider',label:'Рынок — Люди'},
   {id:'mkt_contractors',icon:'&#x1F528;',label:'Подрядчики',table:'clinic_contacts',filter:{category:'contractors'}},
@@ -340,11 +350,95 @@ function renderNav(){
   nav.innerHTML=sections.map(s=>{
     if(s.type==='divider')return`<div class="sidebar-section">${s.label}</div>`;
     if(s.superadmin&&profile.role!=='superadmin')return'';
+    if(s.expandable)return`<div class="sidebar-item expandable" data-id="${s.id}" onclick="toggleExpand('${s.id}')">
+      <span class="icon">${s.icon}</span><span>${s.label}</span><span class="count" id="count-${s.id}"></span>
+    </div><div class="sidebar-subcats" id="subcats-${s.id}"></div>`;
     return`<div class="sidebar-item" data-id="${s.id}" onclick="navigate('${s.id}')">
       <span class="icon">${s.icon}</span><span>${s.label}</span><span class="count" id="count-${s.id}"></span>
     </div>`;
   }).join('');
   loadCounts();
+}
+
+// EXPAND / COLLAPSE подкатегории работ
+const subcatCache={};
+async function toggleExpand(sectionId){
+  const item=document.querySelector(`.sidebar-item[data-id="${sectionId}"]`);
+  const container=document.getElementById('subcats-'+sectionId);
+  if(!item||!container)return;
+
+  // Если уже открыт — закрыть
+  if(item.classList.contains('expanded')){
+    item.classList.remove('expanded');
+    container.classList.remove('open');
+    return;
+  }
+
+  // Закрыть все другие
+  document.querySelectorAll('.sidebar-item.expanded').forEach(el=>{
+    el.classList.remove('expanded');
+    document.getElementById('subcats-'+el.dataset.id)?.classList.remove('open');
+  });
+
+  // Показать все работы категории (клик на саму категорию тоже грузит)
+  const sec=sections.find(s=>s.id===sectionId);
+  if(sec)navigate(sectionId);
+
+  // Загрузить подкатегории
+  item.classList.add('expanded');
+  container.classList.add('open');
+
+  if(subcatCache[sectionId]){
+    renderSubcats(sectionId,subcatCache[sectionId]);
+    return;
+  }
+
+  const catSlug=sec?.filter?.svc_category;
+  if(!catSlug)return;
+
+  const{data:cat}=await sb.from('service_categories').select('id').eq('slug',catSlug).single();
+  if(!cat)return;
+
+  const{data:subcats}=await sb.from('service_subcategories').select('id,slug,name').eq('category_id',cat.id).order('sort_order');
+  if(!subcats)return;
+
+  // Подсчитать кол-во для каждой подкатегории
+  for(const sc of subcats){
+    const{count}=await sb.from('services').select('id',{count:'exact',head:true}).eq('subcategory_id',sc.id);
+    sc._count=count||0;
+  }
+
+  subcatCache[sectionId]=subcats;
+  renderSubcats(sectionId,subcats);
+}
+
+function renderSubcats(sectionId,subcats){
+  const container=document.getElementById('subcats-'+sectionId);
+  if(!container)return;
+  const lang=localStorage.getItem('labs67lang')||'ru';
+  container.innerHTML=subcats.map(sc=>{
+    const name=typeof sc.name==='object'?(sc.name[lang]||sc.name.ru||sc.name.en):sc.name;
+    return`<div class="sidebar-subcat" data-subid="${sc.id}" onclick="navigateSubcat('${sectionId}','${sc.id}','${name.replace(/'/g,"\\'")}')">
+      <span>${name}</span><span class="sub-count">${sc._count}</span>
+    </div>`;
+  }).join('');
+}
+
+async function navigateSubcat(sectionId,subId,subName){
+  // Подсветить
+  document.querySelectorAll('.sidebar-subcat').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`.sidebar-subcat[data-subid="${subId}"]`)?.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+
+  document.getElementById('listTitle').textContent=subName;
+  document.getElementById('listSearch').value='';
+
+  const{data}=await sb.from('services').select('*').eq('subcategory_id',subId).order('name');
+  currentItems=data||[];
+  currentSection={id:sectionId+'_sub_'+subId,label:subName,table:'services'};
+  renderList();
+  selectedItem=null;
+  document.getElementById('detailPanel').innerHTML='<div class="detail-empty">select a service</div>';
 }
 
 async function loadCounts(){
