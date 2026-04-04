@@ -171,6 +171,19 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--text);font
 .bg-pending{background:#FFF3CD;color:#856404}
 .bg-estimate{background:var(--gray);color:var(--muted)}
 .bg-active{background:#D5F5E3;color:#1E8449}
+.bg-planned{background:#E8D5F5;color:#6C3483}
+.bg-in_work{background:#D6EAF8;color:#1B4F72}
+.bg-completed{background:#D4EDDA;color:#155724}
+
+/* CONCEPT ITEMS */
+.ci-form{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;padding:16px;background:var(--cream);border:1px solid var(--gray2)}
+.ci-form label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.ci-form input,.ci-form select,.ci-form textarea{width:100%;padding:8px 12px;border:1px solid var(--gray2);font-family:var(--font-body);font-size:12px;font-weight:300;background:transparent;color:var(--text);outline:none}
+.ci-form input:focus,.ci-form select:focus,.ci-form textarea:focus{border-color:var(--gold)}
+.ci-row{display:grid;grid-template-columns:1fr 80px 80px 100px 80px;gap:8px;align-items:center}
+.ci-total-bar{padding:16px 20px;background:rgba(196,154,45,0.08);border:1px solid rgba(196,154,45,0.2);display:flex;justify-content:space-between;align-items:center;margin:16px 0}
+.ci-total-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.ci-total-val{font-family:var(--font-mono);font-size:20px;color:var(--gold);font-weight:500}
 
 @media(max-width:1024px){
   .sidebar{width:56px}
@@ -246,6 +259,7 @@ const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 const sb=supabase.createClient(SB_URL,SB_KEY);
 let user=null,profile=null,currentSection=null,currentItems=[],selectedItem=null;
+const CONCEPT_ID='8290c090-a71a-49eb-9680-b7fb5af7f8b9';
 
 // NAV CONFIG
 const sections=[
@@ -492,6 +506,7 @@ async function navigate(id){
 
   if(id==='overview')return renderOverview();
   if(id==='budget')return renderBudget();
+  if(id==='concept_works')return renderConceptWorks();
   if(id==='log')return renderLogList();
   await loadList();
 }
@@ -580,6 +595,7 @@ async function selectItem(id){
   else if(s.table==='clinic_contacts')renderContactDetail();
   else if(s.table==='admin_users')renderAdminDetail();
   else if(s.table==='project_tasks')renderTaskDetail();
+  else if(s.table==='concept_items')renderConceptItemDetail();
   else renderGenericDetail();
 }
 
@@ -656,7 +672,10 @@ async function renderServiceDetail(){
           <span class="list-item-badge bg-${i.status}">${i.status}</span>
         </div>
       </div>
-      <div class="detail-actions"><button class="btn btn-gold" onclick="mobileBack()">close</button></div>
+      <div class="detail-actions">
+        <button class="btn btn-gold" onclick="addServiceToProject('${i.id}')">+ в проект</button>
+        <button class="btn" onclick="mobileBack()">close</button>
+      </div>
     </div>
     <div class="detail-tabs">
       <button class="detail-tab active" onclick="dtab(this,'dt-info')">Info</button>
@@ -664,6 +683,12 @@ async function renderServiceDetail(){
     </div>
     <div class="detail-content">
       <div id="dt-info">
+        <div class="detail-section">
+          <div class="detail-grid">
+            <div class="detail-field"><div class="detail-field-label">Цена</div><div class="detail-field-value">${i.price?Number(i.price).toLocaleString('pl')+' PLN':'—'}</div></div>
+            <div class="detail-field"><div class="detail-field-label">Единица</div><div class="detail-field-value">${i.measurement_type||i.price_unit||'—'}</div></div>
+          </div>
+        </div>
         ${i.description?`<div class="detail-notes">${i.description}</div>`:''}
         ${i.notes?`<div class="detail-section" style="margin-top:16px"><div class="detail-section-title">Notes</div><div class="detail-notes">${i.notes}</div></div>`:''}
       </div>
@@ -836,7 +861,7 @@ async function renderOverview(){
   const premTotal=eqPremises.reduce((s,i)=>s+(Number(i.price_pln)||0),0);
 
   // Работы (concept_items с ценой)
-  const worksTotal=(ci.data||[]).reduce((s,i)=>s+(Number(i.price_total)||Number(i.price)||0),0);
+  const worksTotal=(ci.data||[]).reduce((s,i)=>s+(Number(i.price_total)||Number(i.manual_price)||0),0);
 
   // Бюджет
   const bPlanned=(budget.data||[]).reduce((s,b)=>s+(Number(b.planned)||0),0);
@@ -1003,6 +1028,247 @@ async function renderBudget(){
         </div>
       </div>`).join('')||'<div class="list-empty">no budget items — add via admin</div>'}
     </div>`;
+}
+
+// ═══════════════════════════════════════════
+// CONCEPT ITEMS — работы и услуги в проекте
+// ═══════════════════════════════════════════
+async function renderConceptWorks(){
+  currentSection={id:'concept_works',label:'Работы и услуги',table:'concept_items'};
+  const{data}=await sb.from('concept_items').select('*').eq('concept_id',CONCEPT_ID).order('sort_order');
+  currentItems=data||[];
+  const total=currentItems.reduce((s,i)=>s+(Number(i.price_total)||Number(i.manual_price)||0),0);
+
+  document.getElementById('listBody').innerHTML=`
+    <div style="padding:12px 20px">
+      <div class="ci-total-bar">
+        <span class="ci-total-label">Итого работы</span>
+        <span class="ci-total-val">${total.toLocaleString('pl')} PLN</span>
+      </div>
+      <button class="btn btn-gold" style="width:100%;margin-bottom:12px" onclick="showAddConceptItem()">+ добавить позицию</button>
+    </div>
+    <div id="ciListItems">${renderConceptList(currentItems)}</div>`;
+
+  document.getElementById('detailPanel').innerHTML='<div class="detail-empty">выберите позицию</div>';
+}
+
+function renderConceptList(items){
+  if(!items.length)return'<div class="list-empty">нет позиций — добавьте из каталога работ или вручную</div>';
+  return items.map(i=>{
+    const price=Number(i.price_total)||Number(i.manual_price)||0;
+    const vol=i.volume?`${i.volume} ${i.volume_unit||''}`:'';
+    return`<div class="list-item" data-id="${i.id}" onclick="selectItem('${i.id}')">
+      <div class="list-item-title">${i.title}</div>
+      <div class="list-item-sub">
+        <span>${i.category||i.item_type||''}</span>
+        ${vol?`<span>${vol}</span>`:''}
+        ${price?`<span class="list-item-price">${price.toLocaleString('pl')} PLN</span>`:''}
+        <span class="list-item-badge bg-${i.status||'draft'}">${i.status||'draft'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showAddConceptItem(){
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div style="padding:20px">
+      <h3 style="font-family:var(--font-display);font-size:16px;margin:0 0 16px;color:var(--gold)">Новая позиция</h3>
+      <div class="ci-form" id="ciForm">
+        <div><label>Название</label><input id="ci_title" placeholder="напр. Разводка электропроводки"></div>
+        <div><label>Тип</label>
+          <select id="ci_type">
+            <option value="work">Работа</option>
+            <option value="material">Материал</option>
+            <option value="service">Услуга</option>
+            <option value="other">Другое</option>
+          </select>
+        </div>
+        <div><label>Категория</label>
+          <select id="ci_category">
+            <option value="">—</option>
+            <option value="demolition">Демонтаж</option>
+            <option value="electrical">Электрика</option>
+            <option value="plumbing">Сантехника</option>
+            <option value="hvac">Вентиляция</option>
+            <option value="finishing">Отделка</option>
+            <option value="it_network">IT / Сети</option>
+            <option value="furniture_assembly">Мебель</option>
+            <option value="medical_install">Мед. оборудование</option>
+            <option value="design_project">Проектирование</option>
+            <option value="cleaning">Уборка</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 100px;gap:8px">
+          <div><label>Объём</label><input id="ci_volume" type="number" placeholder="100"></div>
+          <div><label>Ед.</label>
+            <select id="ci_unit">
+              <option value="m²">m²</option>
+              <option value="m³">m³</option>
+              <option value="м.п.">м.п.</option>
+              <option value="шт">шт</option>
+              <option value="компл">компл</option>
+              <option value="час">час</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 100px;gap:8px">
+          <div><label>Цена</label><input id="ci_price" type="number" placeholder="150"></div>
+          <div><label>За</label>
+            <select id="ci_price_unit">
+              <option value="per_unit">за ед.</option>
+              <option value="total">итого</option>
+            </select>
+          </div>
+        </div>
+        <div><label>Примечание</label><textarea id="ci_notes" rows="2" placeholder="доп. информация"></textarea></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-gold" style="flex:1" onclick="saveConceptItem()">Сохранить</button>
+          <button class="btn" onclick="renderConceptWorks()">Отмена</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function saveConceptItem(editId){
+  const title=document.getElementById('ci_title').value.trim();
+  if(!title){toast('введите название');return;}
+  const volume=Number(document.getElementById('ci_volume').value)||null;
+  const price=Number(document.getElementById('ci_price').value)||null;
+  const priceUnit=document.getElementById('ci_price_unit').value;
+  const priceTotal=priceUnit==='total'?price:(volume&&price?volume*price:price);
+
+  const row={
+    concept_id:CONCEPT_ID,
+    title,
+    item_type:document.getElementById('ci_type').value,
+    category:document.getElementById('ci_category').value||null,
+    volume,
+    volume_unit:document.getElementById('ci_unit').value,
+    manual_price:price,
+    manual_price_unit:priceUnit,
+    manual_notes:document.getElementById('ci_notes').value.trim()||null,
+    price_total:priceTotal,
+    status:'planned',
+    sort_order:currentItems.length+1,
+    updated_at:new Date().toISOString()
+  };
+
+  if(editId){
+    await sb.from('concept_items').update(row).eq('id',editId);
+    await log('update','concept_items',editId);
+    toast('обновлено');
+  }else{
+    await sb.from('concept_items').insert(row);
+    await log('create','concept_items',null,{title});
+    toast('позиция добавлена');
+  }
+  renderConceptWorks();
+}
+
+async function deleteConceptItem(id){
+  await sb.from('concept_items').delete().eq('id',id);
+  await log('delete','concept_items',id);
+  toast('удалено');
+  renderConceptWorks();
+}
+
+function renderConceptItemDetail(){
+  const i=selectedItem;
+  const price=Number(i.price_total)||Number(i.manual_price)||0;
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <div class="detail-brand">${i.category||i.item_type||''}</div>
+        <div class="detail-title">${i.title}</div>
+        <div class="detail-meta">
+          ${i.volume?`<span>${i.volume} ${i.volume_unit||''}</span>`:''}
+          <span class="list-item-badge bg-${i.status||'draft'}">${i.status||'draft'}</span>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn" onclick="editConceptItem('${i.id}')">edit</button>
+        <button class="btn" style="color:var(--red-err)" onclick="if(confirm('Удалить?'))deleteConceptItem('${i.id}')">delete</button>
+        <button class="btn btn-gold" onclick="mobileBack()">close</button>
+      </div>
+    </div>
+    <div class="detail-content">
+      <div class="detail-section">
+        <div class="detail-grid">
+          <div class="detail-field"><div class="detail-field-label">Цена за ед.</div><div class="detail-field-value">${i.manual_price?Number(i.manual_price).toLocaleString('pl')+' PLN':'—'}</div></div>
+          <div class="detail-field"><div class="detail-field-label">Объём</div><div class="detail-field-value">${i.volume||'—'} ${i.volume_unit||''}</div></div>
+          <div class="detail-field" style="background:rgba(196,154,45,0.1)"><div class="detail-field-label">ИТОГО</div><div class="detail-field-value" style="font-size:18px;color:var(--gold)">${price.toLocaleString('pl')} PLN</div></div>
+          <div class="detail-field"><div class="detail-field-label">Статус</div><div class="detail-field-value">${i.status||'draft'}</div></div>
+          <div class="detail-field"><div class="detail-field-label">Тип</div><div class="detail-field-value">${i.item_type||'—'}</div></div>
+          ${i.linked_service_id?`<div class="detail-field"><div class="detail-field-label">Из каталога</div><div class="detail-field-value">&#x2705; привязан</div></div>`:''}
+        </div>
+      </div>
+      ${i.manual_notes?`<div class="detail-section"><div class="detail-section-title">Примечание</div><div class="detail-notes">${i.manual_notes}</div></div>`:''}
+      <div class="detail-section" style="margin-top:16px">
+        <div class="detail-section-title">Сменить статус</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${['planned','in_work','completed','done'].map(st=>`<button class="btn ${i.status===st?'btn-gold':''}" onclick="setCIStatus('${i.id}','${st}')">${st}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function setCIStatus(id,status){
+  await sb.from('concept_items').update({status,updated_at:new Date().toISOString()}).eq('id',id);
+  const idx=currentItems.findIndex(i=>i.id===id);
+  if(idx>=0)currentItems[idx].status=status;
+  selectedItem.status=status;
+  renderConceptItemDetail();
+  document.getElementById('ciListItems').innerHTML=renderConceptList(currentItems);
+  toast('статус: '+status);
+}
+
+function editConceptItem(id){
+  const i=currentItems.find(x=>x.id===id);
+  if(!i)return;
+  showAddConceptItem();
+  document.getElementById('ci_title').value=i.title||'';
+  document.getElementById('ci_type').value=i.item_type||'work';
+  document.getElementById('ci_category').value=i.category||'';
+  document.getElementById('ci_volume').value=i.volume||'';
+  document.getElementById('ci_unit').value=i.volume_unit||'m²';
+  document.getElementById('ci_price').value=i.manual_price||'';
+  document.getElementById('ci_price_unit').value=i.manual_price_unit||'per_unit';
+  document.getElementById('ci_notes').value=i.manual_notes||'';
+  // Replace save button to pass editId
+  const btn=document.querySelector('#ciForm .btn-gold');
+  btn.textContent='Обновить';
+  btn.setAttribute('onclick',`saveConceptItem('${id}')`);
+}
+
+// ADD TO PROJECT из каталога работ
+async function addServiceToProject(serviceId){
+  const svc=currentItems.find(i=>i.id===serviceId)||selectedItem;
+  if(!svc)return;
+  const name=svc.name||svc.title||'untitled';
+  const price=Number(svc.price)||Number(svc.price_per_unit)||0;
+  const unit=svc.measurement_type||svc.price_unit||'шт';
+
+  const{data:existing}=await sb.from('concept_items').select('id').eq('linked_service_id',serviceId).eq('concept_id',CONCEPT_ID).maybeSingle();
+  if(existing){toast('уже в проекте');return;}
+
+  await sb.from('concept_items').insert({
+    concept_id:CONCEPT_ID,
+    title:name,
+    item_type:'work',
+    category:svc.category_slug||null,
+    volume:1,
+    volume_unit:unit,
+    manual_price:price,
+    manual_price_unit:'per_unit',
+    price_total:price,
+    linked_service_id:serviceId,
+    status:'planned',
+    sort_order:999
+  });
+  await log('add_to_project','services',serviceId,{name});
+  toast('добавлено в проект: '+name);
 }
 
 // LOG
