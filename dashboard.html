@@ -717,32 +717,169 @@ function renderFiles(files){
 
 // OVERVIEW
 async function renderOverview(){
-  const[eq,svc,tasks,reqs,budget]=await Promise.all([
-    sb.from('equipment').select('id,price_pln,status',{count:'exact'}),
-    sb.from('services').select('id',{count:'exact',head:true}),
+  const[eq,svc,ci,tasks,reqs,budget,rooms]=await Promise.all([
+    sb.from('equipment').select('id,name,price_pln,status,category'),
+    sb.from('services').select('id,name,price_per_unit,measurement_type,price,category_id'),
+    sb.from('concept_items').select('*'),
     sb.from('project_tasks').select('id,status'),
     sb.from('service_requests').select('id,status'),
-    sb.from('project_budget').select('planned,actual,paid')
+    sb.from('project_budget').select('planned,actual,paid'),
+    sb.from('premise_rooms').select('id,name')
   ]);
-  const eqCount=eq.data?.length||0;
-  const eqTotal=(eq.data||[]).reduce((s,i)=>s+(Number(i.price_pln)||0),0);
-  const tasksDone=(tasks.data||[]).filter(t=>t.status==='done').length;
-  const tasksTotal=tasks.data?.length||0;
+
+  // Оборудование в проекте (shortlist/ordered/delivered)
+  const eqProject=(eq.data||[]).filter(i=>['shortlist','ordered','delivered'].includes(i.status));
+  const eqTotal=eqProject.reduce((s,i)=>s+(Number(i.price_pln)||0),0);
+
+  // Помещения в проекте
+  const eqPremises=(eq.data||[]).filter(i=>i.category==='premises'&&['shortlist','ordered'].includes(i.status));
+  const premTotal=eqPremises.reduce((s,i)=>s+(Number(i.price_pln)||0),0);
+
+  // Работы (concept_items с ценой)
+  const worksTotal=(ci.data||[]).reduce((s,i)=>s+(Number(i.price_total)||Number(i.price)||0),0);
+
+  // Бюджет
   const bPlanned=(budget.data||[]).reduce((s,b)=>s+(Number(b.planned)||0),0);
   const bActual=(budget.data||[]).reduce((s,b)=>s+(Number(b.actual)||0),0);
+  const bPaid=(budget.data||[]).reduce((s,b)=>s+(Number(b.paid)||0),0);
+
+  // ИТОГО ИНВЕСТИЦИИ: оборудование + работы + бюджет planned
+  const totalInvest=eqTotal+worksTotal+bPlanned;
+
+  const tasksDone=(tasks.data||[]).filter(t=>t.status==='done').length;
+  const tasksTotal=tasks.data?.length||0;
+  const roomsCount=rooms.data?.length||0;
+
+  // Breakdown по категориям для detail panel
+  const eqByStatus={shortlist:0,ordered:0,delivered:0};
+  eqProject.forEach(i=>{eqByStatus[i.status]=(eqByStatus[i.status]||0)+1});
 
   document.getElementById('listBody').innerHTML=`
     <div style="padding:20px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        <div class="detail-field"><div class="detail-field-label">Equipment</div><div class="detail-field-value">${eqCount} items</div></div>
-        <div class="detail-field"><div class="detail-field-label">Total value</div><div class="detail-field-value">${eqTotal.toLocaleString('pl')} PLN</div></div>
-        <div class="detail-field"><div class="detail-field-label">Tasks</div><div class="detail-field-value">${tasksDone}/${tasksTotal} done</div></div>
-        <div class="detail-field"><div class="detail-field-label">Requests</div><div class="detail-field-value">${reqs.data?.length||0}</div></div>
-        <div class="detail-field"><div class="detail-field-label">Budget planned</div><div class="detail-field-value">${bPlanned.toLocaleString('pl')} PLN</div></div>
-        <div class="detail-field"><div class="detail-field-label">Budget actual</div><div class="detail-field-value">${bActual.toLocaleString('pl')} PLN</div></div>
+      <h3 style="font-family:var(--font-display);font-size:16px;margin:0 0 20px;color:var(--gold)">Обзор проекта</h3>
+
+      <!-- ГЛАВНЫЕ ЦИФРЫ -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+        <div class="budget-card" style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3)">
+          <div class="budget-card-label">ИНВЕСТИЦИИ</div>
+          <div class="budget-card-val" style="font-size:24px">${totalInvest.toLocaleString('pl')} PLN</div>
+        </div>
+        <div class="budget-card" style="background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.3)">
+          <div class="budget-card-label">ОПЛАЧЕНО</div>
+          <div class="budget-card-val" style="font-size:24px;color:var(--green)">${bPaid.toLocaleString('pl')} PLN</div>
+        </div>
+      </div>
+
+      <!-- РАЗБИВКА -->
+      <div style="margin-bottom:20px">
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px">Структура инвестиций</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray)">
+            <span style="font-size:12px">Помещение (аренда/покупка)</span>
+            <span style="font-family:var(--font-mono);font-size:12px">${premTotal.toLocaleString('pl')} PLN</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray)">
+            <span style="font-size:12px">Оборудование (${eqProject.length} поз.)</span>
+            <span style="font-family:var(--font-mono);font-size:12px">${(eqTotal-premTotal).toLocaleString('pl')} PLN</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray)">
+            <span style="font-size:12px">Работы и услуги</span>
+            <span style="font-family:var(--font-mono);font-size:12px">${worksTotal.toLocaleString('pl')} PLN</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray)">
+            <span style="font-size:12px">Прочие расходы (бюджет)</span>
+            <span style="font-family:var(--font-mono);font-size:12px">${bPlanned.toLocaleString('pl')} PLN</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:600">
+            <span style="font-size:13px">ИТОГО</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--gold)">${totalInvest.toLocaleString('pl')} PLN</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- СТАТУСЫ -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+        <div class="detail-field"><div class="detail-field-label">Комнат</div><div class="detail-field-value">${roomsCount}</div></div>
+        <div class="detail-field"><div class="detail-field-label">Задачи</div><div class="detail-field-value">${tasksDone}/${tasksTotal}</div></div>
+        <div class="detail-field"><div class="detail-field-label">Запросы</div><div class="detail-field-value">${reqs.data?.length||0}</div></div>
+      </div>
+
+      <!-- КНОПКА РЕНТАБЕЛЬНОСТИ -->
+      <button class="btn" style="width:100%;padding:14px;font-size:13px;background:var(--green);color:#fff;border:none;cursor:pointer" onclick="showRentability(${totalInvest})">
+        Рентабельность &rarr;
+      </button>
+    </div>`;
+
+  document.getElementById('detailPanel').innerHTML=`
+    <div style="padding:20px">
+      <h3 style="font-family:var(--font-display);font-size:14px;margin:0 0 16px;color:var(--gold)">Оборудование по статусам</h3>
+      <div class="detail-field"><div class="detail-field-label">В шорт-листе</div><div class="detail-field-value">${eqByStatus.shortlist||0}</div></div>
+      <div class="detail-field"><div class="detail-field-label">Заказано</div><div class="detail-field-value">${eqByStatus.ordered||0}</div></div>
+      <div class="detail-field"><div class="detail-field-label">Доставлено</div><div class="detail-field-value">${eqByStatus.delivered||0}</div></div>
+      <div class="detail-field" style="margin-top:16px"><div class="detail-field-label">Всего в каталоге</div><div class="detail-field-value">${eq.data?.length||0}</div></div>
+      <div class="detail-field"><div class="detail-field-label">Работ в каталоге</div><div class="detail-field-value">${svc.data?.length||0}</div></div>
+    </div>`;
+}
+
+// РЕНТАБЕЛЬНОСТЬ — расчёт окупаемости
+function showRentability(totalInvest){
+  const dp=document.getElementById('detailPanel');
+  dp.innerHTML=`
+    <div style="padding:20px">
+      <h3 style="font-family:var(--font-display);font-size:14px;margin:0 0 16px;color:var(--gold)">Расчёт рентабельности</h3>
+      <div class="detail-field">
+        <div class="detail-field-label">Инвестиции</div>
+        <div class="detail-field-value">${totalInvest.toLocaleString('pl')} PLN</div>
+      </div>
+      <div style="margin:16px 0">
+        <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Средний чек (PLN)</label>
+        <input type="number" id="r_avgCheck" value="350" style="width:100%;padding:8px;margin-top:4px;background:var(--gray);border:1px solid var(--gray2);color:var(--white);font-size:14px">
+      </div>
+      <div style="margin:16px 0">
+        <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Пациентов в день</label>
+        <input type="number" id="r_patients" value="15" style="width:100%;padding:8px;margin-top:4px;background:var(--gray);border:1px solid var(--gray2);color:var(--white);font-size:14px">
+      </div>
+      <div style="margin:16px 0">
+        <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Рабочих дней в месяц</label>
+        <input type="number" id="r_days" value="22" style="width:100%;padding:8px;margin-top:4px;background:var(--gray);border:1px solid var(--gray2);color:var(--white);font-size:14px">
+      </div>
+      <div style="margin:16px 0">
+        <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Расходы в месяц (аренда, ЗП, материалы) PLN</label>
+        <input type="number" id="r_expenses" value="45000" style="width:100%;padding:8px;margin-top:4px;background:var(--gray);border:1px solid var(--gray2);color:var(--white);font-size:14px">
+      </div>
+      <button class="btn" style="width:100%;padding:12px;font-size:12px;background:var(--gold);color:#000;border:none;cursor:pointer;margin-top:8px" onclick="calcRentability(${totalInvest})">
+        Рассчитать
+      </button>
+      <div id="r_result" style="margin-top:20px"></div>
+    </div>`;
+}
+
+function calcRentability(invest){
+  const avgCheck=Number(document.getElementById('r_avgCheck').value)||350;
+  const patients=Number(document.getElementById('r_patients').value)||15;
+  const days=Number(document.getElementById('r_days').value)||22;
+  const expenses=Number(document.getElementById('r_expenses').value)||45000;
+
+  const revenue=avgCheck*patients*days;
+  const profit=revenue-expenses;
+  const margin=revenue>0?((profit/revenue)*100).toFixed(1):0;
+  const paybackMonths=profit>0?Math.ceil(invest/profit):'&#x221E;';
+
+  document.getElementById('r_result').innerHTML=`
+    <div style="border-top:1px solid var(--gray2);padding-top:16px">
+      <div class="detail-field"><div class="detail-field-label">Выручка / мес</div><div class="detail-field-value">${revenue.toLocaleString('pl')} PLN</div></div>
+      <div class="detail-field"><div class="detail-field-label">Прибыль / мес</div><div class="detail-field-value" style="color:${profit>0?'var(--green)':'var(--red-err)'}">${profit.toLocaleString('pl')} PLN</div></div>
+      <div class="detail-field"><div class="detail-field-label">Маржа</div><div class="detail-field-value">${margin}%</div></div>
+      <div class="detail-field" style="margin-top:12px;padding:12px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3)">
+        <div class="detail-field-label">ОКУПАЕМОСТЬ</div>
+        <div class="detail-field-value" style="font-size:22px;color:var(--gold)">${paybackMonths} мес</div>
+      </div>
+      <div style="margin-top:12px;font-size:10px;color:var(--muted)">
+        Расчёт: ${avgCheck} PLN x ${patients} пац. x ${days} дн. = ${revenue.toLocaleString('pl')} PLN/мес<br>
+        ${revenue.toLocaleString('pl')} - ${expenses.toLocaleString('pl')} = ${profit.toLocaleString('pl')} PLN прибыль<br>
+        ${invest.toLocaleString('pl')} / ${profit.toLocaleString('pl')} = ${paybackMonths} месяцев
       </div>
     </div>`;
-  document.getElementById('detailPanel').innerHTML='<div class="detail-empty">project overview</div>';
 }
 
 // BUDGET
