@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>W&H Instruments — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;
+  --text:#2a2a28;--muted:#8a8a82;
+  --blue:#1a3a6b;--blue-light:#e8eef8;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--gold)}
+
+.hero{padding:120px 48px 48px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+
+.section{max-width:1200px;margin:0 auto;padding:0 48px 72px}
+.section-header{margin-bottom:32px;border-bottom:1px solid var(--gray2);padding-bottom:16px}
+.section-line{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:4px}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black)}
+.section-sub{font-size:13px;color:var(--muted);font-weight:300;margin-top:6px;max-width:700px;line-height:1.7}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:28px}
+.product{background:var(--white);border:1px solid var(--gray2);overflow:hidden;transition:all 0.3s}
+.product:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(196,154,45,0.06)}
+.product-top{padding:24px;border-bottom:1px solid var(--gray);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.product-name{font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--black)}
+.product-price{font-family:var(--font-display);font-size:20px;color:var(--black);font-weight:400}
+.product-price span{font-size:11px;color:var(--muted);font-family:var(--font-body);font-weight:300}
+.product-price-old{font-size:11px;color:var(--muted);text-decoration:line-through;display:block;text-align:right}
+.product-promo{font-family:var(--font-mono);font-size:9px;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;text-align:right}
+.product-body{padding:20px 24px}
+.product-desc{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:12px}
+.product-rate{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:1px}
+
+.highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:28px}
+.highlight{padding:20px;background:var(--gray);border-left:3px solid var(--blue);transition:background 0.2s}
+.highlight:hover{background:var(--blue-light)}
+.highlight-title{font-size:12px;font-weight:500;color:var(--black);margin-bottom:4px}
+.highlight-desc{font-size:11px;color:var(--muted);line-height:1.6;font-weight:300}
+
+.flagship{background:var(--white);border:1px solid var(--gray2);overflow:hidden;margin-bottom:32px}
+.flagship-header{padding:32px;border-bottom:1px solid var(--gray)}
+.flagship-badge{display:inline-block;background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:8px;letter-spacing:2px;padding:3px 10px;text-transform:uppercase;margin-bottom:12px}
+.flagship-name{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--black);margin-bottom:6px}
+.flagship-tagline{font-size:14px;color:var(--muted);font-weight:300;font-style:italic}
+.flagship-body{padding:32px}
+.flagship-desc{font-size:14px;color:var(--text);line-height:1.8;font-weight:300;margin-bottom:28px;max-width:800px}
+
+.note{background:var(--blue-light);border-left:3px solid var(--blue);padding:20px 24px;margin-bottom:28px;font-size:12px;color:var(--text);line-height:1.6;font-weight:300}
+.note strong{font-weight:500}
+
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 32px}
+  .section{padding:0 20px 48px}
+  .highlights{grid-template-columns:1fr}
+  .product-grid{grid-template-columns:1fr}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">W&H Dental Instruments</div>
+  <h1>Turbines, handpieces, scalers & surgery</h1>
+  <p class="hero-desc">Premium Austrian-made dental instruments. High-speed turbines, contra-angle handpieces, ultrasonic scalers, surgical systems, and instrument maintenance devices from W&H.</p>
+</div>
+
+<!-- ==================== TURBINES ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">High-Speed Turbines</div>
+    <div class="section-title">Synea Turbines</div>
+    <div class="section-sub">Ceramic bearings, LED+ illumination, anti-retraction system, and scratch-resistant surfaces. Available in Vision (premium) and Fusion (value) lines.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SYNEA VISION TK-98 L</div>
+        <div>
+          <div class="product-price-old">4 690 PLN</div>
+          <div class="product-price">4 090 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">5-point LED+ ring illumination, ceramic bearings, 24 W power, 5-way spray, scratch-resistant surface, anti-retraction system. W&H RQ-24/RQ-34 quick connect. 24 months warranty.</div>
+        <div class="product-rate" style="font-size:10px;color:var(--muted)">Variants: TK-94 L (micro head) &middot; TK-100 L (large head, 26 W)</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SYNEA FUSION TG-98 L</div>
+        <div>
+          <div class="product-price-old">2 940 PLN</div>
+          <div class="product-price">2 840 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">LED+ illumination, ceramic bearings, 4-way spray, maintenance-free water filter. W&H quick connect. 18 months warranty.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTRA-ANGLE HANDPIECES ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Contra-Angle Handpieces</div>
+    <div class="section-title">Synea Handpieces</div>
+    <div class="section-sub">1:5 speed-increasing contra-angle handpieces with ceramic bearings and glass fiber optic light transmission. Whisper-quiet operation thanks to innovative gear design.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SYNEA VISION WK-99 LT</div>
+        <div>
+          <div class="product-price-old">4 690 PLN</div>
+          <div class="product-price">4 390 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">1:5 ratio, ceramic bearings, glass fiber optic, scratch-resistant surface. Whisper-quiet innovative gears. 36 months warranty.</div>
+        <div class="product-rate" style="font-size:10px;color:var(--muted)">Variants: WK-93 LT (smaller head) &middot; SHORT EDITION for short micromotors</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SYNEA FUSION WG-99 LT</div>
+        <div>
+          <div class="product-price-old">3 740 PLN</div>
+          <div class="product-price">3 090 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">1:5 ratio, ceramic bearings, glass fiber optic. Whisper-quiet innovative gears. 24 months warranty.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROPHYLAXIS ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Prophylaxis</div>
+    <div class="section-title">Proxeo TWIST System</div>
+    <div class="section-sub">Professional prophylaxis with the LatchShort Polishing System. Up to 4 mm lower head height compared to conventional systems for better access and visibility in hard-to-reach areas.</div>
+  </div>
+
+  <div class="flagship">
+    <div class="flagship-header">
+      <div class="flagship-badge">LatchShort</div>
+      <div class="flagship-name">Proxeo TWIST WP-66W</div>
+      <div class="flagship-tagline">Smaller dimensions. Huge advantages.</div>
+    </div>
+    <div class="flagship-body">
+      <div class="highlights">
+        <div class="highlight">
+          <div class="highlight-title">4 mm Lower Profile</div>
+          <div class="highlight-desc">Head height with cup/brush is up to 4 mm lower than conventional systems, enabling more effective work with better visibility.</div>
+        </div>
+        <div class="highlight">
+          <div class="highlight-title">Contamination Shield</div>
+          <div class="highlight-desc">Cup collar-to-head connection prevents contaminants from entering the handpiece, extending its lifespan.</div>
+        </div>
+        <div class="highlight">
+          <div class="highlight-title">1:4 Ratio</div>
+          <div class="highlight-desc">Compatible with all ISO standard micromotors. Special Proxeo Twist cups ensure gentle polishing without paste loss.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="font-family:var(--font-display);font-size:28px;color:var(--black)">1 690 PLN</span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--gold-dark);letter-spacing:1px">promo price</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);font-weight:300">Includes WP-66W handpiece + 2x 144 Proxeo TWIST soft cups. 24 months warranty.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SCALERS ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Ultrasonic Scalers</div>
+    <div class="section-title">Proxeo ULTRA Scalers</div>
+    <div class="section-sub">Safe for patients with pacemakers. 27-32 KHz frequency range, 10 W power. LED-illuminated handpiece, 3 working tips with wrench, automatic post-day cleaning system.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">PB-510</div>
+        <div><div class="product-price">5 290 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Freestanding scaler for water-only operation. LED handpiece, wired foot controller, 3 tips + wrench, auto-cleaning system.</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">PB-520</div>
+        <div><div class="product-price">6 990 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Freestanding scaler for all dental fluids. LED handpiece, wired foot controller, 3 tips + wrench, auto-cleaning system.</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">PB-530</div>
+        <div><div class="product-price">7 990 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Freestanding scaler for all dental fluids. LED handpiece, wireless Bluetooth foot controller, 3 tips + wrench, auto-cleaning system.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SURGERY ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Implantology & Surgery</div>
+    <div class="section-title">Surgical Systems</div>
+    <div class="section-sub">Implant motors and piezoelectric surgery systems. The smallest and most powerful in their class, with touchscreen interfaces, procedure documentation, and Polish menu language.</div>
+  </div>
+
+  <div class="flagship">
+    <div class="flagship-header">
+      <div class="flagship-badge">Implantology</div>
+      <div class="flagship-name">ImplantMED SI-1023</div>
+      <div class="flagship-tagline">The smallest and most powerful implant motor in its class</div>
+    </div>
+    <div class="flagship-body">
+      <div class="flagship-desc">80 W micromotor with WS-75 L LED contra-angle handpiece. Bluetooth wireless or wired foot controller. Glass touchscreen front panel for easy cleaning. Icon-based Polish language interface. Built-in procedure documentation to screen and USB. Hard bone threading function, OSSTELL implant stability module compatible, external peristaltic pump.</div>
+
+      <div class="highlights">
+        <div class="highlight">
+          <div class="highlight-title">80 W Motor</div>
+          <div class="highlight-desc">Smallest and most powerful in its class. New micromotor design with exceptional torque and speed control.</div>
+        </div>
+        <div class="highlight">
+          <div class="highlight-title">Glass Touchscreen</div>
+          <div class="highlight-desc">Ideal for maintaining sterility. Intuitive icon-based interface with Polish language support.</div>
+        </div>
+        <div class="highlight">
+          <div class="highlight-title">Smart Documentation</div>
+          <div class="highlight-desc">Procedure protocols, patient identification, multi-user support. Data saved to screen and USB memory.</div>
+        </div>
+        <div class="highlight">
+          <div class="highlight-title">OSSTELL Compatible</div>
+          <div class="highlight-desc">Optional module for implant stability assessment. Hard bone threading function minimizes compression risk.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap">
+        <span style="font-family:var(--font-display);font-size:28px;color:var(--black)">17 690 PLN</span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--gold-dark);letter-spacing:1px">promo price</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);font-weight:300;margin-bottom:4px">Catalog price: 20 080 PLN</div>
+      <div style="font-size:11px;color:var(--muted);font-weight:300">Kit: SI-1023 + WS-75 L handpiece + wired foot controller</div>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">PIEZOMED</div>
+        <div>
+          <div class="product-price-old">31 860 PLN</div>
+          <div class="product-price">27 690 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Ultrasonic piezoelectric bone surgery. Precisely removes bone tissue while leaving surrounding soft tissue unharmed. Automatic blade recognition with power and cooling adjustment. 3 power modes (Power, Basic, Smooth). Shadow-free LED illumination. Includes Bone system kit.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MAINTENANCE ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Instrument Care</div>
+    <div class="section-title">Assistina Maintenance Systems</div>
+    <div class="section-sub">Perfect preparation for sterilization. Automated cleaning, lubrication, and spray channel maintenance for turbines and handpieces.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">ASSISTINA TWIN</div>
+        <div>
+          <div class="product-price-old">12 140 PLN</div>
+          <div class="product-price">10 590 <span>PLN</span></div>
+          <div class="product-promo">Promo with adapters</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Nebulization technology for superior cleaning and lubrication. Two instruments simultaneously, 10 seconds per instrument. Two 200 ml containers (cleaner + oil) service 2800+ instruments. HEPA filter. Quick Connect system.</div>
+        <div class="product-rate" style="font-size:10px;color:var(--muted)">Without adapters: 10 990 PLN catalog</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">ASSISTINA 301 plus</div>
+        <div>
+          <div class="product-price-old">5 590 PLN</div>
+          <div class="product-price">4 990 <span>PLN</span></div>
+          <div class="product-promo">Promo price</div>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Automated handpiece maintenance: internal lubrication with service oil, spray channel cleaning, compressed air blow-through. Extremely efficient: 1 L cleaner + 0.5 L oil services ~5000 cycles.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>*</strong> W&H promotional prices are time-limited. Products shipped directly from W&H Poland office. Contact for current availability.
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>

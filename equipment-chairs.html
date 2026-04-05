@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dental Chairs & Stools — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;--gray3:#d4d2ce;
+  --text:#2a2a28;--muted:#8a8a82;
+  --accent:#6b4c2a;--accent-light:#f5efe8;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--gold)}
+
+/* HERO */
+.hero{padding:120px 48px 48px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+
+/* SECTION */
+.section{max-width:1200px;margin:0 auto;padding:0 48px 72px}
+.section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:32px;border-bottom:1px solid var(--gray2);padding-bottom:16px}
+.section-title{font-family:var(--font-display);font-size:24px;font-weight:400;color:var(--black)}
+.section-count{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:1px}
+
+/* TABLE LAYOUT */
+.items-table{width:100%;border-collapse:collapse}
+.items-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 16px;border-bottom:2px solid var(--gray2);font-weight:400}
+.items-table td{padding:14px 16px;border-bottom:1px solid var(--gray);font-size:13px;font-weight:300;vertical-align:middle}
+.items-table tr:hover td{background:var(--gold-glow)}
+.items-table .name{font-weight:400;color:var(--black)}
+.items-table .material{font-size:11px;color:var(--muted)}
+.items-table .price{font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--black);white-space:nowrap}
+.items-table .promo{color:var(--gold-dark);font-weight:500}
+.promo-badge{display:inline-block;background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:8px;letter-spacing:2px;padding:2px 8px;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:48px}
+.feature{background:var(--white);border:1px solid var(--gray2);padding:28px 24px;transition:border-color 0.2s}
+.feature:hover{border-color:var(--gold)}
+.feature-num{font-family:var(--font-display);font-size:28px;color:var(--gold);margin-bottom:8px}
+.feature-title{font-size:14px;font-weight:500;color:var(--black);margin-bottom:6px}
+.feature-desc{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* ACCESSORIES */
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.acc-card{background:var(--white);border:1px solid var(--gray2);padding:20px;transition:border-color 0.2s}
+.acc-card:hover{border-color:var(--gold)}
+.acc-name{font-size:13px;font-weight:400;color:var(--black);margin-bottom:4px}
+.acc-desc{font-size:11px;color:var(--muted);line-height:1.5;font-weight:300;margin-bottom:12px}
+.acc-price{font-family:var(--font-mono);font-size:13px;color:var(--text);font-weight:500}
+
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 32px}
+  .section{padding:0 20px 48px}
+  .features{grid-template-columns:1fr}
+  .acc-grid{grid-template-columns:1fr}
+  .items-table{display:block;overflow-x:auto}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Support Design &middot; Sweden</div>
+  <h1>Dental chairs, saddles & stools</h1>
+  <p>Ergonomic seating designed by Professor Bruno Mathsson, Chalmers University, Gothenburg. Created specifically for dental professionals to eliminate spinal problems and reduce fatigue during long procedures.</p>
+</div>
+
+<!-- SUPPORT CHAIR -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Support Chair</div>
+    <div class="section-count">the best friend for your back</div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-num">1</div>
+      <div class="feature-title">Active backrest</div>
+      <div class="feature-desc">Guarantees optimal lumbar support in every working position. Follows the operator's back movement.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-num">2</div>
+      <div class="feature-title">Tilting seat</div>
+      <div class="feature-desc">Angle adjustment eliminates pressure from the seat edge on leg blood vessels.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-num">3</div>
+      <div class="feature-title">Compact base (62 cm)</div>
+      <div class="feature-desc">Allows working from the side or behind the patient (9 and 12 o'clock positions).</div>
+    </div>
+    <div class="feature">
+      <div class="feature-num">4</div>
+      <div class="feature-title">Three telescope heights</div>
+      <div class="feature-desc">Adjustable to the user's height. Bucket-shaped seat prevents sliding even when leaning.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-num">5</div>
+      <div class="feature-title">Multiple armrest options</div>
+      <div class="feature-desc">Including RELAX armrest that supports the arm with free horizontal movement, reducing weight to minimum.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-num">6</div>
+      <div class="feature-title">Single lever control</div>
+      <div class="feature-desc">All stool functions are operated with just one lever in an easily accessible position.</div>
+    </div>
+  </div>
+
+  <table class="items-table">
+    <thead>
+      <tr><th>Model</th><th>Upholstery</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">SUPPORT <span class="promo-badge">Promo</span></td>
+        <td class="material">Vinyl, dark grey</td>
+        <td class="price promo">2 900 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">SUPPORT</td>
+        <td class="material">Vinyl (34 colors)</td>
+        <td class="price">4 200 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">SUPPORT</td>
+        <td class="material">Leather / Stern Weber upholstery</td>
+        <td class="price">4 500 PLN</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SADDLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Dental Saddles</div>
+    <div class="section-count">6 models</div>
+  </div>
+
+  <table class="items-table">
+    <thead>
+      <tr><th>Model</th><th>Description</th><th>Vinyl</th><th>Leather / SW</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">CLASSIC</td>
+        <td class="material">Natural spine curvature support, open hip angle</td>
+        <td class="price">3 200 PLN</td>
+        <td class="price">3 500 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">ADVANCED</td>
+        <td class="material">V-cut front for reduced pressure, male anatomy support</td>
+        <td class="price">3 500 PLN</td>
+        <td class="price">3 800 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">LITE</td>
+        <td class="material">Smaller seat diameter, ideal for shorter users</td>
+        <td class="price">3 200 PLN</td>
+        <td class="price">3 500 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">LITE ADVANCED</td>
+        <td class="material">Compact with V-cut, for smaller users</td>
+        <td class="price">3 500 PLN</td>
+        <td class="price">3 800 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">LITE HYBRID</td>
+        <td class="material">Spring-mounted seat follows body movement, strengthens lumbar muscles. Foot-operated height.</td>
+        <td class="price">4 200 PLN</td>
+        <td class="price">4 500 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">LITE HYBRID ADVANCED</td>
+        <td class="material">Hybrid spring + V-cut, full body-following technology</td>
+        <td class="price">4 200 PLN</td>
+        <td class="price">4 500 PLN</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STOOLS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Stools & Chairs</div>
+    <div class="section-count">3 models</div>
+  </div>
+
+  <table class="items-table">
+    <thead>
+      <tr><th>Model</th><th>Description</th><th>Vinyl</th><th>Leather / SW</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">PRISMA</td>
+        <td class="material">Most compact stool. Flat seat, lever height adjustment. Collision-free movement.</td>
+        <td class="price">2 300 PLN</td>
+        <td class="price">2 600 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">TABURETT</td>
+        <td class="material">Compact design with ergonomic contoured seat. Tilt and height adjustable.</td>
+        <td class="price">2 800 PLN</td>
+        <td class="price">3 100 PLN</td>
+      </tr>
+      <tr>
+        <td class="name">AKKA</td>
+        <td class="material">Traditional look, modern ergonomics. Adjustable height, backrest and seat angles.</td>
+        <td class="price">3 200 PLN</td>
+        <td class="price">3 500 PLN</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ACCESSORIES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Accessories</div>
+    <div class="section-count">optional equipment</div>
+  </div>
+
+  <div class="acc-grid">
+    <div class="acc-card">
+      <div class="acc-name">Armrest RELAX</div>
+      <div class="acc-desc">Adjustable height and horizontal range of motion</div>
+      <div class="acc-price">1 100 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Armrests FIXED (pair)</div>
+      <div class="acc-desc">Fixed position dual armrests</div>
+      <div class="acc-price">1 000 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Armrest SWING</div>
+      <div class="acc-desc">Upholstered swinging armrest</div>
+      <div class="acc-price">1 300 / 1 600 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Armrest SWING MINI</div>
+      <div class="acc-desc">Compact upholstered swinging armrest</div>
+      <div class="acc-price">1 400 / 1 700 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Lumbar support CORE+</div>
+      <div class="acc-desc">Enhanced lumbar support module</div>
+      <div class="acc-price">1 200 / 1 500 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Lumbar support MINI</div>
+      <div class="acc-desc">Compact lumbar support</div>
+      <div class="acc-price">1 100 / 1 400 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Metal foot ring</div>
+      <div class="acc-desc">Stainless steel circular footrest</div>
+      <div class="acc-price">700 PLN</div>
+    </div>
+    <div class="acc-card">
+      <div class="acc-name">Foot-operated height adjuster</div>
+      <div class="acc-desc">Hands-free seat height control</div>
+      <div class="acc-price">900 PLN</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>

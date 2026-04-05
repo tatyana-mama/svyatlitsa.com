@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dental Instruments — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;
+  --text:#2a2a28;--muted:#8a8a82;
+  --steel:#4a5568;--steel-light:#edf2f7;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--gold)}
+
+.hero{padding:120px 48px 48px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+
+/* SECTION */
+.section{max-width:1200px;margin:0 auto;padding:0 48px 72px}
+.section-header{margin-bottom:32px;border-bottom:1px solid var(--gray2);padding-bottom:16px}
+.section-line{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--steel);text-transform:uppercase;margin-bottom:4px}
+.section-title{font-family:var(--font-display);font-size:24px;font-weight:400;color:var(--black)}
+
+/* SPECS CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.chip{padding:6px 14px;background:var(--white);border:1px solid var(--gray2);font-size:11px;color:var(--text);font-weight:300;transition:border-color 0.2s}
+.chip:hover{border-color:var(--gold)}
+
+/* INSTRUMENT CARDS */
+.instr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.instr{background:var(--white);border:1px solid var(--gray2);overflow:hidden;transition:all 0.3s}
+.instr:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(196,154,45,0.06)}
+.instr-top{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--gray)}
+.instr-name{font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--black)}
+.instr-ratio{font-family:var(--font-mono);font-size:11px;color:var(--steel);letter-spacing:1px;background:var(--steel-light);padding:4px 10px}
+.instr-body{padding:16px 24px 20px}
+.instr-desc{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:16px}
+.instr-features{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.instr-feat{font-size:10px;padding:3px 10px;background:var(--gray);color:var(--text);font-weight:300}
+.instr-footer{display:flex;align-items:baseline;justify-content:space-between;padding-top:12px;border-top:1px solid var(--gray)}
+.instr-price{font-family:var(--font-display);font-size:22px;color:var(--black);font-weight:400}
+.instr-price span{font-size:12px;color:var(--muted);font-family:var(--font-body);font-weight:300}
+.instr-price-old{font-size:12px;color:var(--muted);text-decoration:line-through;font-weight:300}
+.instr-promo{font-family:var(--font-mono);font-size:9px;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase}
+.badge-new{background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:8px;letter-spacing:2px;padding:2px 8px;text-transform:uppercase}
+
+/* CONNECTOR */
+.connector{background:var(--white);border:1px solid var(--gray2);padding:24px;display:flex;align-items:center;justify-content:space-between;margin-top:20px;transition:border-color 0.2s}
+.connector:hover{border-color:var(--gold)}
+.connector-info{display:flex;flex-direction:column;gap:4px}
+.connector-name{font-size:14px;font-weight:400;color:var(--black)}
+.connector-desc{font-size:11px;color:var(--muted);font-weight:300}
+.connector-prices{text-align:right}
+.connector-price-old{font-size:11px;color:var(--muted);text-decoration:line-through}
+.connector-price{font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--text)}
+
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 32px}
+  .section{padding:0 20px 48px}
+  .instr-grid{grid-template-columns:1fr}
+  .connector{flex-direction:column;gap:12px;align-items:flex-start}
+  .connector-prices{text-align:left}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Stern Weber Instruments</div>
+  <h1>Turbines, contra-angles & handpieces</h1>
+  <p>Professional dental instruments with ceramic bearings, LED illumination, and sterilization compatibility. Silent Power EVO and GoldSpeed EVO series.</p>
+</div>
+
+<!-- TURBINES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Silent Power EVO Series</div>
+    <div class="section-title">Turbines</div>
+  </div>
+
+  <div class="chips">
+    <div class="chip">Ceramic bearings</div>
+    <div class="chip">Stainless steel head</div>
+    <div class="chip">Chrome handle</div>
+    <div class="chip">Push-type head</div>
+    <div class="chip">LED illumination</div>
+    <div class="chip">57 dB(A) noise level</div>
+    <div class="chip">Autoclave sterilizable</div>
+    <div class="chip">Thermodisinfector washable</div>
+    <div class="chip">2.7/2.9 bar working pressure</div>
+  </div>
+
+  <div class="instr-grid">
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">SILENT POWER EVO Miniature</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Small head, LED illumination. Stern Weber connection.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Small head</span>
+          <span class="instr-feat">SW connection</span>
+          <span class="instr-feat">LED</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 990 PLN</div>
+            <div class="instr-price">2 590 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">SILENT POWER EVO 4L</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Standard head, LED illumination. Stern Weber connection.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Standard head</span>
+          <span class="instr-feat">SW connection</span>
+          <span class="instr-feat">LED</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 890 PLN</div>
+            <div class="instr-price">2 490 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">SILENT POWER EVO 2L</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Small head, LED illumination. Midwest connection for universal compatibility.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Small head</span>
+          <span class="instr-feat">Midwest connection</span>
+          <span class="instr-feat">LED</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 990 PLN</div>
+            <div class="instr-price">2 590 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="connector">
+    <div class="connector-info">
+      <div class="connector-name">Stern Weber Light Connector</div>
+      <div class="connector-desc">Connection adapter with integrated LED light</div>
+    </div>
+    <div class="connector-prices">
+      <div class="connector-price-old">750 PLN</div>
+      <div class="connector-price">660 PLN</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTRA-ANGLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">GoldSpeed EVO Series</div>
+    <div class="section-title">Contra-angles & Handpieces</div>
+  </div>
+
+  <div class="instr-grid">
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO R20-L</div>
+        <div class="instr-ratio">20:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">For surgery and implantology. For instruments with 2.35 mm diameter. Single spray.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Surgery</span>
+          <span class="instr-feat">Implantology</span>
+          <span class="instr-feat">Autoclavable</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price">3 700 <span>PLN</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO E16</div>
+        <div class="instr-ratio">16:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">For endodontics. Reduced head size for easier maneuvering. Ceramic bearings.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Endodontics</span>
+          <span class="instr-feat">Compact head</span>
+          <span class="instr-feat">Ceramic bearings</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">1 600 PLN</div>
+            <div class="instr-price">1 500 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO E4</div>
+        <div class="instr-ratio">4:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">For endodontics. Compatible with RECIPROC system and unit-integrated apex locator. Compact head.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Endodontics</span>
+          <span class="instr-feat">RECIPROC compatible</span>
+          <span class="badge-new">New</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 400 PLN</div>
+            <div class="instr-price">2 000 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO M5-L</div>
+        <div class="instr-ratio">1:5</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">For restorative dentistry. Speed-increasing contra-angle for turbine burs. Integrated LED. Head 10mm. Quad spray.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Restorative</span>
+          <span class="instr-feat">LED</span>
+          <span class="instr-feat">Quad spray</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">3 690 PLN</div>
+            <div class="instr-price">2 990 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO S1</div>
+        <div class="instr-ratio">1:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Contra-angle without light for restorative and general dentistry. Head 9.5mm.</div>
+        <div class="instr-features">
+          <span class="instr-feat">General</span>
+          <span class="instr-feat">No light</span>
+          <span class="instr-feat">Autoclavable</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 490 PLN</div>
+            <div class="instr-price">2 190 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO S1-L</div>
+        <div class="instr-ratio">1:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Contra-angle with LED light for restorative and general dentistry. Single spray. Head 9.5mm.</div>
+        <div class="instr-features">
+          <span class="instr-feat">General</span>
+          <span class="instr-feat">LED</span>
+          <span class="instr-feat">Single spray</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price-old">2 790 PLN</div>
+            <div class="instr-price">2 390 <span>PLN</span></div>
+          </div>
+          <div class="instr-promo">Promo price</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO D1</div>
+        <div class="instr-ratio">1:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Straight handpiece without light for restorative and general dentistry. Single spray.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Straight</span>
+          <span class="instr-feat">No light</span>
+          <span class="instr-feat">Autoclavable</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price">1 500 <span>PLN</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="instr-top">
+        <div class="instr-name">GOLDSPEED EVO D1-L</div>
+        <div class="instr-ratio">1:1</div>
+      </div>
+      <div class="instr-body">
+        <div class="instr-desc">Straight handpiece with LED light for restorative and general dentistry. Single spray.</div>
+        <div class="instr-features">
+          <span class="instr-feat">Straight</span>
+          <span class="instr-feat">LED</span>
+          <span class="instr-feat">Single spray</span>
+        </div>
+        <div class="instr-footer">
+          <div>
+            <div class="instr-price">2 500 <span>PLN</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>

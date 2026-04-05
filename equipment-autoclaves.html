@@ -1,0 +1,498 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sterilization & Hygiene — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;
+  --text:#2a2a28;--muted:#8a8a82;
+  --blue:#1a3a6b;--blue-light:#e8eef8;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--gold)}
+
+.hero{padding:120px 48px 48px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+
+.section{max-width:1200px;margin:0 auto;padding:0 48px 72px}
+.section-header{margin-bottom:32px;border-bottom:1px solid var(--gray2);padding-bottom:16px}
+.section-line{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:4px}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black)}
+.section-sub{font-size:13px;color:var(--muted);font-weight:300;margin-top:6px;max-width:700px;line-height:1.7}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:28px}
+.product{background:var(--white);border:1px solid var(--gray2);overflow:hidden;transition:all 0.3s}
+.product:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(196,154,45,0.06)}
+.product-top{padding:24px;border-bottom:1px solid var(--gray);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.product-name{font-family:var(--font-display);font-size:18px;font-weight:400;color:var(--black)}
+.product-price{font-family:var(--font-display);font-size:20px;color:var(--black);font-weight:400}
+.product-price span{font-size:11px;color:var(--muted);font-family:var(--font-body);font-weight:300}
+.product-body{padding:20px 24px}
+.product-desc{font-size:12px;color:var(--muted);line-height:1.6;font-weight:300;margin-bottom:12px}
+.product-rate{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:1px}
+
+.specs-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px}
+.specs-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:center;padding:8px 6px;border-bottom:2px solid var(--gray2);font-weight:400}
+.specs-table th:first-child{text-align:left}
+.specs-table td{padding:8px 6px;border-bottom:1px solid var(--gray);text-align:center;font-weight:300;color:var(--text)}
+.specs-table td:first-child{text-align:left;font-weight:400;color:var(--black)}
+
+.highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:28px}
+.highlight{padding:20px;background:var(--gray);border-left:3px solid var(--blue);transition:background 0.2s}
+.highlight:hover{background:var(--blue-light)}
+.highlight-title{font-size:12px;font-weight:500;color:var(--black);margin-bottom:4px}
+.highlight-desc{font-size:11px;color:var(--muted);line-height:1.6;font-weight:300}
+
+.flagship{background:var(--white);border:1px solid var(--gray2);overflow:hidden;margin-bottom:32px}
+.flagship-header{padding:32px;border-bottom:1px solid var(--gray)}
+.flagship-badge{display:inline-block;background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:8px;letter-spacing:2px;padding:3px 10px;text-transform:uppercase;margin-bottom:12px}
+.flagship-name{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--black);margin-bottom:6px}
+.flagship-tagline{font-size:14px;color:var(--muted);font-weight:300;font-style:italic}
+.flagship-body{padding:32px}
+.flagship-desc{font-size:14px;color:var(--text);line-height:1.8;font-weight:300;margin-bottom:28px;max-width:800px}
+
+.note{background:var(--blue-light);border-left:3px solid var(--blue);padding:20px 24px;margin-bottom:28px;font-size:12px;color:var(--text);line-height:1.6;font-weight:300}
+.note strong{font-weight:500}
+
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 32px}
+  .section{padding:0 20px 48px}
+  .highlights{grid-template-columns:1fr}
+  .product-grid{grid-template-columns:1fr}
+  .specs-table{display:block;overflow-x:auto}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Sterilization & Hygiene</div>
+  <h1>Autoclaves, sealers & washer-disinfectors</h1>
+  <p class="hero-desc">Complete sterilization workflow: from sealing instruments in pouches through autoclave sterilization to automated washer-disinfectors. Stern Weber, MOCOM, and Tethys systems.</p>
+</div>
+
+<!-- ==================== STERN WEBER AUTOCLAVES ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Class B Autoclaves</div>
+    <div class="section-title">Stern Weber SW Series</div>
+    <div class="section-sub">Powerful, efficient, and versatile. Patented high-output steam generator produces saturated steam of the highest quality. Hydraulic system with vacuum pump ensures short and efficient sterilization cycles with reduced water consumption.</div>
+  </div>
+
+  <div class="highlights">
+    <div class="highlight">
+      <div class="highlight-title">6 Working Cycles</div>
+      <div class="highlight-desc">Six sterilization programs launched without unnecessary waiting. Automatic stand-by mode after cycle completion and auto-shutdown function.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">LCD Display</div>
+      <div class="highlight-desc">Large liquid crystal display with white characters on blue background for easy and quick message reading.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">Water Efficiency</div>
+      <div class="highlight-desc">Fast cycle execution and reduced water consumption guarantee high efficiency and safety of the sterilization process.</div>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-17</div>
+        <div><div class="product-price">15 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">17 L chamber, 250x350 mm, 5 stainless steel trays, 50 kg. Optional internal thermal printer.</div>
+        <div class="product-rate">installment 180 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-22</div>
+        <div><div class="product-price">19 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">22 L chamber, 250x450 mm, 5 stainless steel trays, 51 kg. Optional internal thermal printer.</div>
+        <div class="product-rate">installment 220 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-28</div>
+        <div><div class="product-price">24 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">28 L chamber, 280x450 mm, 6 stainless steel trays, 52 kg. Optional internal thermal printer.</div>
+        <div class="product-rate">installment 280 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead><tr><th>Specification</th><th>SW-17</th><th>SW-22</th><th>SW-28</th></tr></thead>
+    <tbody>
+      <tr><td>Voltage</td><td>220/240 V</td><td>220/240 V</td><td>220/240 V</td></tr>
+      <tr><td>Power</td><td>2300 W</td><td>2300 W</td><td>2300 W</td></tr>
+      <tr><td>Dimensions (LxHxD)</td><td>480x500x600 mm</td><td>480x500x600 mm</td><td>480x500x600 mm</td></tr>
+      <tr><td>Chamber (fxD)</td><td>250x350 mm</td><td>250x450 mm</td><td>280x450 mm</td></tr>
+      <tr><td>Trays</td><td>5</td><td>5</td><td>6</td></tr>
+      <tr><td>Capacity</td><td>17 L</td><td>22 L</td><td>28 L</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== STERN WEBER PLUS ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Class B Autoclaves</div>
+    <div class="section-title">Stern Weber SW PLUS Series</div>
+    <div class="section-sub">Enhanced version with touchscreen color display, USB data export, and optional barcode label printer. Polished stainless steel chamber with rotating basket for trays or cassettes. Optional implantology cassette kit.</div>
+  </div>
+
+  <div class="highlights">
+    <div class="highlight">
+      <div class="highlight-title">Touchscreen Display</div>
+      <div class="highlight-desc">Color touch display provides instant control over all autoclave functions with intuitive icon-based interface.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">Cycle Documentation</div>
+      <div class="highlight-desc">Electronic recording to USB PenDrive or optional thermal printer. Digital data transfer to PC is practical and secure.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">Loading Zones</div>
+      <div class="highlight-desc">Top trays: critical medical devices (surgical instruments). Middle: handpieces, turbines. Bottom: semi-critical devices (mirrors, probes, forceps).</div>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-17 PLUS</div>
+        <div><div class="product-price">18 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">17 L chamber, 250x350 mm, 5 stainless steel trays, 51 kg.</div>
+        <div class="product-rate">installment 210 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-22 PLUS</div>
+        <div><div class="product-price">22 500 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">22 L chamber, 250x450 mm, 5 stainless steel trays, 52 kg.</div>
+        <div class="product-rate">installment 270 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SW-28 PLUS</div>
+        <div><div class="product-price">27 500 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">28 L chamber, 280x450 mm, 6 stainless steel trays, 53 kg.</div>
+        <div class="product-rate">installment 320 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead><tr><th>Specification</th><th>SW-17 PLUS</th><th>SW-22 PLUS</th><th>SW-28 PLUS</th></tr></thead>
+    <tbody>
+      <tr><td>Voltage</td><td>220/240 V</td><td>220/240 V</td><td>220/240 V</td></tr>
+      <tr><td>Power</td><td>2300 W</td><td>2300 W</td><td>2300 W</td></tr>
+      <tr><td>Dimensions (LxHxD)</td><td>480x500x600 mm</td><td>480x500x600 mm</td><td>480x500x600 mm</td></tr>
+      <tr><td>Chamber (fxD)</td><td>250x350 mm</td><td>250x450 mm</td><td>280x450 mm</td></tr>
+      <tr><td>Trays</td><td>5</td><td>5</td><td>6</td></tr>
+      <tr><td>Capacity</td><td>17 L</td><td>22 L</td><td>28 L</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== MOCOM B CLASSIC ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Class B Autoclaves</div>
+    <div class="section-title">MOCOM B Classic</div>
+    <div class="section-sub">Full reliability. LCD display with soft-touch keyboard, Ethernet and WiFi connectivity, Easy Check remote support service. Simple configuration and helpful prompts for first-time setup.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B CLASSIC-17</div>
+        <div><div class="product-price">15 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">17 L chamber, 250x350 mm, 5 trays, 50 kg. Ethernet + WiFi, Easy Check remote support.</div>
+        <div class="product-rate">installment 180 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B CLASSIC-22</div>
+        <div><div class="product-price">19 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">22 L chamber, 250x450 mm, 5 trays, 51 kg. Ethernet + WiFi, Easy Check remote support.</div>
+        <div class="product-rate">installment 220 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B CLASSIC-28</div>
+        <div><div class="product-price">24 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">28 L chamber, 280x450 mm, 6 trays, 52 kg. Ethernet + WiFi, Easy Check remote support.</div>
+        <div class="product-rate">installment 280 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MOCOM B FUTURA ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Class B Autoclaves</div>
+    <div class="section-title">MOCOM B Futura</div>
+    <div class="section-sub">Upgrading the best. Color 4.3" touchscreen with user-friendly icon interface. Dedicated DataSter software for automatic cycle data download. PDF reports via front USB port.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B FUTURA-17</div>
+        <div><div class="product-price">18 500 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">17 L chamber, 250x350 mm, 5 trays, 51 kg. 4.3" color touchscreen, DataSter software.</div>
+        <div class="product-rate">installment 210 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B FUTURA-22</div>
+        <div><div class="product-price">22 500 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">22 L chamber, 250x450 mm, 5 trays, 52 kg. 4.3" color touchscreen, DataSter software.</div>
+        <div class="product-rate">installment 270 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">B FUTURA-28</div>
+        <div><div class="product-price">27 500 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">28 L chamber, 280x450 mm, 6 trays, 53 kg. 4.3" color touchscreen, DataSter software.</div>
+        <div class="product-rate">installment 320 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MOCOM SUPREME ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Class B Autoclaves</div>
+    <div class="section-title">MOCOM Supreme</div>
+    <div class="section-sub">A new quality in autoclaves. First sterilizer with closed-loop water system using internal filtration. Only ~100 ml water per cycle. No external water treatment station required. 7-inch touchscreen, LED color status panel, WiFi cloud via Di.VA, video tutorials built-in.</div>
+  </div>
+
+  <div class="highlights">
+    <div class="highlight">
+      <div class="highlight-title">Closed-Loop Water System</div>
+      <div class="highlight-desc">Internal demineralizing filter processes water for reuse. Eliminates waste, reduces costs, and solves water supply logistics. Fill with regular tap water.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">7" Touchscreen</div>
+      <div class="highlight-desc">Simple and intuitive like a tablet. Built-in video tutorials for load positioning and filter replacement instructions.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">LED Color Communication</div>
+      <div class="highlight-desc">Built-in door LED panel changes colors with different work phases. Status visible at a glance from across the room.</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-title">WiFi Cloud Storage</div>
+      <div class="highlight-desc">Automatic cycle report upload via WiFi and Di.VA system. Also downloadable in PDF via front USB port.</div>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SUPREME-17</div>
+        <div><div class="product-price">17 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">17 L chamber, 250x350 mm, 5 trays, 49 kg. Closed-loop water, 7" touch, WiFi, LED status.</div>
+        <div class="product-rate">installment 320 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SUPREME-22</div>
+        <div><div class="product-price">30 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">22 L chamber, 250x450 mm, 5 trays, 57 kg. Closed-loop water, 7" touch, WiFi, LED status.</div>
+        <div class="product-rate">installment 360 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">SUPREME-28</div>
+        <div><div class="product-price">34 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">28 L chamber, 280x450 mm, 6 trays, 60 kg. Closed-loop water, 7" touch, WiFi, LED status.</div>
+        <div class="product-rate">installment 410 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead><tr><th>Specification</th><th>SUPREME-17</th><th>SUPREME-22</th><th>SUPREME-28</th></tr></thead>
+    <tbody>
+      <tr><td>Voltage</td><td>220/240 V</td><td>220/240 V</td><td>220/240 V</td></tr>
+      <tr><td>Power</td><td>2300 W</td><td>2300 W</td><td>2300 W</td></tr>
+      <tr><td>Dimensions (LxHxD)</td><td>480x500x600 mm</td><td>480x500x600 mm</td><td>480x500x600 mm</td></tr>
+      <tr><td>Weight</td><td>49 kg</td><td>57 kg</td><td>60 kg</td></tr>
+      <tr><td>Chamber (fxD)</td><td>250x350 mm</td><td>250x450 mm</td><td>280x450 mm</td></tr>
+      <tr><td>Capacity</td><td>17 L</td><td>22 L</td><td>28 L</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== SEALERS ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Pouch Sealers</div>
+    <div class="section-title">Millseal+ Sealers</div>
+    <div class="section-sub">Practical sealing devices for dental practices. Electronic parameter selection (time and temperature), 12 mm seal width, visual and acoustic confirmation signals. Available in manual and automatic versions.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">Millseal+ Manual</div>
+        <div><div class="product-price">2 200 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Manual lever operation. Set pouch length, cut from roll, insert instrument, seal by pressing right-side lever until audible signal. Side roll holders prevent unwinding. 150 W, 5 kg, 474x374x200 mm.</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">Millseal+ Evo Auto</div>
+        <div><div class="product-price">5 900 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">Fully automatic operation via control buttons. Bidirectional motor-driven pouch feed for precise length selection with zero foil waste. 150 W, 6 kg, 474x374x200 mm.</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="specs-table">
+    <thead><tr><th>Specification</th><th>Millseal+ Manual</th><th>Millseal+ Evo Auto</th></tr></thead>
+    <tbody>
+      <tr><td>Voltage</td><td>220/240 V</td><td>220/240 V</td></tr>
+      <tr><td>Power</td><td>150 W</td><td>150 W</td></tr>
+      <tr><td>Weight</td><td>5 kg</td><td>6 kg</td></tr>
+      <tr><td>Seal Height</td><td>12 mm</td><td>12 mm</td></tr>
+      <tr><td>Max Roll Width</td><td>300 mm</td><td>300 mm</td></tr>
+      <tr><td>Max Roll Diameter</td><td>200 mm</td><td>200 mm</td></tr>
+      <tr><td>Sealing Temp</td><td>180 &deg;C</td><td>180 &deg;C</td></tr>
+      <tr><td>Material</td><td>Paper/PP laminate</td><td>Paper/PP laminate</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== TETHYS WASHERS ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-line">Washer-Disinfectors</div>
+    <div class="section-title">Tethys Thermal Disinfectors</div>
+    <div class="section-sub">Fully automated cleaning and disinfection systems ensuring operator safety and eliminating procedural errors. Proper instrument reprocessing through washing, disinfection, and drying stages.</div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">Tethys D60</div>
+        <div><div class="product-price">39 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">The art of sterilization. Microprocessor control, 15 programs (6 custom), soft-touch keyboard, detergent dosing system, electromagnetic door lock, HEPA filter (99.999%), built-in water softener, ECO SLIM condenser. 600x605x850 mm, 70 kg, &lt;50 dB.</div>
+        <div class="product-rate">installment 460 PLN/mo*</div>
+      </div>
+    </div>
+    <div class="product">
+      <div class="product-top">
+        <div class="product-name">Tethys H10</div>
+        <div><div class="product-price">19 000 <span>PLN</span></div></div>
+      </div>
+      <div class="product-body">
+        <div class="product-desc">First 4-in-1 device: decontamination, ultrasonic cleaning, thermal disinfection, drying in one 35-minute automated process. Ethernet connectivity, internal PDF memory, EN ISO 15883-1/2 certified. 470x500x430 mm, 37 kg, 8 L tank.</div>
+        <div class="product-rate">installment 220 PLN/mo*</div>
+      </div>
+    </div>
+  </div>
+
+  <details style="margin-bottom:28px">
+    <summary style="cursor:pointer;font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;padding:12px 0;border-bottom:1px solid var(--gray2)">Tethys H10 cycle programs</summary>
+    <table class="specs-table" style="margin-top:16px">
+      <thead><tr><th>Cycle</th><th>&deg;C</th><th>Effective Time</th><th>A&#8320; Level</th><th>Total Time</th></tr></thead>
+      <tbody>
+        <tr><td>Disinfection D90</td><td>90</td><td>Wash 13' + Disinfect 5'</td><td>3000</td><td>35'</td></tr>
+        <tr><td>Wash W</td><td>45</td><td>13'</td><td>&mdash;</td><td>23'</td></tr>
+        <tr><td>Pre-wash</td><td>25</td><td>6'</td><td>&mdash;</td><td>7'</td></tr>
+        <tr><td>Self-disinfection D1</td><td>80</td><td>10'-20'</td><td>600-1200</td><td>varies</td></tr>
+        <tr><td>Self-disinfection D2</td><td>90</td><td>1'-10'</td><td>600-6000</td><td>varies</td></tr>
+        <tr><td>Self-wash W1</td><td>45</td><td>13'-20'</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <div class="note">
+    <strong>*</strong> Stern Weber Credit: 20% down payment, 84 monthly installments, WIBOR 1.63%. All prices are catalog prices in PLN.
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>D-TEC Lighting — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;--gray3:#d4d2ce;
+  --text:#2a2a28;--muted:#8a8a82;
+  --accent:#2a6e8a;--accent-light:#e8f4f8;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover,.nav-link.active{color:var(--gold)}
+
+/* HERO */
+.hero{padding:120px 48px 64px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:600px;line-height:1.8;font-weight:300}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--gray2);margin:0 48px 64px;max-width:1104px;margin-left:auto;margin-right:auto;border:1px solid var(--gray2)}
+.fact{background:var(--white);padding:28px 24px;text-align:center}
+.fact-number{font-family:var(--font-display);font-size:32px;color:var(--accent);margin-bottom:4px}
+.fact-label{font-size:11px;letter-spacing:1px;color:var(--muted);font-weight:300}
+
+/* SPECS BANNER */
+.specs-banner{margin:0 48px 64px;max-width:1104px;margin-left:auto;margin-right:auto;padding:40px;background:var(--white);border:1px solid var(--gray2)}
+.specs-banner h2{font-family:var(--font-display);font-size:24px;font-weight:400;color:var(--black);margin-bottom:24px}
+.specs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.spec-item{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text);font-weight:300;line-height:1.5}
+.spec-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+
+/* PRODUCTS */
+.products{max-width:1200px;margin:0 auto;padding:0 48px 80px}
+.products h2{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black);margin-bottom:40px;text-align:center}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+
+/* PRODUCT CARD */
+.product{background:var(--white);border:1px solid var(--gray2);transition:all 0.3s;overflow:hidden}
+.product:hover{border-color:var(--gold);box-shadow:0 12px 40px rgba(196,154,45,0.06)}
+.product-visual{aspect-ratio:16/10;background:linear-gradient(135deg,var(--gray) 0%,var(--warm) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.product-icon{font-size:48px;opacity:0.3}
+.product-badge{position:absolute;top:12px;right:12px;background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:9px;letter-spacing:2px;padding:4px 10px;text-transform:uppercase}
+.product-body{padding:24px}
+.product-name{font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--black);margin-bottom:6px}
+.product-sub{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:16px;font-weight:300}
+.product-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.product-spec{display:flex;flex-direction:column;padding:10px 12px;background:var(--gray);transition:background 0.2s}
+.product-spec:hover{background:var(--accent-light)}
+.product-spec-label{font-family:var(--font-mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.product-spec-value{font-size:13px;color:var(--text);font-weight:400}
+.product-options{margin-bottom:20px}
+.product-option{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray);font-size:12px;color:var(--muted);font-weight:300}
+.product-option-price{font-family:var(--font-mono);font-size:11px;color:var(--text);font-weight:500}
+.product-footer{display:flex;align-items:baseline;justify-content:space-between;padding-top:16px;border-top:1px solid var(--gray2)}
+.product-price{font-family:var(--font-display);font-size:26px;color:var(--black);font-weight:400}
+.product-price-unit{font-size:11px;color:var(--muted);font-weight:300;margin-left:4px}
+
+/* NOTE */
+.note{max-width:1200px;margin:0 auto;padding:0 48px 80px}
+.note-box{background:var(--accent-light);border-left:3px solid var(--accent);padding:24px 28px;font-size:13px;color:var(--text);line-height:1.7;font-weight:300}
+
+/* FOOTER */
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 40px}
+  .facts{margin:0 20px 40px;grid-template-columns:1fr 1fr}
+  .specs-banner{margin:0 20px 40px;padding:24px 20px}
+  .specs-list{grid-template-columns:1fr}
+  .products{padding:0 20px 60px}
+  .products h2{font-size:24px;margin-bottom:28px}
+  .product-grid{grid-template-columns:1fr}
+  .product-specs-grid{grid-template-columns:1fr 1fr}
+  .note{padding:0 20px 60px}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">D-TEC Lighting Systems</div>
+  <h1>Professional lighting for dentistry</h1>
+  <p>Uncompromising ceiling-mounted LED lighting systems designed specifically for dental professionals. Optimal color temperature, flicker-free operation, smooth dimming control.</p>
+</div>
+
+<div class="facts">
+  <div class="fact">
+    <div class="fact-number">4000-6500K</div>
+    <div class="fact-label">Daylight color temperature</div>
+  </div>
+  <div class="fact">
+    <div class="fact-number">RA 85-93</div>
+    <div class="fact-label">Color rendering index</div>
+  </div>
+  <div class="fact">
+    <div class="fact-number">IP20</div>
+    <div class="fact-label">Safety class</div>
+  </div>
+  <div class="fact">
+    <div class="fact-number">5:1</div>
+    <div class="fact-label">Recommended contrast ratio</div>
+  </div>
+</div>
+
+<div class="specs-banner">
+  <h2>Technical characteristics</h2>
+  <div class="specs-list">
+    <div class="spec-item"><div class="spec-dot"></div><span>High light intensity LED illumination</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>Optimal daylight color 4000-6500K, RA85-93</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>IR filter reducing heat emission</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>No stroboscopic effect</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>High-frequency flicker-free light</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>No magnetic fields</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>Smooth dimming control (standard in 4 models)</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>Indirect lighting option available</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>Lightweight aluminum structure with wire suspension</span></div>
+    <div class="spec-item"><div class="spec-dot"></div><span>Acrylic housing, easy bulb replacement</span></div>
+  </div>
+</div>
+
+<div class="products">
+  <h2>Available models</h2>
+  <div class="product-grid">
+
+    <!-- BRITE TRITON -->
+    <div class="product">
+      <div class="product-visual">
+        <div class="product-icon">&#x1F4A1;</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">BRITE TRITON</div>
+        <div class="product-sub">Dual warm/cold LED with wireless controller</div>
+        <div class="product-specs-grid">
+          <div class="product-spec">
+            <span class="product-spec-label">Power</span>
+            <span class="product-spec-value">LED 128 W</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Brightness</span>
+            <span class="product-spec-value">3 450 lux / 1.2m</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Dimensions</span>
+            <span class="product-spec-value">1200 x 390 x 45 mm</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Weight</span>
+            <span class="product-spec-value">7 kg</span>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price">4 900</span>
+            <span class="product-price-unit">PLN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRITE TETRON -->
+    <div class="product">
+      <div class="product-visual">
+        <div class="product-icon">&#x1F4A1;</div>
+        <div class="product-badge">New</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">BRITE TETRON</div>
+        <div class="product-sub">High-output LED with smooth dimming</div>
+        <div class="product-specs-grid">
+          <div class="product-spec">
+            <span class="product-spec-label">Power</span>
+            <span class="product-spec-value">LED 212 W</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Brightness</span>
+            <span class="product-spec-value">4 550 lux / 1.2m</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Dimensions</span>
+            <span class="product-spec-value">1200 x 550 x 45 mm</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Weight</span>
+            <span class="product-spec-value">11 kg</span>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price">7 700</span>
+            <span class="product-price-unit">PLN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRITE DUO -->
+    <div class="product">
+      <div class="product-visual">
+        <div class="product-icon">&#x1F4A1;</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">BRITE DUO</div>
+        <div class="product-sub">Dual-panel LED system with smooth dimming</div>
+        <div class="product-specs-grid">
+          <div class="product-spec">
+            <span class="product-spec-label">Power</span>
+            <span class="product-spec-value">LED 170 W</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Brightness</span>
+            <span class="product-spec-value">3 850 lux / 1.2m</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Dimensions</span>
+            <span class="product-spec-value">1200 x 650 x 45 mm</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Weight</span>
+            <span class="product-spec-value">2 x 5 kg</span>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price">8 000</span>
+            <span class="product-price-unit">PLN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLAIR -->
+    <div class="product">
+      <div class="product-visual">
+        <div class="product-icon">&#x1F4A1;</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">CLAIR LED</div>
+        <div class="product-sub">Premium panel with dynamic color temperature control</div>
+        <div class="product-specs-grid">
+          <div class="product-spec">
+            <span class="product-spec-label">Power</span>
+            <span class="product-spec-value">LED 104-216 W</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Brightness</span>
+            <span class="product-spec-value">3 000 lux / 1.2m</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Dimensions</span>
+            <span class="product-spec-value">1530 x 670 x 59 mm</span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Weight</span>
+            <span class="product-spec-value">16.3 kg</span>
+          </div>
+        </div>
+        <div class="product-options">
+          <div class="product-option">
+            <span>Warm/cold dynamic color control</span>
+            <span class="product-option-price">+ 1 500 PLN</span>
+          </div>
+          <div class="product-option">
+            <span>Ceiling ambient lighting</span>
+            <span class="product-option-price">+ 700 PLN</span>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price">9 000</span>
+            <span class="product-price-unit">PLN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="note">
+  <div class="note-box">
+    <strong>Important:</strong> The recommended lighting contrast ratio between the operating lamp and ambient room lighting should not exceed 5:1. Proper workplace illumination significantly impacts efficiency, well-being, and reduces eye strain during long procedures. In northern regions, work productivity drops by 12% during winter months due to reduced natural light.
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>

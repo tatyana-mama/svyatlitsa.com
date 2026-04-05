@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dental Furniture — svyatlitsa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C49A2D;--gold-dark:#A67E1E;--gold-light:#E8D5A3;--gold-glow:rgba(196,154,45,0.08);
+  --black:#1a1a1a;--white:#FFFFFF;--cream:#FDFBF7;--warm:#F8F5EE;
+  --gray:#f5f4f2;--gray2:#e8e6e2;
+  --text:#2a2a28;--muted:#8a8a82;
+  --teal:#1a7a6d;--teal-light:#e6f5f2;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 40px;background:rgba(253,251,247,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gray2)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-sub{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;font-weight:400}
+.nav-logo-name{font-family:var(--font-display);font-size:18px;letter-spacing:4px;color:var(--black);font-weight:400;text-transform:lowercase}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-link:hover{color:var(--gold)}
+
+.hero{padding:120px 48px 48px;max-width:1200px;margin:0 auto}
+.hero-label{font-family:var(--font-mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--black);line-height:1.1;margin-bottom:20px}
+.hero-desc{font-size:15px;color:var(--muted);max-width:640px;line-height:1.8;font-weight:300}
+
+/* PRODUCT SHOWCASE */
+.showcase{max-width:1200px;margin:0 auto;padding:0 48px 64px}
+
+.product-full{background:var(--white);border:1px solid var(--gray2);margin-bottom:32px;overflow:hidden;transition:border-color 0.3s}
+.product-full:hover{border-color:var(--gold)}
+.product-full-header{display:flex;align-items:baseline;justify-content:space-between;padding:28px 32px 0;flex-wrap:wrap;gap:12px}
+.product-full-line{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--teal);text-transform:uppercase}
+.product-full-name{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black)}
+.product-full-price-wrap{text-align:right}
+.product-full-price{font-family:var(--font-display);font-size:28px;color:var(--black);font-weight:400}
+.product-full-price span{font-size:14px;color:var(--muted);font-family:var(--font-body);font-weight:300}
+.product-full-price-old{font-size:14px;color:var(--muted);text-decoration:line-through;font-weight:300}
+.product-full-promo{display:inline-block;background:var(--gold);color:var(--white);font-family:var(--font-mono);font-size:8px;letter-spacing:2px;padding:3px 10px;text-transform:uppercase;margin-left:8px}
+
+.product-full-body{padding:20px 32px 28px}
+.product-full-desc{font-size:14px;color:var(--text);line-height:1.7;font-weight:300;margin-bottom:20px;max-width:800px}
+
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.detail{padding:14px 16px;background:var(--gray)}
+.detail-label{font-family:var(--font-mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.detail-value{font-size:13px;color:var(--text);font-weight:400;line-height:1.5}
+
+.option-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray);font-size:13px;font-weight:300}
+.option-row:last-child{border-bottom:none}
+.option-price{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text)}
+
+.notes-list{list-style:none;margin-top:16px}
+.notes-list li{padding:6px 0;font-size:12px;color:var(--muted);font-weight:300;padding-left:16px;position:relative}
+.notes-list li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%;background:var(--teal)}
+
+/* DIMENSIONS VISUAL */
+.dim-bar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.dim-line{height:2px;background:var(--teal);flex:1;position:relative}
+.dim-line::before,.dim-line::after{content:'';position:absolute;top:-4px;width:2px;height:10px;background:var(--teal)}
+.dim-line::before{left:0}
+.dim-line::after{right:0}
+.dim-text{font-family:var(--font-mono);font-size:11px;color:var(--teal);white-space:nowrap}
+
+footer{border-top:1px solid var(--gray2);padding:32px 48px;text-align:center}
+footer p{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .hero{padding:80px 20px 32px}
+  .showcase{padding:0 20px 48px}
+  .product-full-header{padding:20px 20px 0}
+  .product-full-body{padding:16px 20px 24px}
+  .detail-grid{grid-template-columns:1fr 1fr}
+  footer{padding:24px 20px}
+}
+</style></head><body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-sub">labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <div class="nav-links">
+    <a href="/catalog.html" class="nav-link">catalog</a>
+    <a href="/" class="nav-link">home</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Loran Dental Furniture</div>
+  <h1>Cabinetry, assistors & sterilization</h1>
+  <p>Professional dental furniture made from white lacquered metal. Corian countertops with integrated sinks. RAL color accents. Available as floor-standing or wall-mounted configurations.</p>
+</div>
+
+<div class="showcase">
+
+  <!-- LOOK LINE A -->
+  <div class="product-full">
+    <div class="product-full-header">
+      <div>
+        <div class="product-full-line">Linia Look</div>
+        <div class="product-full-name">LORAN LOOK &mdash; Set A</div>
+      </div>
+      <div class="product-full-price-wrap">
+        <div class="product-full-price">13 500 <span>PLN</span></div>
+      </div>
+    </div>
+    <div class="product-full-body">
+      <div class="product-full-desc">Floor-standing set with 3 cabinet modules. White body, white fronts with handles. Accent strip under the countertop in any RAL color. Corian countertop with integrated sink and manual water faucet.</div>
+      <div class="dim-bar">
+        <div class="dim-text">1 510 mm total</div>
+        <div class="dim-line" style="max-width:400px"></div>
+        <div class="dim-text">3 x 500 mm modules</div>
+      </div>
+      <div class="detail-grid">
+        <div class="detail">
+          <div class="detail-label">Modules</div>
+          <div class="detail-value">Sink cabinet, drawer cabinet, door cabinet, open countertop</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Countertop</div>
+          <div class="detail-value">Corian white, 12mm plinth, integrated sink</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Material</div>
+          <div class="detail-value">White lacquered metal</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Mounting</div>
+          <div class="detail-value">Floor-standing (wall-mount available)</div>
+        </div>
+      </div>
+      <div class="option-row">
+        <span>Add LORAN LOOK Assistor</span>
+        <span class="option-price">+ 3 500 PLN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOOK LINE B -->
+  <div class="product-full">
+    <div class="product-full-header">
+      <div>
+        <div class="product-full-line">Linia Look</div>
+        <div class="product-full-name">LORAN LOOK &mdash; Set B</div>
+      </div>
+      <div class="product-full-price-wrap">
+        <div class="product-full-price">15 900 <span>PLN</span></div>
+      </div>
+    </div>
+    <div class="product-full-body">
+      <div class="product-full-desc">Floor-standing set with 4 cabinet modules. White body, white fronts with handles. Accent strip under the countertop in any RAL color. Corian countertop with integrated sink and manual water faucet.</div>
+      <div class="dim-bar">
+        <div class="dim-text">2 010 mm total</div>
+        <div class="dim-line" style="max-width:500px"></div>
+        <div class="dim-text">4 x 500 mm modules</div>
+      </div>
+      <div class="detail-grid">
+        <div class="detail">
+          <div class="detail-label">Modules</div>
+          <div class="detail-value">Sink, drawers, doors with shelves, open countertop</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Countertop</div>
+          <div class="detail-value">Corian white, 12mm plinth, integrated sink</div>
+        </div>
+      </div>
+      <div class="option-row">
+        <span>Replace one module with LORAN LOOK Assistor</span>
+        <span class="option-price">+ 1 500 PLN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOOK ASSISTOR -->
+  <div class="product-full">
+    <div class="product-full-header">
+      <div>
+        <div class="product-full-line">Linia Look</div>
+        <div class="product-full-name">LORAN LOOK &mdash; Assistor</div>
+      </div>
+      <div class="product-full-price-wrap">
+        <div class="product-full-price">3 500 <span>PLN</span></div>
+      </div>
+    </div>
+    <div class="product-full-body">
+      <div class="product-full-desc">Mobile assistor cart with 5 drawers and 5 inserts. White body, white drawer fronts with handles. Anthracite-grey accent strip. Flat Corian top with handle.</div>
+      <div class="detail-grid">
+        <div class="detail">
+          <div class="detail-label">Drawers</div>
+          <div class="detail-value">5 drawers with inserts</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Top</div>
+          <div class="detail-value">Flat Corian with handle</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Accent</div>
+          <div class="detail-value">Anthracite-grey strip</div>
+        </div>
+      </div>
+      <div class="option-row">
+        <span>Push-to-open / push-to-close drawers</span>
+        <span class="option-price">+ 200 PLN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALA LINE -->
+  <div class="product-full">
+    <div class="product-full-header">
+      <div>
+        <div class="product-full-line">Linia Ala</div>
+        <div class="product-full-name">LORAN ALA 100</div>
+      </div>
+      <div class="product-full-price-wrap">
+        <div class="product-full-price">5 900 <span>PLN</span></div>
+      </div>
+    </div>
+    <div class="product-full-body">
+      <div class="product-full-desc">Wall-mounted organizer cabinet, 100 cm width. Everything within reach. White body, front in any RAL color.</div>
+      <div class="detail-grid">
+        <div class="detail">
+          <div class="detail-label">Soap dispenser</div>
+          <div class="detail-value">Integrated</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Towel dispenser</div>
+          <div class="detail-value">Integrated</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Napkin dispenser</div>
+          <div class="detail-value">Integrated</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Glove dispensers</div>
+          <div class="detail-value">2 units</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Mask dispenser</div>
+          <div class="detail-value">Integrated</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Cup dispenser</div>
+          <div class="detail-value">Integrated</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PURA LINE -->
+  <div class="product-full">
+    <div class="product-full-header">
+      <div>
+        <div class="product-full-line">Linia Pura &middot; Sterilization Center</div>
+        <div class="product-full-name">LORAN PURA</div>
+      </div>
+      <div class="product-full-price-wrap">
+        <div class="product-full-price-old">98 000 PLN</div>
+        <div class="product-full-price">79 000 <span>PLN</span> <span class="product-full-promo">Promo</span></div>
+      </div>
+    </div>
+    <div class="product-full-body">
+      <div class="product-full-desc">Professional sterilization center. Complete set of high-quality white lacquered steel furniture integrated with sterilization equipment. Ready-to-use sterilization room solution.</div>
+      <div class="dim-bar">
+        <div class="dim-text">271 cm x 64 cm x 200 cm</div>
+        <div class="dim-line" style="max-width:400px"></div>
+      </div>
+      <div class="detail-grid">
+        <div class="detail">
+          <div class="detail-label">Lower cabinets</div>
+          <div class="detail-value">Storage 50cm, sink 50cm, thermodisinfector bay 60cm, autoclave bay 60cm, storage 50cm</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Upper cabinet</div>
+          <div class="detail-value">150 cm storage with protective panel and rail for accessories</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Countertop</div>
+          <div class="detail-value">Corian with integrated sink and faucet</div>
+        </div>
+      </div>
+
+      <ul class="notes-list">
+        <li>Class B autoclave STERN WEBER SW-22 PLUS (22L, built-in cycle recorder)</li>
+        <li>Thermodisinfector TETHYS D60 with enhanced drying</li>
+        <li>Sealer MILLSEAL+ (manual)</li>
+        <li>Ultrasonic cleaner POLSONIC SONIC 3 (with basket, lid and drill stand)</li>
+      </ul>
+
+      <div class="option-row" style="margin-top:16px;border-top:1px solid var(--gray);padding-top:10px">
+        <span>Monthly installment (0% down, 6 years)</span>
+        <span class="option-price">1 300 PLN / month</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 svyatlitsa &middot; labs67</p>
+</footer>
+
+</body></html>
