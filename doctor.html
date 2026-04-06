@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>svyatlitsa — лекар</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#7EB8D4;--blue-dark:#5A9BB8;--blue-light:#B8D8E8;--blue-ice:#E8F4FA;
+  --bg:#F8FBFD;--warm:#F0F6FA;--white:#FFFFFF;
+  --navy:#1a2a3a;--text:#2B3437;--muted:#7A8B99;--border:#D8E8F0;
+  --green:#3a9d5c;--green-bg:rgba(58,157,92,.08);
+  --red:#c0392b;--red-bg:rgba(192,57,43,.08);
+  --orange:#e67e22;--orange-bg:rgba(230,126,34,.08);
+  --mint:#A8DCD1;
+  --font-display:'EB Garamond',Georgia,serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-label:'Space Grotesk',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.04);
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-weight:300;line-height:1.6}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{width:100%;max-width:400px;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:48px 36px;box-shadow:var(--shadow-md)}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
+.login-logo img{width:32px;height:32px}
+.login-logo-text{font-family:var(--font-display);font-size:24px;letter-spacing:3px;color:var(--navy)}
+.login-sub{font-family:var(--font-label);font-size:9px;letter-spacing:4px;color:var(--green);text-transform:uppercase;text-align:center;margin-bottom:36px}
+.login-field{margin-bottom:20px}
+.login-label{display:block;font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.login-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:transparent;font-family:var(--font-body);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-weight:300}
+.login-input:focus{border-color:var(--blue)}
+.login-btn{width:100%;padding:14px;background:var(--green);color:var(--white);border:none;border-radius:8px;font-family:var(--font-label);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:#2e8a4c}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
+.login-error{font-size:11px;color:var(--red);text-align:center;margin-top:16px;min-height:20px}
+.login-back{display:block;text-align:center;margin-top:24px;font-size:11px;color:var(--muted);text-decoration:none}
+.login-back:hover{color:var(--blue)}
+
+/* APP */
+.app{display:none;min-height:100vh}
+.doc-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 24px;background:rgba(248,251,253,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--border)}
+.doc-nav-left{display:flex;align-items:center;gap:12px}
+.doc-nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.doc-nav-logo img{width:24px;height:24px}
+.doc-nav-logo span{font-family:var(--font-display);font-size:16px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
+.doc-nav-badge{font-family:var(--font-label);font-size:8px;letter-spacing:2px;color:var(--green);text-transform:uppercase;padding:3px 8px;border:1px solid rgba(58,157,92,.2);border-radius:4px;background:var(--green-bg)}
+.doc-nav-right{display:flex;align-items:center;gap:12px}
+.doc-nav-user{font-size:11px;color:var(--muted)}
+.doc-nav-btn{padding:6px 14px;border-radius:6px;font-family:var(--font-label);font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.doc-nav-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* BODY */
+.doc-body{padding:72px 32px 32px;max-width:900px;margin:0 auto}
+.doc-title{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--navy);margin-bottom:4px}
+.doc-sub{font-size:12px;color:var(--muted);margin-bottom:24px}
+
+/* DATE NAV */
+.doc-date-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.doc-date-btn{padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--white);font-family:var(--font-label);font-size:10px;letter-spacing:1px;cursor:pointer;color:var(--muted);transition:all .15s}
+.doc-date-btn:hover{border-color:var(--blue);color:var(--blue)}
+.doc-date-btn.active{background:var(--blue-ice);border-color:var(--blue);color:var(--blue-dark);font-weight:500}
+.doc-date-current{font-family:var(--font-display);font-size:18px;color:var(--navy)}
+.doc-date-input{padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-family:var(--font-body);font-size:12px;color:var(--text);outline:none;background:var(--white)}
+
+/* STATS */
+.doc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.doc-stat{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow)}
+.doc-stat-label{font-size:10px;color:var(--muted)}
+.doc-stat-num{font-family:var(--font-display);font-size:28px;color:var(--navy)}
+
+/* SCHEDULE CARDS */
+.doc-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:12px}
+.doc-appt{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .1s}
+.doc-appt:last-child{border-bottom:none}
+.doc-appt:hover{background:var(--warm)}
+.doc-appt-time{font-family:var(--font-label);font-size:14px;font-weight:500;color:var(--navy);min-width:50px}
+.doc-appt-info{flex:1}
+.doc-appt-name{font-size:14px;font-weight:400;color:var(--text)}
+.doc-appt-service{font-size:11px;color:var(--muted);margin-top:2px}
+.doc-appt-notes{font-size:11px;color:var(--blue-dark);margin-top:2px;font-style:italic}
+.doc-appt-status{min-width:80px;text-align:right}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:500}
+.badge-pending{background:var(--orange-bg);color:var(--orange)}
+.badge-confirmed{background:var(--green-bg);color:var(--green)}
+.badge-completed{background:var(--blue-ice);color:var(--blue-dark)}
+.badge-cancelled{background:var(--red-bg);color:var(--red)}
+.doc-empty{text-align:center;padding:48px;color:var(--muted);font-size:13px}
+.doc-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+.doc-toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .doc-body{padding:60px 16px 16px}
+  .doc-nav{padding:0 16px}
+  .doc-nav-user{display:none}
+  .doc-appt{flex-direction:column;align-items:flex-start;gap:8px}
+  .doc-appt-status{text-align:left}
+  .doc-stats{grid-template-columns:1fr 1fr}
+  .doc-date-nav{flex-wrap:wrap}
+}
+</style>
+<style id="labs67-lang-css"></style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo"><img src="/logo.svg" alt=""><span class="login-logo-text">svyatlitsa</span></div>
+    <div class="login-sub">кабінет лекара</div>
+    <div class="login-field">
+      <label class="login-label">Email</label>
+      <input class="login-input" type="email" id="loginEmail">
+    </div>
+    <div class="login-field">
+      <label class="login-label">Пароль</label>
+      <input class="login-input" type="password" id="loginPassword">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="handleLogin()">Увайсці</button>
+    <div class="login-error" id="loginError"></div>
+    <a href="/" class="login-back">&larr; svyatlitsa.com</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="appWrap">
+  <nav class="doc-nav">
+    <div class="doc-nav-left">
+      <a class="doc-nav-logo" href="/"><img src="/logo.svg" alt=""><span>svyatlitsa</span></a>
+      <span class="doc-nav-badge">doctor</span>
+    </div>
+    <div class="doc-nav-right">
+      <span class="doc-nav-user" id="navUser"></span>
+      <button class="doc-nav-btn" onclick="handleLogout()">Выйсці</button>
+    </div>
+  </nav>
+
+  <div class="doc-body">
+    <div class="doc-title" id="docGreeting">Расклад</div>
+    <div class="doc-sub" id="docSpec"></div>
+
+    <div class="doc-date-nav">
+      <button class="doc-date-btn" onclick="shiftDate(-1)">&larr;</button>
+      <button class="doc-date-btn active" onclick="goToday()">Сёння</button>
+      <button class="doc-date-btn" onclick="shiftDate(1)">&rarr;</button>
+      <span class="doc-date-current" id="dateDisplay"></span>
+      <input type="date" class="doc-date-input" id="datePicker" onchange="pickDate(this.value)">
+    </div>
+
+    <div class="doc-stats">
+      <div class="doc-stat"><div class="doc-stat-label">Сёння пацыентаў</div><div class="doc-stat-num" id="statToday">0</div></div>
+      <div class="doc-stat"><div class="doc-stat-label">На гэтым тыдні</div><div class="doc-stat-num" id="statWeek">0</div></div>
+      <div class="doc-stat"><div class="doc-stat-label">Пацверджаных</div><div class="doc-stat-num" id="statConfirmed">0</div></div>
+    </div>
+
+    <div id="scheduleList"></div>
+  </div>
+</div>
+
+<div class="doc-toast" id="docToast"></div>
+
+<script>
+var SUPA_URL = 'https://rkjvqwiwdednvorhhozb.supabase.co';
+var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJranZxd2l3ZGVkbnZvcmhob3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODIwOTUsImV4cCI6MjA5MTA1ODA5NX0.BhgxhJR7dtITrMBTS-V1h3eplH2KmWfIDxQYldfb3kE';
+var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+var me = null;
+var currentDate = new Date().toISOString().split('T')[0];
+
+async function handleLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pw = document.getElementById('loginPassword').value;
+  var err = document.getElementById('loginError');
+  var btn = document.getElementById('loginBtn');
+  if (!email || !pw) { err.textContent = 'Запоўніце ўсе палі'; return; }
+  btn.disabled = true; err.textContent = '';
+  var r = await sb.auth.signInWithPassword({ email: email, password: pw });
+  if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
+  var s = await sb.from('staff').select('*').eq('user_id', r.data.user.id).eq('role', 'doctor').single();
+  if (!s.data) { err.textContent = 'Няма правоў лекара'; await sb.auth.signOut(); btn.disabled = false; return; }
+  me = s.data;
+  showApp();
+}
+
+async function handleLogout() { await sb.auth.signOut(); me = null; location.reload(); }
+
+async function checkSession() {
+  var s = await sb.auth.getSession();
+  if (!s.data.session) return;
+  var r = await sb.from('staff').select('*').eq('user_id', s.data.session.user.id).eq('role', 'doctor').single();
+  if (r.data) { me = r.data; showApp(); }
+}
+
+function showApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'block';
+  document.getElementById('navUser').textContent = me.name;
+  document.getElementById('docGreeting').textContent = me.name;
+  document.getElementById('docSpec').textContent = me.specialization || '';
+  loadSchedule();
+}
+
+function formatDate(d) {
+  return new Date(d + 'T12:00:00').toLocaleDateString('be-BY', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+function shiftDate(delta) {
+  var d = new Date(currentDate + 'T12:00:00');
+  d.setDate(d.getDate() + delta);
+  currentDate = d.toISOString().split('T')[0];
+  loadSchedule();
+}
+
+function goToday() {
+  currentDate = new Date().toISOString().split('T')[0];
+  loadSchedule();
+}
+
+function pickDate(val) {
+  if (val) { currentDate = val; loadSchedule(); }
+}
+
+function getWeekRange() {
+  var d = new Date(currentDate + 'T12:00:00');
+  var day = d.getDay() || 7;
+  var mon = new Date(d); mon.setDate(d.getDate() - day + 1);
+  var sun = new Date(d); sun.setDate(d.getDate() + (7 - day));
+  return { from: mon.toISOString().split('T')[0], to: sun.toISOString().split('T')[0] };
+}
+
+async function loadSchedule() {
+  document.getElementById('dateDisplay').textContent = formatDate(currentDate);
+  document.getElementById('datePicker').value = currentDate;
+
+  // Today button active state
+  var today = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('.doc-date-btn')[1].classList.toggle('active', currentDate === today);
+
+  // Day appointments
+  var r = await sb.from('patient_appointments')
+    .select('*, patients(name, phone)')
+    .eq('doctor_id', me.id)
+    .eq('date', currentDate)
+    .in('status', ['confirmed', 'pending'])
+    .order('time', { ascending: true });
+  var items = r.data || [];
+
+  document.getElementById('statToday').textContent = items.length;
+
+  // Week stats
+  var week = getWeekRange();
+  var wr = await sb.from('patient_appointments')
+    .select('id', { count: 'exact', head: true })
+    .eq('doctor_id', me.id)
+    .gte('date', week.from)
+    .lte('date', week.to)
+    .in('status', ['confirmed', 'pending']);
+  document.getElementById('statWeek').textContent = wr.count || 0;
+
+  var cr = await sb.from('patient_appointments')
+    .select('id', { count: 'exact', head: true })
+    .eq('doctor_id', me.id)
+    .eq('date', currentDate)
+    .eq('status', 'confirmed');
+  document.getElementById('statConfirmed').textContent = cr.count || 0;
+
+  // Render
+  var el = document.getElementById('scheduleList');
+  if (!items.length) {
+    el.innerHTML = '<div class="doc-card"><div class="doc-empty">На гэты дзень запісаў няма</div></div>';
+    return;
+  }
+
+  var html = '<div class="doc-card">';
+  items.forEach(function(a) {
+    var pname = a.patients ? a.patients.name : '—';
+    var pphone = a.patients && a.patients.phone ? ' · ' + a.patients.phone : '';
+    html += '<div class="doc-appt">' +
+      '<div class="doc-appt-time">' + (a.time || '—') + '</div>' +
+      '<div class="doc-appt-info">' +
+        '<div class="doc-appt-name">' + pname + pphone + '</div>' +
+        '<div class="doc-appt-service">' + a.service + '</div>' +
+        (a.notes ? '<div class="doc-appt-notes">' + a.notes + '</div>' : '') +
+      '</div>' +
+      '<div class="doc-appt-status"><span class="badge badge-' + a.status + '">' + a.status + '</span></div>' +
+    '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+checkSession();
+</script>
+</body></html>
