@@ -1,0 +1,619 @@
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>svyatlitsa — кабінет</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#7EB8D4;--blue-dark:#5A9BB8;--blue-light:#B8D8E8;--blue-ice:#E8F4FA;
+  --bg:#F8FBFD;--warm:#F0F6FA;--white:#FFFFFF;
+  --navy:#1a2a3a;--text:#2B3437;--muted:#7A8B99;--border:#D8E8F0;
+  --gold:#D4A44A;--mint:#A8DCD1;
+  --green:#3a9d5c;--green-bg:rgba(58,157,92,.06);
+  --red:#c0392b;--red-bg:rgba(192,57,43,.06);
+  --orange:#e67e22;--orange-bg:rgba(230,126,34,.06);
+  --font-display:'EB Garamond',Georgia,serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-label:'Space Grotesk',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.02);
+  --shadow-md:0 4px 12px rgba(0,0,0,.04),0 2px 4px rgba(0,0,0,.02);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-weight:300;line-height:1.6}
+
+/* ── LOGIN ── */
+.login-wrap{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
+.login-box{width:100%;max-width:400px;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:48px 36px;box-shadow:var(--shadow-md)}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
+.login-logo img{width:32px;height:32px}
+.login-logo-text{font-family:var(--font-display);font-size:24px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
+.login-sub{font-family:var(--font-label);font-size:9px;letter-spacing:4px;color:var(--blue);text-transform:uppercase;text-align:center;margin-bottom:36px}
+.login-field{margin-bottom:20px}
+.login-label{display:block;font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.login-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:transparent;font-family:var(--font-body);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-weight:300}
+.login-input:focus{border-color:var(--blue)}
+.login-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);border:none;border-radius:8px;font-family:var(--font-label);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:var(--blue-dark)}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
+.login-error{font-size:11px;color:var(--red);text-align:center;margin-top:16px;min-height:20px}
+.login-toggle{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+.login-toggle a{color:var(--blue);text-decoration:none;cursor:pointer}
+.login-toggle a:hover{color:var(--blue-dark)}
+.login-back{display:block;text-align:center;margin-top:24px;font-size:11px;color:var(--muted);text-decoration:none;font-family:var(--font-label);letter-spacing:1px}
+.login-back:hover{color:var(--blue)}
+
+/* ── APP ── */
+.app{display:none;min-height:100vh}
+
+/* NAV */
+.cab-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 24px;background:rgba(248,251,253,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--border)}
+.cab-nav-left{display:flex;align-items:center;gap:12px}
+.cab-nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.cab-nav-logo img{width:24px;height:24px}
+.cab-nav-logo span{font-family:var(--font-display);font-size:16px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
+.cab-nav-badge{font-family:var(--font-label);font-size:8px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;padding:3px 8px;border:1px solid var(--blue-light);border-radius:4px;background:var(--blue-ice)}
+.cab-nav-right{display:flex;align-items:center;gap:12px}
+.cab-nav-user{font-size:11px;color:var(--muted);font-weight:400}
+.cab-nav-btn{padding:6px 14px;border-radius:6px;font-family:var(--font-label);font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.cab-nav-btn:hover{border-color:var(--blue);color:var(--blue)}
+.lang-switcher{position:relative}
+
+/* LAYOUT */
+.cab-body{padding-top:48px;min-height:100vh}
+.cab-sidebar{position:fixed;top:48px;left:0;bottom:0;width:220px;background:var(--white);border-right:1px solid var(--border);padding:20px 12px;overflow-y:auto;z-index:50}
+.cab-sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:400;color:var(--muted);border:none;background:none;width:100%;text-align:left;font-family:var(--font-body);transition:all .15s}
+.cab-sidebar-item:hover{background:var(--warm);color:var(--text)}
+.cab-sidebar-item.active{background:var(--blue-ice);color:var(--blue-dark);font-weight:500}
+.cab-sidebar-item .ico{font-size:16px;width:22px;text-align:center}
+.cab-sidebar-sep{height:1px;background:var(--border);margin:12px 8px}
+
+.cab-main{margin-left:220px;padding:28px 32px;max-width:900px}
+.cab-page{display:none}
+.cab-page.active{display:block}
+
+/* PAGE HEADER */
+.cab-page-title{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--navy);margin-bottom:4px}
+.cab-page-sub{font-size:12px;color:var(--muted);margin-bottom:28px}
+
+/* CARDS */
+.cab-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+.cab-card-title{font-family:var(--font-label);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+
+/* STATS */
+.cab-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.cab-stat{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:var(--shadow)}
+.cab-stat-label{font-size:10px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px}
+.cab-stat-num{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--navy)}
+.cab-stat-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* TABLE */
+.cab-table{width:100%;border-collapse:collapse}
+.cab-table th{font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-weight:500}
+.cab-table td{padding:12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.cab-table tr:last-child td{border-bottom:none}
+.cab-table tr:hover td{background:var(--warm)}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:.5px}
+.badge-pending{background:var(--orange-bg);color:var(--orange)}
+.badge-confirmed{background:var(--blue-ice);color:var(--blue-dark)}
+.badge-completed{background:var(--green-bg);color:var(--green)}
+.badge-cancelled{background:var(--red-bg);color:var(--red)}
+
+/* FORM */
+.cab-form{display:grid;gap:16px;max-width:480px}
+.cab-form-row{display:flex;flex-direction:column;gap:4px}
+.cab-form-label{font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.cab-form-input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:border-color .2s;font-weight:300;background:transparent}
+.cab-form-input:focus{border-color:var(--blue)}
+.cab-form-select{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;background:var(--white);transition:border-color .2s}
+.cab-form-select:focus{border-color:var(--blue)}
+.cab-form-btn{padding:12px 24px;background:var(--blue);color:var(--white);border:none;border-radius:8px;font-family:var(--font-label);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;justify-self:start}
+.cab-form-btn:hover{background:var(--blue-dark)}
+.cab-form-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* EMPTY STATE */
+.cab-empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.cab-empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+.cab-empty-text{font-size:13px;margin-bottom:16px}
+
+/* TOAST */
+.cab-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:12px 20px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+.cab-toast.show{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .cab-sidebar{display:none}
+  .cab-main{margin-left:0;padding:20px 16px}
+  .cab-nav{padding:0 16px}
+  .cab-nav-user{display:none}
+  .cab-mobile-tabs{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:100;padding:4px 8px env(safe-area-inset-bottom,8px)}
+  .cab-mobile-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border:none;background:none;font-family:var(--font-body);font-size:9px;color:var(--muted);cursor:pointer}
+  .cab-mobile-tab .ico{font-size:20px}
+  .cab-mobile-tab.active{color:var(--blue-dark)}
+  .cab-body{padding-bottom:72px}
+  .cab-stats{grid-template-columns:1fr 1fr}
+  .cab-table{font-size:12px}
+  .cab-table th,.cab-table td{padding:8px}
+  .login-box{padding:32px 24px;border-radius:12px}
+}
+@media(min-width:769px){
+  .cab-mobile-tabs{display:none}
+}
+</style>
+<style id="labs67-lang-css"></style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="/logo.svg" alt="">
+      <span class="login-logo-text">svyatlitsa</span>
+    </div>
+    <div class="login-sub" data-i18n="cab_subtitle">кабінет пацыента</div>
+
+    <!-- Sign In -->
+    <div id="loginForm">
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input class="login-input" type="email" id="loginEmail" autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label class="login-label" data-i18n="cab_password">Пароль</label>
+        <input class="login-input" type="password" id="loginPassword" autocomplete="current-password">
+      </div>
+      <button class="login-btn" id="loginBtn" onclick="handleLogin()" data-i18n="cab_signin">Увайсці</button>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-toggle" data-i18n="cab_no_account">Няма ўліковага запісу? <a onclick="showRegister()">Зарэгістравацца</a></div>
+    </div>
+
+    <!-- Register -->
+    <div id="registerForm" style="display:none">
+      <div class="login-field">
+        <label class="login-label" data-i18n="cab_name">Імя</label>
+        <input class="login-input" type="text" id="regName">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input class="login-input" type="email" id="regEmail" autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label class="login-label" data-i18n="cab_phone">Тэлефон</label>
+        <input class="login-input" type="tel" id="regPhone">
+      </div>
+      <div class="login-field">
+        <label class="login-label" data-i18n="cab_password">Пароль</label>
+        <input class="login-input" type="password" id="regPassword" autocomplete="new-password">
+      </div>
+      <button class="login-btn" id="regBtn" onclick="handleRegister()" data-i18n="cab_register">Зарэгістравацца</button>
+      <div class="login-error" id="regError"></div>
+      <div class="login-toggle" data-i18n="cab_has_account">Ёсць уліковы запіс? <a onclick="showLogin()">Увайсці</a></div>
+    </div>
+
+    <a href="/" class="login-back">&larr; svyatlitsa.com</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="appWrap">
+
+  <!-- NAV -->
+  <nav class="cab-nav">
+    <div class="cab-nav-left">
+      <a class="cab-nav-logo" href="/"><img src="/logo.svg" alt=""><span>svyatlitsa</span></a>
+      <span class="cab-nav-badge" data-i18n="cab_badge">кабінет</span>
+    </div>
+    <div class="cab-nav-right">
+      <span class="cab-nav-user" id="navUserName"></span>
+      <div class="lang-switcher"></div>
+      <button class="cab-nav-btn" onclick="handleLogout()" data-i18n="cab_logout">Выйсці</button>
+    </div>
+  </nav>
+
+  <div class="cab-body">
+    <!-- SIDEBAR -->
+    <div class="cab-sidebar">
+      <button class="cab-sidebar-item active" data-page="overview" onclick="showPage('overview')"><span class="ico">&#9670;</span><span data-i18n="cab_overview">Агляд</span></button>
+      <button class="cab-sidebar-item" data-page="appointments" onclick="showPage('appointments')"><span class="ico">&#128197;</span><span data-i18n="cab_appointments">Запісы</span></button>
+      <button class="cab-sidebar-item" data-page="booking" onclick="showPage('booking')"><span class="ico">&#10010;</span><span data-i18n="cab_new_booking">Новы запіс</span></button>
+      <div class="cab-sidebar-sep"></div>
+      <button class="cab-sidebar-item" data-page="documents" onclick="showPage('documents')"><span class="ico">&#128196;</span><span data-i18n="cab_documents">Дакументы</span></button>
+      <button class="cab-sidebar-item" data-page="profile" onclick="showPage('profile')"><span class="ico">&#9881;</span><span data-i18n="cab_profile">Профіль</span></button>
+    </div>
+
+    <!-- MOBILE TABS -->
+    <div class="cab-mobile-tabs">
+      <button class="cab-mobile-tab active" data-page="overview" onclick="showPage('overview')"><span class="ico">&#9670;</span><span data-i18n="cab_overview">Агляд</span></button>
+      <button class="cab-mobile-tab" data-page="appointments" onclick="showPage('appointments')"><span class="ico">&#128197;</span><span data-i18n="cab_appointments">Запісы</span></button>
+      <button class="cab-mobile-tab" data-page="booking" onclick="showPage('booking')"><span class="ico">&#10010;</span><span data-i18n="cab_new_booking">Новы</span></button>
+      <button class="cab-mobile-tab" data-page="documents" onclick="showPage('documents')"><span class="ico">&#128196;</span><span data-i18n="cab_documents">Дакум.</span></button>
+      <button class="cab-mobile-tab" data-page="profile" onclick="showPage('profile')"><span class="ico">&#9881;</span><span data-i18n="cab_profile">Профіль</span></button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="cab-main">
+
+      <!-- OVERVIEW -->
+      <div class="cab-page active" id="page-overview">
+        <div class="cab-page-title" data-i18n="cab_welcome">Вітаем</div>
+        <div class="cab-page-sub" id="overviewGreeting"></div>
+
+        <div class="cab-stats">
+          <div class="cab-stat">
+            <div class="cab-stat-label" data-i18n="cab_total_visits">Усяго візітаў</div>
+            <div class="cab-stat-num" id="statTotal">0</div>
+          </div>
+          <div class="cab-stat">
+            <div class="cab-stat-label" data-i18n="cab_upcoming">Бліжэйшы запіс</div>
+            <div class="cab-stat-num" id="statNext" style="font-size:18px">—</div>
+          </div>
+          <div class="cab-stat">
+            <div class="cab-stat-label" data-i18n="cab_docs_count">Дакументаў</div>
+            <div class="cab-stat-num" id="statDocs">0</div>
+          </div>
+        </div>
+
+        <div class="cab-card">
+          <div class="cab-card-title" data-i18n="cab_recent">Апошнія запісы</div>
+          <div id="recentList"></div>
+        </div>
+      </div>
+
+      <!-- APPOINTMENTS -->
+      <div class="cab-page" id="page-appointments">
+        <div class="cab-page-title" data-i18n="cab_appointments">Запісы</div>
+        <div class="cab-page-sub" data-i18n="cab_appointments_sub">Гісторыя і бліжэйшыя візіты</div>
+        <div class="cab-card">
+          <div id="appointmentsList"></div>
+        </div>
+      </div>
+
+      <!-- NEW BOOKING -->
+      <div class="cab-page" id="page-booking">
+        <div class="cab-page-title" data-i18n="cab_new_booking">Новы запіс</div>
+        <div class="cab-page-sub" data-i18n="cab_booking_sub">Запісацца на прыём</div>
+        <div class="cab-card">
+          <form class="cab-form" id="bookingForm" onsubmit="handleBooking(event)">
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="form_service">Паслуга</label>
+              <select class="cab-form-select" id="bookService" required>
+                <option value="">—</option>
+                <option value="therapy">Тэрапія</option>
+                <option value="ortho">Артапедыя</option>
+                <option value="surgery">Хірургія і імплантацыя</option>
+                <option value="facial">Тварная хірургія</option>
+                <option value="hygiene">Гігіена і прафілактыка</option>
+                <option value="orthodontics">Артадонтыя</option>
+                <option value="kids">Дзіцячая стаматалогія</option>
+                <option value="consultation">Кансультацыя</option>
+              </select>
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="form_date">Дата</label>
+              <input class="cab-form-input" type="date" id="bookDate" required>
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="cab_time">Час</label>
+              <select class="cab-form-select" id="bookTime" required>
+                <option value="">—</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+              </select>
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="cab_notes">Нататкі</label>
+              <input class="cab-form-input" type="text" id="bookNotes" placeholder="">
+            </div>
+            <button class="cab-form-btn" type="submit" data-i18n="cab_book_submit">Запісацца</button>
+          </form>
+          <div id="bookingSuccess" style="display:none" class="cab-empty">
+            <div class="cab-empty-icon">&#10003;</div>
+            <div class="cab-empty-text" data-i18n="cab_book_ok">Запіс створаны. Мы звяжамся для пацверджання.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS -->
+      <div class="cab-page" id="page-documents">
+        <div class="cab-page-title" data-i18n="cab_documents">Дакументы</div>
+        <div class="cab-page-sub" data-i18n="cab_docs_sub">Здымкі, рэцэпты, справаздачы</div>
+        <div class="cab-card">
+          <div id="documentsList"></div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="cab-page" id="page-profile">
+        <div class="cab-page-title" data-i18n="cab_profile">Профіль</div>
+        <div class="cab-page-sub" data-i18n="cab_profile_sub">Вашы даныя</div>
+        <div class="cab-card">
+          <form class="cab-form" id="profileForm" onsubmit="handleProfileSave(event)">
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="cab_name">Імя</label>
+              <input class="cab-form-input" type="text" id="profName">
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label">Email</label>
+              <input class="cab-form-input" type="email" id="profEmail" disabled>
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="cab_phone">Тэлефон</label>
+              <input class="cab-form-input" type="tel" id="profPhone">
+            </div>
+            <div class="cab-form-row">
+              <label class="cab-form-label" data-i18n="cab_birthdate">Дата нараджэння</label>
+              <input class="cab-form-input" type="date" id="profBirth">
+            </div>
+            <button class="cab-form-btn" type="submit" data-i18n="cab_save">Захаваць</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cab-toast" id="cabToast"></div>
+
+<!-- SCRIPTS -->
+<script src="lang.js"></script>
+<script src="labs67-i18n.js"></script>
+<script>
+const SUPABASE_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let patient = null;
+
+/* ── AUTH ── */
+async function checkSession() {
+  var s = await sb.auth.getSession();
+  if (s.data.session) {
+    await loadPatient(s.data.session.user);
+    showApp();
+  }
+}
+
+async function handleLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pw = document.getElementById('loginPassword').value;
+  var err = document.getElementById('loginError');
+  var btn = document.getElementById('loginBtn');
+  if (!email || !pw) { err.textContent = 'Запоўніце ўсе палі'; return; }
+  btn.disabled = true;
+  err.textContent = '';
+  var r = await sb.auth.signInWithPassword({ email: email, password: pw });
+  if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
+  await loadPatient(r.data.user);
+  showApp();
+}
+
+async function handleRegister() {
+  var name = document.getElementById('regName').value.trim();
+  var email = document.getElementById('regEmail').value.trim();
+  var phone = document.getElementById('regPhone').value.trim();
+  var pw = document.getElementById('regPassword').value;
+  var err = document.getElementById('regError');
+  var btn = document.getElementById('regBtn');
+  if (!name || !email || !pw) { err.textContent = 'Запоўніце ўсе палі'; return; }
+  btn.disabled = true;
+  err.textContent = '';
+  var r = await sb.auth.signUp({ email: email, password: pw });
+  if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
+  // Create patient record
+  var pr = await sb.from('patients').insert({ user_id: r.data.user.id, name: name, email: email, phone: phone });
+  if (pr.error) { err.textContent = pr.error.message; btn.disabled = false; return; }
+  await loadPatient(r.data.user);
+  showApp();
+}
+
+async function handleLogout() {
+  await sb.auth.signOut();
+  patient = null;
+  document.getElementById('appWrap').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+}
+
+function showLogin() {
+  document.getElementById('loginForm').style.display = '';
+  document.getElementById('registerForm').style.display = 'none';
+}
+function showRegister() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = '';
+}
+
+/* ── PATIENT ── */
+async function loadPatient(user) {
+  var r = await sb.from('patients').select('*').eq('user_id', user.id).single();
+  if (r.data) {
+    patient = r.data;
+  } else {
+    // Auto-create patient if missing
+    var ins = await sb.from('patients').insert({ user_id: user.id, name: user.email.split('@')[0], email: user.email }).select().single();
+    patient = ins.data;
+  }
+}
+
+function showApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'block';
+  document.getElementById('navUserName').textContent = patient ? patient.name : '';
+  document.getElementById('profName').value = patient ? patient.name : '';
+  document.getElementById('profEmail').value = patient ? patient.email : '';
+  document.getElementById('profPhone').value = patient ? (patient.phone || '') : '';
+  document.getElementById('profBirth').value = patient ? (patient.birth_date || '') : '';
+  // Set min date for booking
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('bookDate').setAttribute('min', today);
+  loadOverview();
+  loadAppointments();
+  loadDocuments();
+}
+
+/* ── PAGES ── */
+function showPage(name) {
+  document.querySelectorAll('.cab-page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.cab-sidebar-item,.cab-mobile-tab').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-page') === name);
+  });
+  if (name === 'appointments') loadAppointments();
+  if (name === 'documents') loadDocuments();
+}
+
+/* ── OVERVIEW ── */
+async function loadOverview() {
+  if (!patient) return;
+  document.getElementById('overviewGreeting').textContent = patient.name;
+  // Stats
+  var ap = await sb.from('patient_appointments').select('*', { count: 'exact' }).eq('patient_id', patient.id);
+  document.getElementById('statTotal').textContent = ap.count || 0;
+  // Next appointment
+  var today = new Date().toISOString().split('T')[0];
+  var next = await sb.from('patient_appointments').select('*').eq('patient_id', patient.id).gte('date', today).in('status', ['pending','confirmed']).order('date', { ascending: true }).limit(1);
+  if (next.data && next.data.length) {
+    document.getElementById('statNext').textContent = next.data[0].date + (next.data[0].time ? ' ' + next.data[0].time : '');
+  } else {
+    document.getElementById('statNext').textContent = '—';
+  }
+  // Documents count
+  var docs = await sb.from('patient_documents').select('*', { count: 'exact' }).eq('patient_id', patient.id);
+  document.getElementById('statDocs').textContent = docs.count || 0;
+  // Recent
+  var recent = await sb.from('patient_appointments').select('*').eq('patient_id', patient.id).order('created_at', { ascending: false }).limit(3);
+  renderRecentList(recent.data || []);
+}
+
+function renderRecentList(items) {
+  var el = document.getElementById('recentList');
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#128197;</div><div class="cab-empty-text">Пакуль няма запісаў</div></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Дата</th><th>Паслуга</th><th>Статус</th></tr></thead><tbody>';
+  items.forEach(function(a) {
+    html += '<tr><td>' + a.date + (a.time ? ' ' + a.time : '') + '</td><td>' + a.service + '</td><td><span class="badge badge-' + a.status + '">' + a.status + '</span></td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+/* ── APPOINTMENTS ── */
+async function loadAppointments() {
+  if (!patient) return;
+  var r = await sb.from('patient_appointments').select('*').eq('patient_id', patient.id).order('date', { ascending: false });
+  var el = document.getElementById('appointmentsList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#128197;</div><div class="cab-empty-text">Пакуль няма запісаў</div><button class="cab-form-btn" onclick="showPage(\'booking\')">Запісацца</button></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Дата</th><th>Час</th><th>Паслуга</th><th>Статус</th></tr></thead><tbody>';
+  items.forEach(function(a) {
+    html += '<tr><td>' + a.date + '</td><td>' + (a.time || '—') + '</td><td>' + a.service + '</td><td><span class="badge badge-' + a.status + '">' + a.status + '</span></td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+/* ── BOOKING ── */
+async function handleBooking(e) {
+  e.preventDefault();
+  var svc = document.getElementById('bookService').value;
+  var date = document.getElementById('bookDate').value;
+  var time = document.getElementById('bookTime').value;
+  var notes = document.getElementById('bookNotes').value.trim();
+  if (!svc || !date || !time) return;
+  var btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  var r = await sb.from('patient_appointments').insert({
+    patient_id: patient.id,
+    service: svc,
+    date: date,
+    time: time,
+    notes: notes || null,
+    status: 'pending'
+  });
+  if (r.error) { toast(r.error.message); btn.disabled = false; return; }
+  document.getElementById('bookingForm').style.display = 'none';
+  document.getElementById('bookingSuccess').style.display = '';
+  toast('Запіс створаны');
+  setTimeout(function() {
+    document.getElementById('bookingForm').style.display = '';
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookingSuccess').style.display = 'none';
+    btn.disabled = false;
+  }, 3000);
+  loadOverview();
+}
+
+/* ── DOCUMENTS ── */
+async function loadDocuments() {
+  if (!patient) return;
+  var r = await sb.from('patient_documents').select('*').eq('patient_id', patient.id).order('uploaded_at', { ascending: false });
+  var el = document.getElementById('documentsList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#128196;</div><div class="cab-empty-text">Пакуль няма дакументаў</div></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Назва</th><th>Тып</th><th>Дата</th></tr></thead><tbody>';
+  items.forEach(function(d) {
+    html += '<tr><td>' + d.title + '</td><td>' + d.doc_type + '</td><td>' + d.uploaded_at.split('T')[0] + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+/* ── PROFILE ── */
+async function handleProfileSave(e) {
+  e.preventDefault();
+  if (!patient) return;
+  var btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  var r = await sb.from('patients').update({
+    name: document.getElementById('profName').value.trim(),
+    phone: document.getElementById('profPhone').value.trim() || null,
+    birth_date: document.getElementById('profBirth').value || null,
+    updated_at: new Date().toISOString()
+  }).eq('id', patient.id);
+  if (r.error) { toast(r.error.message); } else { toast('Захавана'); patient.name = document.getElementById('profName').value.trim(); document.getElementById('navUserName').textContent = patient.name; }
+  btn.disabled = false;
+}
+
+/* ── TOAST ── */
+function toast(msg) {
+  var el = document.getElementById('cabToast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+/* ── INIT ── */
+checkSession();
+</script>
+</body></html>
