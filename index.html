@@ -41,19 +41,15 @@ nav.scrolled{border-bottom-color:var(--border);box-shadow:0 2px 24px rgba(26,42,
 
 /* ── LANG ── */
 .lang-switcher{position:relative}
-.lang-current{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 10px;border:1px solid var(--border);background:transparent;font-family:var(--font-body);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;transition:all .2s;border-radius:4px;white-space:nowrap}
+.lang-current{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 10px;border:1px solid var(--border);background:transparent;font-family:var(--font-label);font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-weight:600;transition:all .2s;border-radius:4px;white-space:nowrap}
 .lang-current:hover{border-color:var(--blue);color:var(--blue)}
-.lang-flag{width:20px;height:14px;flex-shrink:0;display:inline-flex;align-items:center;border-radius:2px;overflow:hidden}
 .lang-arrow{font-size:7px;transition:transform .3s var(--spring);margin-left:2px}
-.lang-switcher.open .lang-arrow{transform:rotate(180deg)}
-.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--white);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.06);min-width:200px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:all .3s var(--ease);z-index:200;border-radius:8px;overflow:hidden}
-.lang-switcher.open .lang-dropdown{opacity:1;pointer-events:auto;transform:translateY(0)}
-.lang-option{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:11px;letter-spacing:1px;color:var(--text);transition:all .15s;border:none;background:none;width:100%;font-family:var(--font-body);text-align:left}
-.lang-option:hover{background:var(--blue-ice);color:var(--blue-dark)}
-.lang-option.active{color:var(--blue-dark);font-weight:500}
-.lang-flag{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:0}
-.flag-by,.flag-ru,.flag-ua,.flag-de,.flag-fr,.flag-en,.flag-es,.flag-it,.flag-pt,.flag-ja,.flag-ko{background:none}
-#lcf{display:inline-flex;align-items:center;line-height:0}
+.labs67-lang.open .lang-arrow{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--white);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.06);min-width:80px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:all .3s var(--ease);z-index:200;border-radius:8px;overflow:hidden;padding:4px}
+.labs67-lang.open .lang-dropdown{opacity:1;pointer-events:auto;transform:translateY(0)}
+.lang-opt{display:block;padding:7px 14px;cursor:pointer;font-family:var(--font-label);font-size:11px;letter-spacing:2px;font-weight:600;color:var(--muted);transition:all .15s;border:none;background:none;width:100%;text-align:left;border-radius:4px}
+.lang-opt:hover{background:var(--blue-ice);color:var(--blue-dark)}
+.lang-opt.active{color:var(--blue-dark)}
 
 /* ── HAMBURGER ── */
 .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:12px;background:none;border:none;z-index:200;min-width:48px;min-height:48px;align-items:center;justify-content:center}
@@ -68,6 +64,11 @@ nav.scrolled{border-bottom-color:var(--border);box-shadow:0 2px 24px rgba(26,42,
 .mobile-menu a:active{color:var(--blue)}
 .mobile-menu-divider{width:60px;height:1px;background:var(--border);margin:16px 0}
 .mobile-menu-cta{display:block;width:100%;max-width:260px;text-align:center;padding:16px 24px;background:var(--blue);color:#fff;text-decoration:none;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-family:var(--font-label);margin-top:8px;border-radius:8px}
+.mobile-menu .labs67-lang{margin-top:16px}
+.mobile-menu .lang-dropdown{position:relative;top:auto;right:auto;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;opacity:1;pointer-events:auto;transform:none;box-shadow:none;border:none;background:transparent;min-width:0;padding:8px 0}
+.mobile-menu .lang-current{display:none}
+.mobile-menu .lang-opt{width:auto;padding:8px 12px;border:1px solid var(--border);border-radius:6px;text-align:center;font-weight:600;font-size:11px;letter-spacing:2px}
+.mobile-menu .lang-opt.active{border-color:var(--blue);color:var(--blue-dark);background:var(--blue-ice)}
 
 /* ── HERO ── */
 .hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 48px 80px;position:relative;overflow:hidden;background:var(--bg)}
@@ -301,6 +302,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   footer{padding:32px 12px 24px}
 }
 </style>
+<style id="labs67-lang-css"></style>
 </head>
 <body>
 
