@@ -474,6 +474,7 @@ async function loadPatient(user) {
   patient = r.data || null;
 }
 
+var loaded = {};
 function showApp() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appWrap').style.display = 'block';
@@ -485,9 +486,8 @@ function showApp() {
   // Set min date for booking
   var today = new Date().toISOString().split('T')[0];
   document.getElementById('bookDate').setAttribute('min', today);
+  loaded = {};
   loadOverview();
-  loadAppointments();
-  loadDocuments();
 }
 
 /* ── PAGES ── */
@@ -497,31 +497,29 @@ function showPage(name) {
   document.querySelectorAll('.cab-sidebar-item,.cab-mobile-tab').forEach(function(b) {
     b.classList.toggle('active', b.getAttribute('data-page') === name);
   });
-  if (name === 'appointments') loadAppointments();
-  if (name === 'documents') loadDocuments();
+  if (name === 'appointments' && !loaded.appointments) { loaded.appointments = true; loadAppointments(); }
+  if (name === 'documents' && !loaded.documents) { loaded.documents = true; loadDocuments(); }
 }
 
 /* ── OVERVIEW ── */
 async function loadOverview() {
   if (!patient) return;
   document.getElementById('overviewGreeting').textContent = patient.name;
-  // Stats
-  var ap = await sb.from('patient_appointments').select('*', { count: 'exact' }).eq('patient_id', patient.id);
-  document.getElementById('statTotal').textContent = ap.count || 0;
-  // Next appointment
   var today = new Date().toISOString().split('T')[0];
-  var next = await sb.from('patient_appointments').select('*').eq('patient_id', patient.id).gte('date', today).in('status', ['pending','confirmed']).order('date', { ascending: true }).limit(1);
-  if (next.data && next.data.length) {
-    document.getElementById('statNext').textContent = next.data[0].date + (next.data[0].time ? ' ' + next.data[0].time : '');
+  var results = await Promise.all([
+    sb.from('patient_appointments').select('*', { count: 'exact' }).eq('patient_id', patient.id),
+    sb.from('patient_appointments').select('*').eq('patient_id', patient.id).gte('date', today).in('status', ['pending','confirmed']).order('date', { ascending: true }).limit(1),
+    sb.from('patient_documents').select('*', { count: 'exact' }).eq('patient_id', patient.id),
+    sb.from('patient_appointments').select('*').eq('patient_id', patient.id).order('created_at', { ascending: false }).limit(3)
+  ]);
+  document.getElementById('statTotal').textContent = results[0].count || 0;
+  if (results[1].data && results[1].data.length) {
+    document.getElementById('statNext').textContent = results[1].data[0].date + (results[1].data[0].time ? ' ' + results[1].data[0].time : '');
   } else {
     document.getElementById('statNext').textContent = '—';
   }
-  // Documents count
-  var docs = await sb.from('patient_documents').select('*', { count: 'exact' }).eq('patient_id', patient.id);
-  document.getElementById('statDocs').textContent = docs.count || 0;
-  // Recent
-  var recent = await sb.from('patient_appointments').select('*').eq('patient_id', patient.id).order('created_at', { ascending: false }).limit(3);
-  renderRecentList(recent.data || []);
+  document.getElementById('statDocs').textContent = results[2].count || 0;
+  renderRecentList(results[3].data || []);
 }
 
 function renderRecentList(items) {
@@ -578,6 +576,7 @@ async function handleBooking(e) {
   document.getElementById('bookingForm').style.display = 'none';
   document.getElementById('bookingSuccess').style.display = '';
   toast('Запіс створаны');
+  loaded.appointments = false;
   setTimeout(function() {
     document.getElementById('bookingForm').style.display = '';
     document.getElementById('bookingForm').reset();
