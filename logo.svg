@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Tooth shape formed by S-curve -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7EB8D4"/>
+      <stop offset="100%" stop-color="#A8DCD1"/>
+    </linearGradient>
+  </defs>
+  <!-- Abstract tooth/S mark -->
+  <path d="M60 12 C38 12 28 28 28 42 C28 52 35 58 42 60 C50 62 56 66 56 76 C56 88 48 96 60 108 C72 96 64 88 64 76 C64 66 70 62 78 60 C85 58 92 52 92 42 C92 28 82 12 60 12Z"
+        fill="url(#g)" opacity="0.9"/>
+  <!-- Crown detail lines -->
+  <path d="M48 30 Q60 20 72 30" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="60" y1="22" x2="60" y2="38" stroke="#fff" stroke-width="1" opacity="0.4"/>
+</svg>
