@@ -1,378 +1,747 @@
-<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>svyatlitsa — aesthetic dentistry · labs67</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"><style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --gold: #C49A2D; --gold-dark: #A67E1E; --gold-light: #E8D5A3; --gold-glow: rgba(196,154,45,0.08);
-    --black: #1a1a1a; --white: #FFFFFF; --cream: #FDFBF7; --warm: #F8F5EE;
-    --gray: #f5f4f2; --gray2: #e8e6e2; --text: #2a2a28; --muted: #8a8a82;
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Inter', -apple-system, Arial, sans-serif;
-    --red: #C49A2D; --red-dark: #A67E1E;
-  }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
-  body { font-family: var(--font-body); background: var(--cream); color: var(--text); overflow-x: hidden; -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left); font-weight: 300; letter-spacing: 0.01em; line-height: 1.6; }
-  a, button { -webkit-tap-highlight-color: rgba(196,154,45,0.08); touch-action: manipulation; }
+<!DOCTYPE html><html lang="be"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>svyatlitsa — aesthetic dentistry · labs67</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C49A2D; --gold-dark: #A67E1E; --gold-light: #E8D5A3; --gold-glow: rgba(196,154,45,0.08);
+  --black: #1a1a1a; --white: #FFFFFF; --cream: #FDFBF7; --warm: #F8F5EE;
+  --gray: #f5f4f2; --gray2: #e8e6e2; --text: #2a2a28; --muted: #8a8a82;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --red: #C49A2D; --red-dark: #A67E1E;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: var(--font-body); background: var(--cream); color: var(--text); overflow-x: hidden; -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; font-weight: 300; letter-spacing: 0.01em; line-height: 1.6; }
+a, button { -webkit-tap-highlight-color: rgba(196,154,45,0.08); touch-action: manipulation; }
 
-  /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 40px; background: rgba(253,251,247,0.92); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: border-color 0.3s, box-shadow 0.3s; }
-  nav.scrolled { border-bottom-color: var(--gray2); box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
-  .nav-logo { display: flex; flex-direction: column; text-decoration: none; }
-  .nav-logo-sub { font-size: 7px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; font-weight: 400; }
-  .nav-logo-name { font-family: var(--font-display); font-size: 18px; letter-spacing: 4px; color: var(--black); font-weight: 400; text-transform: lowercase; }
-  .nav-center { display: flex; align-items: center; gap: 36px; list-style: none; }
-  .nav-center a { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; position: relative; }
-  .nav-center a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--red); transform: scaleX(0); transition: transform 0.3s ease; }
-  .nav-center a:hover { color: var(--red); }
-  .nav-center a:hover::after { transform: scaleX(1); }
-  .nav-right { display: flex; align-items: center; gap: 16px; }
-  .nav-cta { font-size: 9px; letter-spacing: 3px; padding: 8px 20px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; text-transform: lowercase; transition: all 0.3s; font-family: var(--font-body); font-weight: 400; }
-  .nav-back { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; border-left: 1px solid var(--gray2); padding-left: 20px; margin-left: 4px; }
-  .nav-back:hover { color: var(--red); }
-  .nav-ver { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); opacity: 0.5; letter-spacing: 0.04em; white-space: nowrap; }
+/* ─── CUSTOM CURSOR ─── */
+.cursor-glow {
+  position: fixed; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,154,45,0.06) 0%, transparent 70%);
+  pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+  transition: opacity 0.3s; opacity: 0;
+}
+body:hover .cursor-glow { opacity: 1; }
 
-  
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 48px; padding: 0 40px;
+  background: rgba(253,251,247,0.8); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.5s var(--ease-out-expo);
+}
+nav.scrolled {
+  border-bottom-color: rgba(196,154,45,0.15);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+  background: rgba(253,251,247,0.95);
+}
+.nav-logo { display: flex; flex-direction: column; text-decoration: none; transition: transform 0.3s var(--ease-spring); }
+.nav-logo:hover { transform: scale(1.02); }
+.nav-logo-sub { font-size: 7px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; font-weight: 400; }
+.nav-logo-name { font-family: var(--font-display); font-size: 18px; letter-spacing: 4px; color: var(--black); font-weight: 400; text-transform: lowercase; }
+.nav-center { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-center a {
+  font-size: 10px; letter-spacing: 3px; color: var(--muted); text-decoration: none;
+  text-transform: uppercase; transition: color 0.3s, transform 0.3s; position: relative;
+}
+.nav-center a::after {
+  content: ''; position: absolute; bottom: -4px; left: 50%; right: 50%;
+  height: 1px; background: var(--gold); transition: left 0.4s var(--ease-out-expo), right 0.4s var(--ease-out-expo);
+}
+.nav-center a:hover { color: var(--gold); }
+.nav-center a:hover::after { left: 0; right: 0; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-cta {
+  font-size: 9px; letter-spacing: 3px; padding: 8px 20px;
+  border: 1px solid var(--gold); color: var(--gold); text-decoration: none;
+  text-transform: lowercase; transition: all 0.4s var(--ease-out-expo);
+  font-family: var(--font-body); font-weight: 400; position: relative; overflow: hidden;
+}
+.nav-cta::before {
+  content: ''; position: absolute; inset: 0; background: var(--gold);
+  transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease-out-expo);
+}
+.nav-cta:hover { color: var(--white); }
+.nav-cta:hover::before { transform: scaleX(1); transform-origin: left; }
+.nav-cta span { position: relative; z-index: 1; }
+.nav-back { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; border-left: 1px solid var(--gray2); padding-left: 20px; margin-left: 4px; }
+.nav-back:hover { color: var(--gold); }
+.nav-ver { font-family: var(--font-mono); font-size: 9px; color: var(--muted); opacity: 0.5; letter-spacing: 0.04em; white-space: nowrap; }
 
-  /* LANG */
-  .lang-switcher { position: relative; }
-  .lang-current { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; border: 1px solid var(--gray2); background: transparent; font-family: var(--font-body); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
-  .lang-current:hover { border-color: var(--red); color: var(--red); }
-  .lang-flag { width: 20px; height: 14px; flex-shrink: 0; display: inline-flex; align-items: center; border-radius: 2px; overflow: hidden; }
-  .lang-arrow { font-size: 7px; transition: transform 0.2s; margin-left: 2px; }
-  .lang-switcher.open .lang-arrow { transform: rotate(180deg); }
-  .lang-dropdown { position: absolute; top: calc(100% + 6px); right: 0; background: var(--white); border: 1px solid var(--gray2); box-shadow: 0 8px 32px rgba(0,0,0,0.08); min-width: 200px; opacity: 0; pointer-events: none; transform: translateY(-8px); transition: all 0.25s ease; z-index: 200; }
-  .lang-switcher.open .lang-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
-  .lang-option { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; font-size: 11px; letter-spacing: 1px; color: var(--text); transition: all 0.15s; border: none; background: none; width: 100%; font-family: var(--font-body); text-align: left; }
-  .lang-option:hover { background: var(--gray); color: var(--red); }
-  .lang-option.active { color: var(--red); font-weight: 500; }
+/* ─── LANG ─── */
+.lang-switcher { position: relative; }
+.lang-current { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; border: 1px solid var(--gray2); background: transparent; font-family: var(--font-body); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+.lang-current:hover { border-color: var(--gold); color: var(--gold); }
+.lang-flag { width: 20px; height: 14px; flex-shrink: 0; display: inline-flex; align-items: center; border-radius: 2px; overflow: hidden; }
+.lang-arrow { font-size: 7px; transition: transform 0.3s var(--ease-spring); margin-left: 2px; }
+.lang-switcher.open .lang-arrow { transform: rotate(180deg); }
+.lang-dropdown { position: absolute; top: calc(100% + 6px); right: 0; background: var(--white); border: 1px solid var(--gray2); box-shadow: 0 8px 32px rgba(0,0,0,0.08); min-width: 200px; opacity: 0; pointer-events: none; transform: translateY(-8px); transition: all 0.3s var(--ease-out-expo); z-index: 200; }
+.lang-switcher.open .lang-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.lang-option { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; font-size: 11px; letter-spacing: 1px; color: var(--text); transition: all 0.15s; border: none; background: none; width: 100%; font-family: var(--font-body); text-align: left; }
+.lang-option:hover { background: var(--gray); color: var(--gold); }
+.lang-option.active { color: var(--gold); font-weight: 500; }
+.lang-flag { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; line-height:0; }
+.flag-by,.flag-ru,.flag-ua,.flag-de,.flag-fr,.flag-en,.flag-es,.flag-it,.flag-pt,.flag-ja,.flag-ko { background:none; }
+#lcf { display:inline-flex; align-items:center; line-height:0; }
 
-  /* BChB — бела-чырвона-белы */
-  /* flags: inline SVG */
-  .lang-flag { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; line-height:0; }
-  .flag-by,.flag-ru,.flag-ua,.flag-de,.flag-fr,.flag-en,.flag-es,.flag-it,.flag-pt,.flag-ja,.flag-ko { background:none; }
-  #lcf { display:inline-flex; align-items:center; line-height:0; }
+/* ─── HAMBURGER ─── */
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 12px; background: none; border: none; z-index: 200; -webkit-tap-highlight-color: transparent; min-width: 48px; min-height: 48px; align-items: center; justify-content: center; }
+.nav-hamburger span { width: 24px; height: 1.5px; background: var(--black); transition: all 0.4s var(--ease-out-expo); display: block; }
+.nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--cream); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 0; opacity: 0; transition: opacity 0.4s var(--ease-out-expo); padding: env(safe-area-inset-top, 20px) 24px env(safe-area-inset-bottom, 20px); overflow-y: auto; }
+.mobile-menu.open { display: flex; opacity: 1; }
+.mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; max-width: 320px; }
+.mobile-menu a { font-family: var(--font-display); font-size: 28px; letter-spacing: 4px; color: var(--black); text-decoration: none; transition: all 0.3s; padding: 14px 0; width: 100%; text-align: center; }
+.mobile-menu a:active { color: var(--gold); }
+.mobile-menu-divider { width: 60px; height: 1px; background: var(--gray2); margin: 16px 0; }
+.mobile-menu-cta { display: block; width: 100%; max-width: 260px; text-align: center; padding: 16px 24px; background: var(--gold); color: var(--white); text-decoration: none; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; font-family: var(--font-body); margin-top: 8px; transition: background 0.2s; }
+.mobile-menu-cta:active { background: var(--gold-dark); }
+.mobile-lang-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+.mobile-lang-btn { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border: 1px solid var(--gray2); background: transparent; cursor: pointer; font-family: var(--font-body); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; transition: all 0.2s; min-height: 44px; }
+.mobile-lang-btn:active, .mobile-lang-btn.active { border-color: var(--gold); color: var(--gold); }
 
-  /* HAMBURGER */
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 12px; background: none; border: none; z-index: 200; -webkit-tap-highlight-color: transparent; min-width: 48px; min-height: 48px; align-items: center; justify-content: center; }
-  .nav-hamburger span { width: 24px; height: 1.5px; background: var(--black); transition: all 0.3s; display: block; }
-  .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
-  .nav-hamburger.active span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-  .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 0; opacity: 0; transition: opacity 0.3s; padding: env(safe-area-inset-top, 20px) 24px env(safe-area-inset-bottom, 20px); overflow-y: auto; }
-  .mobile-menu.open { display: flex; opacity: 1; }
-  .mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; max-width: 320px; }
-  .mobile-menu a { font-family: var(--font-display); font-size: 28px; letter-spacing: 4px; color: var(--black); text-decoration: none; transition: color 0.2s; padding: 14px 0; width: 100%; text-align: center; -webkit-tap-highlight-color: transparent; }
-  .mobile-menu a:active { color: var(--red); }
-  .mobile-menu-divider { width: 60px; height: 1px; background: var(--gray2); margin: 16px 0; }
-  .mobile-menu-cta { display: block; width: 100%; max-width: 260px; text-align: center; padding: 16px 24px; background: var(--red); color: var(--white); text-decoration: none; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; font-family: var(--font-body); margin-top: 8px; -webkit-tap-highlight-color: transparent; transition: background 0.2s; }
-  .mobile-menu-cta:active { background: var(--red-dark); }
-  .mobile-lang-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
-  .mobile-lang-btn { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border: 1px solid var(--gray2); background: transparent; cursor: pointer; font-family: var(--font-body); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; transition: all 0.2s; -webkit-tap-highlight-color: transparent; min-height: 44px; }
-  .mobile-lang-btn:active, .mobile-lang-btn.active { border-color: var(--red); color: var(--red); }
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 120px 48px 80px; position: relative; overflow: hidden;
+  background: var(--cream);
+}
 
-  /* HERO */
-  .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 48px 80px; position: relative; overflow: hidden; background: var(--cream); }
-  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
-  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--gray2); }
-  .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(196,154,45,0.04) 0%, transparent 70%); pointer-events: none; }
-  #heroCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.85; background: transparent !important; }
-  .hero-sub { font-size: 10px; letter-spacing: 8px; color: var(--gold); text-transform: lowercase; margin-bottom: 24px; position: relative; font-weight: 400; }
-  .hero-line { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 32px; position: relative; }
-  .hero-title { font-family: var(--font-display); font-size: clamp(48px, 14vw, 160px); font-weight: 400; letter-spacing: 6px; color: var(--black); text-align: center; line-height: 0.95; position: relative; text-transform: lowercase; }
-  .hero-divider { width: 100%; max-width: 500px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); margin: 40px auto; position: relative; }
-  .hero-desc { font-size: 11px; letter-spacing: 5px; color: var(--muted); text-transform: lowercase; text-align: center; position: relative; font-weight: 300; }
-  .hero-actions { display: flex; gap: 20px; margin-top: 48px; position: relative; }
-  .btn-primary { font-size: 10px; letter-spacing: 4px; text-transform: lowercase; padding: 16px 40px; background: var(--gold); color: var(--white); text-decoration: none; transition: all 0.4s ease; font-family: var(--font-body); font-weight: 400; border: 1px solid var(--gold); }
-  .btn-primary:hover { background: var(--gold-dark); border-color: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,154,45,0.2); }
-  .btn-secondary { font-size: 10px; letter-spacing: 4px; text-transform: lowercase; padding: 16px 40px; border: 1px solid var(--gray2); color: var(--text); text-decoration: none; transition: all 0.4s ease; font-family: var(--font-body); font-weight: 400; }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+/* Animated gradient orbs */
+.hero-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
+  animation: orbFloat 20s ease-in-out infinite; pointer-events: none;
+}
+.hero-orb-1 {
+  width: 500px; height: 500px; top: -10%; left: -5%;
+  background: radial-gradient(circle, rgba(196,154,45,0.15) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+.hero-orb-2 {
+  width: 400px; height: 400px; bottom: -5%; right: -5%;
+  background: radial-gradient(circle, rgba(196,154,45,0.1) 0%, transparent 70%);
+  animation-delay: -7s;
+}
+.hero-orb-3 {
+  width: 300px; height: 300px; top: 30%; right: 20%;
+  background: radial-gradient(circle, rgba(0,180,200,0.06) 0%, transparent 70%);
+  animation-delay: -13s;
+}
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(40px, 30px) scale(1.05); }
+}
 
-  /* REVEAL */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .rd1 { transition-delay: 0.1s; } .rd2 { transition-delay: 0.2s; } .rd3 { transition-delay: 0.3s; } .rd4 { transition-delay: 0.4s; } .rd5 { transition-delay: 0.5s; }
+.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--gray2); }
 
-  /* TICKER */
-  .ticker { background: var(--black); padding: 16px 0; overflow: hidden; white-space: nowrap; max-width: 100vw; width: 100%; position: relative; }
-  .ticker-track { display: inline-flex; animation: ticker 25s linear infinite; will-change: transform; }
-  .ticker-set { display: inline-flex; gap: 60px; padding-right: 60px; }
-  .ticker-item { font-size: 10px; letter-spacing: 4px; color: var(--white); text-transform: uppercase; opacity: 0.7; }
-  .ticker-dot { color: var(--red); opacity: 1; }
+#heroCanvas {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1; opacity: 0.9; background: transparent !important;
+}
 
-  /* SECTIONS */
-  .section { padding: 120px 48px; }
-  .section-alt { background: var(--warm); }
-  .section-label { font-size: 9px; letter-spacing: 6px; color: var(--gold); text-transform: lowercase; margin-bottom: 20px; font-weight: 400; }
-  .section-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 400; letter-spacing: 1px; color: var(--black); margin-bottom: 64px; max-width: 600px; line-height: 1.2; }
-  .section-title em { color: var(--gold); font-style: italic; }
+.hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
 
-  /* FEATURES */
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray2); border: 1px solid var(--gray2); }
-  .feature { background: var(--cream); padding: 48px 40px; transition: all 0.4s ease; }
-  .feature:hover { background: var(--warm); }
-  .feature-num { font-size: 9px; letter-spacing: 3px; color: var(--gold); margin-bottom: 24px; font-weight: 400; }
-  .feature-title { font-family: var(--font-display); font-size: 22px; font-weight: 400; letter-spacing: 0.5px; margin-bottom: 16px; color: var(--black); }
-  .feature-text { font-size: 12px; line-height: 1.9; color: var(--muted); letter-spacing: 0.3px; font-weight: 300; }
+.hero-sub {
+  font-size: 10px; letter-spacing: 8px; color: var(--gold); text-transform: lowercase;
+  margin-bottom: 24px; font-weight: 400;
+  opacity: 0; transform: translateY(20px);
+  animation: heroReveal 1s var(--ease-out-expo) 0.2s forwards;
+}
+.hero-line {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 32px;
+  opacity: 0; transform: scaleX(0);
+  animation: heroLineReveal 1.2s var(--ease-out-expo) 0.4s forwards;
+}
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(48px, 14vw, 160px);
+  font-weight: 400; letter-spacing: 6px; color: var(--black);
+  text-align: center; line-height: 0.95; text-transform: lowercase;
+  opacity: 0; transform: translateY(30px) scale(0.97);
+  animation: heroTitleReveal 1.4s var(--ease-out-expo) 0.3s forwards;
+}
+.hero-divider {
+  width: 100%; max-width: 500px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  margin: 40px auto;
+  opacity: 0; transform: scaleX(0);
+  animation: heroLineReveal 1.2s var(--ease-out-expo) 0.7s forwards;
+}
+.hero-desc {
+  font-size: 11px; letter-spacing: 5px; color: var(--muted); text-transform: lowercase;
+  text-align: center; font-weight: 300;
+  opacity: 0; transform: translateY(15px);
+  animation: heroReveal 1s var(--ease-out-expo) 0.8s forwards;
+}
+.hero-actions {
+  display: flex; gap: 20px; margin-top: 48px;
+  opacity: 0; transform: translateY(20px);
+  animation: heroReveal 1s var(--ease-out-expo) 1s forwards;
+}
 
-  /* SERVICES */
-  .services-list { display: flex; flex-direction: column; width: 100%; overflow: hidden; }
-  .service-card { padding: 28px 0; border-bottom: 1px solid var(--gray2); }
-  .service-card:first-child { border-top: 1px solid var(--gray2); }
-  .service-item { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid var(--gray2); cursor: pointer; transition: padding-left 0.3s; text-decoration: none; color: inherit; }
-  .service-item:first-child { border-top: 1px solid var(--gray2); }
-  .service-item:hover { padding-left: 16px; }
-  .service-item:hover .service-arrow { color: var(--red); transform: translateX(4px); }
-  .service-left { display: flex; align-items: baseline; gap: 24px; }
-  .service-num { font-size: 9px; letter-spacing: 2px; color: var(--muted); min-width: 30px; }
-  .service-name { font-family: var(--font-display); font-size: 28px; font-weight: 400; letter-spacing: 1px; }
-  .service-desc { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-top: 4px; line-height: 1.6; }
-  .service-right { display: flex; align-items: center; gap: 40px; white-space: nowrap; }
-  .service-price { font-size: 11px; letter-spacing: 2px; color: var(--muted); }
-  .service-arrow { font-size: 18px; color: var(--black); transition: all 0.3s; }
+@keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+@keyframes heroTitleReveal { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes heroLineReveal { to { opacity: 1; transform: scaleX(1); } }
 
-  /* PROCESS */
-  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; }
-  .step { position: relative; }
-  .step::before { content: ''; position: absolute; top: 18px; left: 100%; right: -48px; height: 1px; background: var(--gray2); }
-  .step:last-child::before { display: none; }
-  .step-num { width: 36px; height: 36px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 1px; color: var(--gold); margin-bottom: 24px; transition: all 0.4s ease; }
-  .step:hover .step-num { background: var(--gold); color: var(--white); }
-  .step-title { font-family: var(--font-display); font-size: 20px; font-weight: 400; margin-bottom: 12px; }
-  .step-text { font-size: 12px; line-height: 1.8; color: var(--muted); }
+/* ─── BUTTONS ─── */
+.btn-primary {
+  font-size: 10px; letter-spacing: 4px; text-transform: lowercase;
+  padding: 16px 40px; background: var(--gold); color: var(--white);
+  text-decoration: none; font-family: var(--font-body); font-weight: 400;
+  border: 1px solid var(--gold); position: relative; overflow: hidden;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(196,154,45,0.3);
+}
+.btn-primary:active { transform: translateY(-1px); }
 
-  /* BOOKING */
-  .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .booking-contacts { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
-  .booking-contact { display: flex; gap: 16px; align-items: flex-start; padding-bottom: 24px; border-bottom: 1px solid var(--gray2); }
-  .booking-contact-icon { font-size: 14px; color: var(--red); min-width: 20px; }
-  .booking-contact-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
-  .booking-contact-value { font-family: var(--font-display); font-size: 18px; }
-  .booking-contact-value a { color: inherit; text-decoration: none; transition: color 0.2s; }
-  .booking-contact-value a:hover { color: var(--red); }
-  .form { display: flex; flex-direction: column; }
-  .form-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; margin-top: 24px; }
-  .form-label:first-child { margin-top: 0; }
-  .form-input, .form-select { width: 100%; padding: 14px 0; min-height: 48px; border: none; border-bottom: 1px solid var(--gray2); background: transparent; font-family: var(--font-body); font-size: 13px; letter-spacing: 1px; color: var(--black); outline: none; transition: border-color 0.3s; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0; }
-  .form-input:focus, .form-select:focus { border-color: var(--red); }
-  .form-input::placeholder { color: var(--gray2); }
-  .form-select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888880'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 24px; }
-  .form-error { font-size: 10px; color: var(--red); letter-spacing: 1px; margin-top: 6px; display: none; }
-  .form-error.show { display: block; }
-  .form-submit { margin-top: 40px; padding: 16px; background: var(--red); color: var(--white); border: none; cursor: pointer; font-family: var(--font-body); font-size: 10px; letter-spacing: 5px; text-transform: uppercase; transition: all 0.3s; }
-  .form-submit:hover { background: var(--red-dark); }
-  .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-  .form-success { display: none; text-align: center; padding: 60px 40px; }
-  .form-success.show { display: block; }
-  .form-success-icon { width: 48px; height: 48px; border: 2px solid var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 20px; color: var(--red); }
-  .form-success-title { font-family: var(--font-display); font-size: 28px; margin-bottom: 12px; }
-  .form-success-text { font-size: 12px; color: var(--muted); line-height: 1.8; letter-spacing: 0.5px; }
+.btn-secondary {
+  font-size: 10px; letter-spacing: 4px; text-transform: lowercase;
+  padding: 16px 40px; border: 1px solid var(--gray2); color: var(--text);
+  text-decoration: none; font-family: var(--font-body); font-weight: 400;
+  transition: all 0.4s var(--ease-out-expo); position: relative;
+}
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
 
-  /* FOOTER */
-  footer { background: var(--black); padding: 60px 48px 40px; position: relative; }
-  footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px; }
-  .footer-logo-name { font-family: var(--font-display); font-size: 42px; letter-spacing: 4px; color: var(--gold-light); font-weight: 400; text-transform: lowercase; }
-  .footer-logo-sub { font-size: 9px; letter-spacing: 5px; color: rgba(255,255,255,0.3); margin-top: 8px; }
-  .footer-links { display: flex; gap: 40px; list-style: none; padding-top: 12px; }
-  .footer-links a { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.4); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--red); }
-  .footer-brands { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; padding: 32px 0; border-top: 1px solid rgba(255,255,255,0.08); }
-  .footer-brands a { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.35); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-  .footer-brands a:hover { color: var(--red); }
-  .footer-brands .footer-brands-sep { color: rgba(255,255,255,0.12); font-size: 10px; align-self: center; }
-  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); }
-  .footer-copy { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.25); }
-  .footer-ai { display: flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.25); }
-  .dot-live { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
-  /* CHAT */
-  #sv-chat-bubble { position: fixed; bottom: 24px; right: 24px; z-index: 500; width: 52px; height: 52px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(196,154,45,0.3); border: none; transition: transform 0.2s; }
-  #sv-chat-bubble:hover { transform: scale(1.08); }
-  #sv-chat-win { position: fixed; bottom: 88px; right: 24px; z-index: 500; width: 340px; max-height: 440px; background: var(--white); border: 1px solid var(--gray2); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.1); display: none; flex-direction: column; overflow: hidden; }
-  #sv-chat-win.open { display: flex; }
-  .sv-chat-head { padding: 14px 18px; border-bottom: 1px solid var(--gray2); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; font-family: var(--font-display); letter-spacing: 1px; }
-  .sv-chat-head .sv-online { font-family: var(--font-body); font-size: 10px; color: #28a745; letter-spacing: 0.1em; }
-  #sv-chat-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 180px; }
-  .sv-msg { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; max-width: 85%; }
-  .sv-msg-bot { background: var(--gray); align-self: flex-start; }
-  .sv-msg-user { background: rgba(196,154,45,0.08); align-self: flex-end; color: var(--text); }
-  .sv-msg-sender { font-size: 9px; letter-spacing: 0.1em; color: var(--red); margin-bottom: 4px; display: block; text-transform: uppercase; }
-  #sv-chat-opts { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 14px 10px; }
-  .sv-chat-opt { padding: 6px 12px; border: 1px solid var(--gray2); border-radius: 16px; background: transparent; cursor: pointer; font-size: 12px; color: var(--muted); transition: all 0.15s; font-family: var(--font-body); }
-  .sv-chat-opt:hover { border-color: var(--red); color: var(--red); }
-  .sv-chat-foot { display: flex; border-top: 1px solid var(--gray2); padding: 10px; }
-  .sv-chat-foot input { flex: 1; border: none; outline: none; font-size: 13px; padding: 6px 10px; background: transparent; font-family: var(--font-body); color: var(--text); }
-  .sv-chat-foot button { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--red); padding: 0 8px; }
-  .sv-chat-foot button:hover { opacity: 0.7; }
+/* Ripple effect */
+.ripple {
+  position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
+  transform: scale(0); animation: rippleAnim 0.6s ease-out;
+  pointer-events: none;
+}
+@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-  .back-to-top { position: fixed; bottom: 88px; right: 24px; width: 44px; height: 44px; background: var(--red); color: var(--white); border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 90; }
-  .back-to-top.visible { opacity: 1; pointer-events: auto; }
-  .back-to-top:hover { background: var(--red-dark); transform: translateY(-2px); }
+/* ─── REVEAL SYSTEM ─── */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo); }
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+.rd1 { transition-delay: 0.1s; } .rd2 { transition-delay: 0.2s; } .rd3 { transition-delay: 0.3s; }
+.rd4 { transition-delay: 0.4s; } .rd5 { transition-delay: 0.5s; } .rd6 { transition-delay: 0.6s; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .hero-sub, .hero-line, .hero-title, .hero-divider, .hero-desc, .hero-actions { animation: fadeUp 0.8s ease both; }
-  .hero-line { animation-delay: 0.1s; } .hero-title { animation-delay: 0.15s; } .hero-divider { animation-delay: 0.3s; } .hero-desc { animation-delay: 0.35s; } .hero-actions { animation-delay: 0.45s; }
+/* ─── TICKER ─── */
+.ticker {
+  background: var(--black); padding: 16px 0; overflow: hidden;
+  white-space: nowrap; max-width: 100vw; width: 100%; position: relative;
+}
+.ticker-track { display: inline-flex; animation: ticker 25s linear infinite; will-change: transform; }
+.ticker-set { display: inline-flex; gap: 60px; padding-right: 60px; }
+.ticker-item { font-size: 10px; letter-spacing: 4px; color: var(--white); text-transform: uppercase; opacity: 0.7; }
+.ticker-dot { color: var(--gold); opacity: 1; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── TABLET ≤ 900px ── */
-  @media (max-width: 900px) {
-    nav { padding: 16px 20px; }
-    .nav-center { display: none; }
-    .nav-cta { display: none; }
-    .nav-hamburger { display: flex; }
-    .nav-right > .lang-switcher { display: none; }
-    .nav-ver { display: none; } .hero { padding: 100px 20px 60px; min-height: calc(100vh - 60px); min-height: calc(100dvh - 60px); }
-    .hero-title { letter-spacing: 4px; }
-    .hero-sub { font-size: 9px; letter-spacing: 6px; }
-    .hero-actions { flex-direction: column; align-items: center; gap: 12px; width: 100%; }
-    .btn-primary, .btn-secondary { width: 100%; text-align: center; max-width: 300px; padding: 16px 36px; font-size: 11px; }
+/* ─── SECTIONS ─── */
+.section { padding: 120px 48px; position: relative; }
+.section-alt { background: var(--warm); }
+.section-label {
+  font-size: 9px; letter-spacing: 6px; color: var(--gold); text-transform: lowercase;
+  margin-bottom: 20px; font-weight: 400; font-family: var(--font-mono);
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 400;
+  letter-spacing: 1px; color: var(--black); margin-bottom: 64px;
+  max-width: 600px; line-height: 1.2;
+}
+.section-title em { color: var(--gold); font-style: italic; }
 
-    .section { padding: 72px 20px; }
-    .section-title { margin-bottom: 40px; }
+/* ─── FEATURES (3D CARDS) ─── */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--gray2); border: 1px solid var(--gray2);
+}
+.feature {
+  background: var(--cream); padding: 48px 40px;
+  transition: all 0.5s var(--ease-out-expo);
+  position: relative; overflow: hidden;
+  transform-style: preserve-3d; perspective: 800px;
+}
+.feature::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(196,154,45,0.05) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.5s;
+}
+.feature:hover { background: var(--white); }
+.feature:hover::before { opacity: 1; }
+.feature-num {
+  font-size: 9px; letter-spacing: 3px; color: var(--gold); margin-bottom: 24px;
+  font-weight: 400; font-family: var(--font-mono);
+  transition: transform 0.4s var(--ease-spring);
+}
+.feature:hover .feature-num { transform: translateX(4px); }
+.feature-title {
+  font-family: var(--font-display); font-size: 22px; font-weight: 400;
+  letter-spacing: 0.5px; margin-bottom: 16px; color: var(--black);
+  transition: color 0.3s;
+}
+.feature:hover .feature-title { color: var(--gold-dark); }
+.feature-text { font-size: 12px; line-height: 1.9; color: var(--muted); letter-spacing: 0.3px; font-weight: 300; }
+.feature-glow {
+  position: absolute; width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,154,45,0.08) 0%, transparent 70%);
+  pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  transform: translate(-50%, -50%);
+}
+.feature:hover .feature-glow { opacity: 1; }
 
-    .features-grid { grid-template-columns: 1fr; gap: 1px; }
-    .feature { padding: 36px 28px; }
+/* ─── SERVICES ─── */
+.services-list { display: flex; flex-direction: column; width: 100%; overflow: hidden; }
+.service-card {
+  padding: 32px 0; border-bottom: 1px solid var(--gray2);
+  transition: all 0.4s var(--ease-out-expo); cursor: default;
+}
+.service-card:first-child { border-top: 1px solid var(--gray2); }
+.service-card:hover { padding-left: 20px; }
+.service-card:hover .service-name { color: var(--gold-dark); }
+.service-card:hover .service-price { color: var(--gold); }
+.service-name {
+  font-family: var(--font-display); font-size: 28px; font-weight: 400;
+  letter-spacing: 1px; transition: color 0.3s;
+}
+.service-desc {
+  font-size: 12px; color: var(--muted); letter-spacing: 0.5px;
+  margin-top: 8px; line-height: 1.6;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height 0.5s var(--ease-out-expo), opacity 0.3s, margin-top 0.3s;
+}
+.service-card:hover .service-desc { max-height: 60px; opacity: 1; margin-top: 8px; }
+.service-price {
+  font-size: 11px; letter-spacing: 2px; color: var(--muted);
+  font-family: var(--font-mono); margin-top: 4px;
+  transition: color 0.3s;
+}
 
-    .service-item { padding: 20px 0; gap: 12px; }
-    .service-left { gap: 16px; flex: 1; min-width: 0; }
-    .service-name { font-size: 22px; }
-    .service-desc { display: none; }
-    .service-right { gap: 16px; flex-shrink: 0; }
-    .service-price { font-size: 10px; letter-spacing: 1px; }
-    .service-arrow { font-size: 16px; }
+/* ─── PROCESS ─── */
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; }
+.step { position: relative; transition: transform 0.4s var(--ease-spring); }
+.step:hover { transform: translateY(-8px); }
+.step::before {
+  content: ''; position: absolute; top: 18px; left: 100%; right: -48px;
+  height: 1px; background: linear-gradient(90deg, var(--gold-light), var(--gray2));
+}
+.step:last-child::before { display: none; }
+.step-num {
+  width: 36px; height: 36px; border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; letter-spacing: 1px; color: var(--gold); margin-bottom: 24px;
+  transition: all 0.4s var(--ease-spring); font-family: var(--font-mono);
+}
+.step:hover .step-num { background: var(--gold); color: var(--white); transform: rotate(-5deg) scale(1.1); }
+.step-title { font-family: var(--font-display); font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+.step-text { font-size: 12px; line-height: 1.8; color: var(--muted); }
 
-    .process-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .step::before { display: none; }
+/* ─── BOOKING ─── */
+.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.booking-contacts { display: flex; flex-direction: column; gap: 24px; margin-top: 48px; }
+.booking-contact {
+  display: flex; gap: 16px; align-items: flex-start; padding-bottom: 24px;
+  border-bottom: 1px solid var(--gray2);
+  transition: transform 0.3s var(--ease-spring);
+}
+.booking-contact:hover { transform: translateX(8px); }
+.booking-contact-icon { font-size: 14px; color: var(--gold); min-width: 20px; transition: transform 0.3s var(--ease-spring); }
+.booking-contact:hover .booking-contact-icon { transform: translateX(4px); }
+.booking-contact-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+.booking-contact-value { font-family: var(--font-display); font-size: 18px; }
+.booking-contact-value a { color: inherit; text-decoration: none; transition: color 0.2s; }
+.booking-contact-value a:hover { color: var(--gold); }
 
-    .booking-grid { grid-template-columns: 1fr; gap: 48px; }
-    .booking-contacts { margin-top: 32px; }
+/* ─── FORM ─── */
+.form { display: flex; flex-direction: column; }
+.form-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; margin-top: 24px; }
+.form-label:first-child { margin-top: 0; }
+.form-input, .form-select {
+  width: 100%; padding: 14px 0; min-height: 48px; border: none;
+  border-bottom: 1px solid var(--gray2); background: transparent;
+  font-family: var(--font-body); font-size: 13px; letter-spacing: 1px;
+  color: var(--black); outline: none;
+  transition: border-color 0.4s var(--ease-out-expo);
+  -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0;
+}
+.form-input:focus, .form-select:focus { border-color: var(--gold); }
+.form-input::placeholder { color: var(--gray2); }
+.form-select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888880'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 24px; }
+.form-error { font-size: 10px; color: var(--gold); letter-spacing: 1px; margin-top: 6px; display: none; }
+.form-error.show { display: block; }
+.form-submit {
+  margin-top: 40px; padding: 16px; background: var(--gold); color: var(--white);
+  border: none; cursor: pointer; font-family: var(--font-body);
+  font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+  transition: all 0.4s var(--ease-spring); position: relative; overflow: hidden;
+}
+.form-submit:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,154,45,0.2); }
+.form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.form-success { display: none; text-align: center; padding: 60px 40px; }
+.form-success.show { display: block; }
+.form-success-icon { width: 48px; height: 48px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 20px; color: var(--gold); }
+.form-success-title { font-family: var(--font-display); font-size: 28px; margin-bottom: 12px; }
+.form-success-text { font-size: 12px; color: var(--muted); line-height: 1.8; letter-spacing: 0.5px; }
 
-    .form-input, .form-select { font-size: 16px; padding: 16px 0; }
-    .form-submit { padding: 18px; font-size: 11px; min-height: 52px; }
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: flex; justify-content: center; gap: 80px; padding: 60px 48px;
+  background: var(--black); position: relative;
+}
+.stats-bar::before, .stats-bar::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.stats-bar::before { top: 0; }
+.stats-bar::after { bottom: 0; }
+.stat { text-align: center; }
+.stat-num {
+  font-family: var(--font-display); font-size: 48px; font-weight: 400;
+  color: var(--gold); letter-spacing: 2px; line-height: 1;
+}
+.stat-label {
+  font-size: 9px; letter-spacing: 4px; color: rgba(255,255,255,0.4);
+  text-transform: uppercase; margin-top: 12px;
+}
 
-    footer { padding: 48px 20px 32px; }
-    .footer-top { flex-direction: column; gap: 32px; }
-    .footer-links { flex-wrap: wrap; gap: 20px; }
-    .footer-brands { gap: 16px; }
-    .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+/* ─── FOOTER ─── */
+footer { background: var(--black); padding: 60px 48px 40px; position: relative; }
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px; }
+.footer-logo-name { font-family: var(--font-display); font-size: 42px; letter-spacing: 4px; color: var(--gold-light); font-weight: 400; text-transform: lowercase; }
+.footer-logo-sub { font-size: 9px; letter-spacing: 5px; color: rgba(255,255,255,0.3); margin-top: 8px; }
+.footer-links { display: flex; gap: 40px; list-style: none; padding-top: 12px; }
+.footer-links a { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.4); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-brands { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; padding: 32px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+.footer-brands a { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.35); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+.footer-brands a:hover { color: var(--gold); }
+.footer-brands .footer-brands-sep { color: rgba(255,255,255,0.12); font-size: 10px; align-self: center; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+.footer-copy { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.25); }
+.footer-ai { display: flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.25); }
+.dot-live { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    .back-to-top { bottom: 88px; right: 20px; width: 48px; height: 48px; }
+/* ─── CHAT ─── */
+#sv-chat-bubble { position: fixed; bottom: 24px; right: 24px; z-index: 500; width: 52px; height: 52px; border-radius: 50%; background: var(--gold); color: var(--white); font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(196,154,45,0.3); border: none; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s; }
+#sv-chat-bubble:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(196,154,45,0.4); }
+#sv-chat-win { position: fixed; bottom: 88px; right: 24px; z-index: 500; width: 340px; max-height: 440px; background: var(--white); border: 1px solid var(--gray2); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.1); display: none; flex-direction: column; overflow: hidden; }
+#sv-chat-win.open { display: flex; }
+.sv-chat-head { padding: 14px 18px; border-bottom: 1px solid var(--gray2); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; font-family: var(--font-display); letter-spacing: 1px; }
+.sv-chat-head .sv-online { font-family: var(--font-body); font-size: 10px; color: #28a745; letter-spacing: 0.1em; }
+#sv-chat-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 180px; }
+.sv-msg { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; max-width: 85%; }
+.sv-msg-bot { background: var(--gray); align-self: flex-start; }
+.sv-msg-user { background: rgba(196,154,45,0.08); align-self: flex-end; color: var(--text); }
+.sv-msg-sender { font-size: 9px; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 4px; display: block; text-transform: uppercase; }
+#sv-chat-opts { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 14px 10px; }
+.sv-chat-opt { padding: 6px 12px; border: 1px solid var(--gray2); border-radius: 16px; background: transparent; cursor: pointer; font-size: 12px; color: var(--muted); transition: all 0.2s; font-family: var(--font-body); }
+.sv-chat-opt:hover { border-color: var(--gold); color: var(--gold); }
+.sv-chat-foot { display: flex; border-top: 1px solid var(--gray2); padding: 10px; }
+.sv-chat-foot input { flex: 1; border: none; outline: none; font-size: 13px; padding: 6px 10px; background: transparent; font-family: var(--font-body); color: var(--text); }
+.sv-chat-foot button { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--gold); padding: 0 8px; }
 
-    /* Disable hover effects on touch */
-    .service-item:hover { padding-left: 0; }
-    .feature:hover { background: var(--white); }
-    .service-item:active { padding-left: 8px; background: var(--gray); }
-    .feature:active { background: var(--gray); }
-  }
+/* ─── BACK TO TOP ─── */
+.back-to-top { position: fixed; bottom: 88px; right: 24px; width: 44px; height: 44px; background: var(--gold); color: var(--white); border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.4s var(--ease-spring); z-index: 90; }
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { background: var(--gold-dark); transform: translateY(-3px); }
 
-  /* ── MOBILE ≤ 600px ── */
-  @media (max-width: 600px) {
-    .hero { padding: 90px 16px 48px; }
-    .hero-title { font-size: clamp(32px, 10vw, 72px); letter-spacing: 2px; -webkit-text-stroke: 0.6px var(--black); }
-    .hero-desc { font-size: 10px; letter-spacing: 3px; }
-    .hero-divider { margin: 24px auto; }
-    .hero-actions { width: 100%; padding: 0 8px; }
-    .btn-primary, .btn-secondary { width: 100%; max-width: 100%; box-sizing: border-box; }
-
-    .section { padding: 56px 16px; }
-    .section-label { font-size: 8px; letter-spacing: 5px; }
-    .section-title { font-size: clamp(24px, 7vw, 48px); margin-bottom: 32px; }
-
-    /* Features: already 1col from 900px, keep padding tight */
-    .features-grid { grid-template-columns: 1fr; }
-    .feature { padding: 28px 20px; }
-    .feature-title { font-size: 20px; }
-    .feature-text { font-size: 11px; line-height: 1.7; }
-
-    /* Services: full width */
-    .service-item { width: 100%; }
-    .service-name { font-size: 19px; }
-    .service-num { font-size: 8px; min-width: 24px; }
-    .service-left { gap: 12px; flex: 1; min-width: 0; }
-    .service-right { gap: 12px; flex-shrink: 0; }
-
-    /* Process: single col, full width */
-    .process-steps { grid-template-columns: 1fr; gap: 28px; width: 100%; }
-    .step { display: grid; grid-template-columns: 36px 1fr; grid-template-rows: auto auto; gap: 0 16px; width: 100%; }
-    .step .step-num { grid-row: 1 / 3; align-self: start; margin-bottom: 0; }
-    .step .step-title { margin-bottom: 4px; }
-    .step .step-text { font-size: 11px; }
-
-    /* Booking: vertical stack */
-    .booking-grid { grid-template-columns: 1fr; gap: 36px; }
-    .booking-info { width: 100%; }
-    .booking-contacts { width: 100%; }
-    .booking-contact { width: 100%; }
-    .booking-contact-value { font-size: 16px; }
-
-    /* Form inputs: tap targets */
-    .form-input, .form-select { font-size: 16px; min-height: 48px; padding: 12px 0; }
-    .form-label { margin-top: 20px; }
-    .form-submit { margin-top: 28px; min-height: 52px; width: 100%; }
-    .form-success { padding: 40px 20px; }
-    .form-success-title { font-size: 24px; }
-
-    /* Footer: vertical */
-    footer { padding: 36px 16px 28px; }
-    .footer-top { flex-direction: column; gap: 24px; }
-    .footer-logo-name { font-size: 32px; letter-spacing: 4px; }
-    .footer-logo-sub { font-size: 8px; letter-spacing: 4px; }
-    .footer-links { flex-wrap: wrap; gap: 16px; }
-    .footer-links a { font-size: 9px; letter-spacing: 2px; }
-    .footer-brands { gap: 12px; padding: 24px 0; }
-    .footer-brands a { font-size: 9px; letter-spacing: 2px; }
-    .footer-bottom { flex-direction: column; gap: 10px; align-items: flex-start; }
-
-    /* Ticker: no horizontal scroll */
-    .ticker { overflow: hidden; max-width: 100vw; }
-    .ticker-track { will-change: transform; }
-    .ticker-set { gap: 40px; padding-right: 40px; }
-    .ticker-item { font-size: 9px; letter-spacing: 3px; }
-  }
-
-  /* ── SMALL MOBILE ≤ 380px ── */
-  @media (max-width: 380px) {
-    nav { padding: 14px 12px; }
-    .nav-logo-name { font-size: 18px; letter-spacing: 2px; }
-    .nav-logo-sub { font-size: 7px; letter-spacing: 3px; }
-
-    .hero { padding: 80px 12px 40px; }
-    .hero-title { font-size: clamp(28px, 9vw, 60px); letter-spacing: 1px; }
-    .hero-sub { font-size: 8px; letter-spacing: 5px; margin-bottom: 16px; }
-    .hero-actions { gap: 10px; padding: 0; }
-    .btn-primary, .btn-secondary { padding: 14px 24px; font-size: 10px; letter-spacing: 3px; min-height: 48px; }
-
-    .section { padding: 48px 12px; }
-    .section-title { font-size: clamp(22px, 6vw, 36px); }
-
-    .feature { padding: 24px 16px; }
-    .service-name { font-size: 17px; }
-    .service-price { font-size: 9px; }
-
-    .booking-contact-value { font-size: 15px; }
-    .form-input, .form-select { font-size: 16px; min-height: 48px; }
-
-    footer { padding: 32px 12px 24px; }
-    .footer-logo-name { font-size: 26px; }
-    .footer-links { gap: 12px; }
-    .footer-brands { gap: 10px; padding: 20px 0; }
-    .footer-brands a { font-size: 8px; letter-spacing: 1px; }
-  }
-/* Side Panel */
-.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:0;transition:width .4s cubic-bezier(.16,1,.3,1);width:56px;overflow:hidden;max-width:100vw}
+/* ─── SIDE PANEL ─── */
+.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:999;display:flex;flex-direction:column;gap:0;transition:width .4s var(--ease-out-expo);width:56px;overflow:hidden;max-width:100vw}
 .side-panel:hover{width:220px}
 .side-panel:hover .sp-link{padding:14px 20px}
 .side-panel:hover .sp-name{opacity:1;transform:translateX(0)}
 .sp-link{display:flex;align-items:center;gap:14px;padding:14px 20px;text-decoration:none;transition:all .3s;border-left:3px solid transparent;background:rgba(250,250,250,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.sp-link:hover{background:rgba(255,255,255,.06);border-left-color:var(--c)}
-.sp-link.active{border-left-color:var(--c);background:rgba(255,255,255,.04)}
+.sp-link:hover{background:rgba(255,255,255,.95);border-left-color:var(--c)}
+.sp-link.active{border-left-color:var(--c);background:rgba(255,255,255,.9)}
 .sp-link:first-child{border-radius:16px 0 0 0}
 .sp-link:last-child{border-radius:0 0 0 16px}
-.sp-dot{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex-shrink:0;transition:transform .2s}
-.sp-link:hover .sp-dot{transform:scale(1.3)}
-.sp-name{font-family:'Space Grotesk','Inter',sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;white-space:nowrap;opacity:0;transform:translateX(-8px);transition:all .3s cubic-bezier(.16,1,.3,1);letter-spacing:-.01em}
+.sp-dot{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex-shrink:0;transition:transform .3s var(--ease-spring)}
+.sp-link:hover .sp-dot{transform:scale(1.4)}
+.sp-name{font-family:'Space Grotesk','Inter',sans-serif;font-size:15px;font-weight:600;color:#1a1a1a;white-space:nowrap;opacity:0;transform:translateX(-8px);transition:all .3s var(--ease-out-expo);letter-spacing:-.01em}
 @media(max-width:960px){.side-panel{display:none}}
-</style></head><body><nav id="main-nav"><a class="nav-logo" href="/" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-logo-sub">aesthetic dentistry · labs67</span><span class="nav-logo-name">svyatlitsa</span></a><span class="nav-ver">v2.0 · 25.03.26</span><ul class="nav-center"><li><a href="#why" data-i18n="nav_why"></a></li><li><a href="#services" data-i18n="nav_services"></a></li><li><a href="#process" data-i18n="nav_process"></a></li><li><a href="#booking" data-i18n="nav_booking"></a></li><li><a href="https://labs67.com" class="nav-back" data-i18n="nav_back">← LABS67</a></li></ul><div class="nav-right"><div class="lang-switcher"></div><a class="nav-cta" href="#booking" data-i18n="nav_cta"></a><button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></div></nav><div class="mobile-menu" id="mobile-menu"><div class="mobile-menu-inner"><a href="#why" onclick="closeMM()" data-i18n="nav_why"></a><a href="#services" onclick="closeMM()" data-i18n="nav_services"></a><a href="#process" onclick="closeMM()" data-i18n="nav_process"></a><a href="#booking" onclick="closeMM()" data-i18n="nav_booking"></a><a href="https://labs67.com" class="nav-back-mob" onclick="closeMM()" data-i18n="nav_back">← LABS67</a><div class="mobile-menu-divider"></div><a class="mobile-menu-cta" href="#booking" onclick="closeMM()" data-i18n="nav_cta"></a><div class="lang-switcher"></div></div></div><section class="hero"><div class="hero-bg"></div><canvas id="heroCanvas"></canvas><div class="hero-sub">aesthetic dentistry · labs67</div><div class="hero-line"></div><h1 class="hero-title">svyatlitsa</h1><div class="hero-divider"></div><p class="hero-desc" data-i18n="hero_desc"></p><div class="hero-actions"><a class="btn-primary" href="#booking" data-i18n="hero_cta"></a><a class="btn-secondary" href="#why" data-i18n="hero_more"></a></div></section><div class="ticker"><div class="ticker-track"><div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div><div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div><div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div><div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div></div></div><section class="section" id="why"><div class="section-label reveal" data-i18n="why_label"></div><h2 class="section-title reveal" data-i18n-html="why_title"></h2><div class="features-grid"><div class="feature reveal"><div class="feature-num">WC_01</div><div class="feature-title" data-i18n="f1_title"></div><div class="feature-text" data-i18n="f1_text"></div></div><div class="feature reveal rd1"><div class="feature-num">WC_02</div><div class="feature-title" data-i18n="f2_title"></div><div class="feature-text" data-i18n="f2_text"></div></div><div class="feature reveal rd2"><div class="feature-num">WC_03</div><div class="feature-title" data-i18n="f3_title"></div><div class="feature-text" data-i18n="f3_text"></div></div><div class="feature reveal rd3"><div class="feature-num">WC_04</div><div class="feature-title" data-i18n="f4_title"></div><div class="feature-text" data-i18n="f4_text"></div></div><div class="feature reveal rd4"><div class="feature-num">WC_05</div><div class="feature-title" data-i18n="f5_title"></div><div class="feature-text" data-i18n="f5_text"></div></div><div class="feature reveal rd5"><div class="feature-num">WC_06</div><div class="feature-title" data-i18n="f6_title"></div><div class="feature-text" data-i18n="f6_text"></div></div></div></section><section class="section section-alt" id="services"><div class="section-label reveal" data-i18n="srv_label"></div><h2 class="section-title reveal" data-i18n-html="srv_title"></h2><div class="services-list" id="services-list"></div></section><section class="section" id="process"><div class="section-label reveal" data-i18n="proc_label"></div><h2 class="section-title reveal" data-i18n-html="proc_title"></h2><div class="process-steps"><div class="step reveal"><div class="step-num">01</div><div class="step-title" data-i18n="s1_title"></div><div class="step-text" data-i18n="s1_text"></div></div><div class="step reveal rd1"><div class="step-num">02</div><div class="step-title" data-i18n="s2_title"></div><div class="step-text" data-i18n="s2_text"></div></div><div class="step reveal rd2"><div class="step-num">03</div><div class="step-title" data-i18n="s3_title"></div><div class="step-text" data-i18n="s3_text"></div></div><div class="step reveal rd3"><div class="step-num">04</div><div class="step-title" data-i18n="s4_title"></div><div class="step-text" data-i18n="s4_text"></div></div></div></section><section class="section section-alt" id="booking"><div class="booking-grid"><div class="booking-info reveal"><div class="section-label" data-i18n="book_label"></div><h2 class="section-title" data-i18n-html="book_title"></h2><div class="booking-contacts"><div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label" data-i18n="book_phone_label"></div><div class="booking-contact-value"><a href="tel:+48571719800">+48 571 719 800</a></div></div></div><div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label">Email</div><div class="booking-contact-value"><a href="mailto:dental@labs67.com">dental@labs67.com</a></div></div></div><div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label" data-i18n="book_hours_label"></div><div class="booking-contact-value" data-i18n="book_hours_value"></div></div></div></div></div><div class="reveal rd2"><form class="form" id="bf" novalidate><label class="form-label" data-i18n="form_name"></label><input class="form-input" type="text" data-i18n-placeholder="form_name_ph" id="fn" required><div class="form-error" id="en1" data-i18n="form_err_name"></div><label class="form-label" data-i18n="form_phone"></label><input class="form-input" type="tel" id="fp" required><div class="form-error" id="en2" data-i18n="form_err_phone"></div><label class="form-label" data-i18n="form_service"></label><select class="form-select" id="fs" required><option value="" data-i18n="form_service_ph"></option></select><div class="form-error" id="en3" data-i18n="form_err_service"></div><label class="form-label" data-i18n="form_date"></label><input class="form-input" type="date" id="fd" required><div class="form-error" id="en4" data-i18n="form_err_date"></div><button class="form-submit" type="submit" data-i18n="form_submit"></button></form><div class="form-success" id="fok"><div class="form-success-icon">✓</div><div class="form-success-title" data-i18n="form_ok_title"></div><div class="form-success-text" data-i18n-html="form_ok_text"></div></div></div></div></section>
 
-<footer><div class="footer-top"><div><div class="footer-logo-name">svyatlitsa</div><div class="footer-logo-sub">aesthetic dentistry · концерн LABS67</div></div><ul class="footer-links"><li><a href="#why" data-i18n="nav_why"></a></li><li><a href="#services" data-i18n="nav_services"></a></li><li><a href="#process" data-i18n="nav_process"></a></li><li><a href="#booking" data-i18n="nav_booking"></a></li></ul></div><div class="footer-brands"><a href="https://labs67.com" target="_blank" rel="noopener">LABS67</a><span class="footer-brands-sep">·</span><a href="https://scyra.labs67.com" target="_blank" rel="noopener">SCYRA.AI</a><span class="footer-brands-sep">·</span><a href="https://slyah.ai" target="_blank" rel="noopener">SLYAH.AI</a><span class="footer-brands-sep">·</span><a href="https://trade.labs67.com" target="_blank" rel="noopener">skarby</a><span class="footer-brands-sep">·</span><a href="https://svita.labs67.com" target="_blank" rel="noopener">SVITA</a><span class="footer-brands-sep">|</span><a href="https://labs67.com/privacy.html" target="_blank" rel="noopener">Privacy</a><span class="footer-brands-sep">·</span><a href="https://labs67.com/terms.html" target="_blank" rel="noopener">Terms</a></div><div class="footer-bottom"><div class="footer-copy">© 2026 svyatlitsa · LABS67</div><div class="footer-ai"><span class="dot-live"></span>AI-POWERED CLINIC</div></div></footer><!-- CHAT -->
+/* ─── SCROLL PROGRESS ─── */
+.scroll-progress {
+  position: fixed; top: 48px; left: 0; height: 2px; z-index: 101;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+  width: 0%; transition: width 0.1s linear;
+}
+
+/* ─── TABLET ≤ 900px ─── */
+@media (max-width: 900px) {
+  nav { padding: 16px 20px; }
+  .nav-center { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-right > .lang-switcher { display: none; }
+  .nav-ver { display: none; }
+  .hero { padding: 100px 20px 60px; min-height: calc(100vh - 60px); min-height: calc(100dvh - 60px); }
+  .hero-title { letter-spacing: 4px; }
+  .hero-sub { font-size: 9px; letter-spacing: 6px; }
+  .hero-actions { flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; max-width: 300px; padding: 16px 36px; font-size: 11px; }
+  .section { padding: 72px 20px; }
+  .section-title { margin-bottom: 40px; }
+  .features-grid { grid-template-columns: 1fr; gap: 1px; }
+  .feature { padding: 36px 28px; }
+  .service-card { padding: 24px 0; }
+  .service-name { font-size: 22px; }
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .step::before { display: none; }
+  .booking-grid { grid-template-columns: 1fr; gap: 48px; }
+  .stats-bar { flex-wrap: wrap; gap: 40px; padding: 48px 20px; }
+  .stat-num { font-size: 36px; }
+  footer { padding: 48px 20px 32px; }
+  .footer-top { flex-direction: column; gap: 32px; }
+  .footer-links { flex-wrap: wrap; gap: 20px; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .cursor-glow { display: none; }
+}
+
+/* ─── MOBILE ≤ 600px ─── */
+@media (max-width: 600px) {
+  .hero { padding: 90px 16px 48px; }
+  .hero-title { font-size: clamp(32px, 10vw, 72px); letter-spacing: 2px; }
+  .hero-desc { font-size: 10px; letter-spacing: 3px; }
+  .hero-divider { margin: 24px auto; }
+  .hero-actions { width: 100%; padding: 0 8px; }
+  .btn-primary, .btn-secondary { width: 100%; max-width: 100%; }
+  .section { padding: 56px 16px; }
+  .section-label { font-size: 8px; letter-spacing: 5px; }
+  .section-title { font-size: clamp(24px, 7vw, 48px); margin-bottom: 32px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature { padding: 28px 20px; }
+  .service-name { font-size: 19px; }
+  .process-steps { grid-template-columns: 1fr; gap: 28px; }
+  .step { display: grid; grid-template-columns: 36px 1fr; grid-template-rows: auto auto; gap: 0 16px; }
+  .step .step-num { grid-row: 1 / 3; align-self: start; margin-bottom: 0; }
+  .step .step-title { margin-bottom: 4px; }
+  .step .step-text { font-size: 11px; }
+  .booking-grid { grid-template-columns: 1fr; gap: 36px; }
+  .form-input, .form-select { font-size: 16px; min-height: 48px; padding: 12px 0; }
+  .form-submit { min-height: 52px; width: 100%; }
+  .stats-bar { gap: 24px; padding: 40px 16px; }
+  .stat-num { font-size: 28px; }
+  .stat-label { font-size: 8px; letter-spacing: 3px; }
+  footer { padding: 36px 16px 28px; }
+  .footer-logo-name { font-size: 32px; }
+  .footer-brands { gap: 12px; }
+  .footer-brands a { font-size: 9px; }
+  .ticker-set { gap: 40px; padding-right: 40px; }
+  .ticker-item { font-size: 9px; letter-spacing: 3px; }
+}
+
+@media (max-width: 380px) {
+  nav { padding: 14px 12px; }
+  .hero { padding: 80px 12px 40px; }
+  .hero-title { font-size: clamp(28px, 9vw, 60px); letter-spacing: 1px; }
+  .section { padding: 48px 12px; }
+  footer { padding: 32px 12px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="/" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
+    <span class="nav-logo-sub">aesthetic dentistry · labs67</span>
+    <span class="nav-logo-name">svyatlitsa</span>
+  </a>
+  <span class="nav-ver">v3.0 · 06.04.26</span>
+  <ul class="nav-center">
+    <li><a href="#why" data-i18n="nav_why"></a></li>
+    <li><a href="#services" data-i18n="nav_services"></a></li>
+    <li><a href="#process" data-i18n="nav_process"></a></li>
+    <li><a href="#booking" data-i18n="nav_booking"></a></li>
+    <li><a href="https://labs67.com" class="nav-back" data-i18n="nav_back">← LABS67</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher"></div>
+    <a class="nav-cta" href="#booking"><span data-i18n="nav_cta"></span></a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <a href="#why" onclick="closeMM()" data-i18n="nav_why"></a>
+    <a href="#services" onclick="closeMM()" data-i18n="nav_services"></a>
+    <a href="#process" onclick="closeMM()" data-i18n="nav_process"></a>
+    <a href="#booking" onclick="closeMM()" data-i18n="nav_booking"></a>
+    <a href="https://labs67.com" class="nav-back-mob" onclick="closeMM()" data-i18n="nav_back">← LABS67</a>
+    <div class="mobile-menu-divider"></div>
+    <a class="mobile-menu-cta" href="#booking" onclick="closeMM()" data-i18n="nav_cta"></a>
+    <div class="lang-switcher"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-sub">aesthetic dentistry · labs67</div>
+    <div class="hero-line"></div>
+    <h1 class="hero-title">svyatlitsa</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc" data-i18n="hero_desc"></p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#booking" data-i18n="hero_cta"></a>
+      <a class="btn-secondary" href="#why" data-i18n="hero_more"></a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div>
+    <div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div>
+    <div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div>
+    <div class="ticker-set"><span class="ticker-item">svyatlitsa</span><span class="ticker-dot">·</span><span class="ticker-item">aesthetic dentistry</span><span class="ticker-dot">·</span><span class="ticker-item">LABS67</span><span class="ticker-dot">·</span><span class="ticker-item">AI assisted</span><span class="ticker-dot">·</span><span class="ticker-item">святліца</span><span class="ticker-dot">·</span></div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat reveal"><div class="stat-num" data-count="7">0</div><div class="stat-label" data-i18n="stat_rooms">кабінетаў</div></div>
+  <div class="stat reveal rd1"><div class="stat-num" data-count="24">0</div><div class="stat-label" data-i18n="stat_cameras">AI-камер</div></div>
+  <div class="stat reveal rd2"><div class="stat-num" data-count="12">0</div><div class="stat-label" data-i18n="stat_doctors">спецыялістаў</div></div>
+  <div class="stat reveal rd3"><div class="stat-num" data-count="1">0</div><div class="stat-label" data-i18n="stat_edge">edge AI</div></div>
+</div>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="section-label reveal" data-i18n="why_label"></div>
+  <h2 class="section-title reveal" data-i18n-html="why_title"></h2>
+  <div class="features-grid">
+    <div class="feature reveal"><div class="feature-glow"></div><div class="feature-num">WC_01</div><div class="feature-title" data-i18n="f1_title"></div><div class="feature-text" data-i18n="f1_text"></div></div>
+    <div class="feature reveal rd1"><div class="feature-glow"></div><div class="feature-num">WC_02</div><div class="feature-title" data-i18n="f2_title"></div><div class="feature-text" data-i18n="f2_text"></div></div>
+    <div class="feature reveal rd2"><div class="feature-glow"></div><div class="feature-num">WC_03</div><div class="feature-title" data-i18n="f3_title"></div><div class="feature-text" data-i18n="f3_text"></div></div>
+    <div class="feature reveal rd3"><div class="feature-glow"></div><div class="feature-num">WC_04</div><div class="feature-title" data-i18n="f4_title"></div><div class="feature-text" data-i18n="f4_text"></div></div>
+    <div class="feature reveal rd4"><div class="feature-glow"></div><div class="feature-num">WC_05</div><div class="feature-title" data-i18n="f5_title"></div><div class="feature-text" data-i18n="f5_text"></div></div>
+    <div class="feature reveal rd5"><div class="feature-glow"></div><div class="feature-num">WC_06</div><div class="feature-title" data-i18n="f6_title"></div><div class="feature-text" data-i18n="f6_text"></div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-alt" id="services">
+  <div class="section-label reveal" data-i18n="srv_label"></div>
+  <h2 class="section-title reveal" data-i18n-html="srv_title"></h2>
+  <div class="services-list" id="services-list"></div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <div class="section-label reveal" data-i18n="proc_label"></div>
+  <h2 class="section-title reveal" data-i18n-html="proc_title"></h2>
+  <div class="process-steps">
+    <div class="step reveal"><div class="step-num">01</div><div class="step-title" data-i18n="s1_title"></div><div class="step-text" data-i18n="s1_text"></div></div>
+    <div class="step reveal rd1"><div class="step-num">02</div><div class="step-title" data-i18n="s2_title"></div><div class="step-text" data-i18n="s2_text"></div></div>
+    <div class="step reveal rd2"><div class="step-num">03</div><div class="step-title" data-i18n="s3_title"></div><div class="step-text" data-i18n="s3_text"></div></div>
+    <div class="step reveal rd3"><div class="step-num">04</div><div class="step-title" data-i18n="s4_title"></div><div class="step-text" data-i18n="s4_text"></div></div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="section section-alt" id="booking">
+  <div class="booking-grid">
+    <div class="booking-info reveal">
+      <div class="section-label" data-i18n="book_label"></div>
+      <h2 class="section-title" data-i18n-html="book_title"></h2>
+      <div class="booking-contacts">
+        <div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label" data-i18n="book_phone_label"></div><div class="booking-contact-value"><a href="tel:+48571719800">+48 571 719 800</a></div></div></div>
+        <div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label">Email</div><div class="booking-contact-value"><a href="mailto:dental@labs67.com">dental@labs67.com</a></div></div></div>
+        <div class="booking-contact"><div class="booking-contact-icon">→</div><div><div class="booking-contact-label" data-i18n="book_hours_label"></div><div class="booking-contact-value" data-i18n="book_hours_value"></div></div></div>
+      </div>
+    </div>
+    <div class="reveal rd2">
+      <form class="form" id="bf" novalidate>
+        <label class="form-label" data-i18n="form_name"></label>
+        <input class="form-input" type="text" data-i18n-placeholder="form_name_ph" id="fn" required>
+        <div class="form-error" id="en1" data-i18n="form_err_name"></div>
+        <label class="form-label" data-i18n="form_phone"></label>
+        <input class="form-input" type="tel" id="fp" required>
+        <div class="form-error" id="en2" data-i18n="form_err_phone"></div>
+        <label class="form-label" data-i18n="form_service"></label>
+        <select class="form-select" id="fs" required><option value="" data-i18n="form_service_ph"></option></select>
+        <div class="form-error" id="en3" data-i18n="form_err_service"></div>
+        <label class="form-label" data-i18n="form_date"></label>
+        <input class="form-input" type="date" id="fd" required>
+        <div class="form-error" id="en4" data-i18n="form_err_date"></div>
+        <button class="form-submit" type="submit" data-i18n="form_submit"></button>
+      </form>
+      <div class="form-success" id="fok">
+        <div class="form-success-icon">✓</div>
+        <div class="form-success-title" data-i18n="form_ok_title"></div>
+        <div class="form-success-text" data-i18n-html="form_ok_text"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo-name">svyatlitsa</div>
+      <div class="footer-logo-sub">aesthetic dentistry · LABS67</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#why" data-i18n="nav_why"></a></li>
+      <li><a href="#services" data-i18n="nav_services"></a></li>
+      <li><a href="#process" data-i18n="nav_process"></a></li>
+      <li><a href="#booking" data-i18n="nav_booking"></a></li>
+    </ul>
+  </div>
+  <div class="footer-brands">
+    <a href="https://labs67.com" target="_blank" rel="noopener">LABS67</a><span class="footer-brands-sep">·</span>
+    <a href="https://scyra.labs67.com" target="_blank" rel="noopener">SCYRA.AI</a><span class="footer-brands-sep">·</span>
+    <a href="https://slyah.ai" target="_blank" rel="noopener">SLYAH.AI</a><span class="footer-brands-sep">·</span>
+    <a href="https://trade.labs67.com" target="_blank" rel="noopener">skarby</a><span class="footer-brands-sep">·</span>
+    <a href="https://svita.labs67.com" target="_blank" rel="noopener">SVITA</a><span class="footer-brands-sep">|</span>
+    <a href="https://labs67.com/privacy.html" target="_blank" rel="noopener">Privacy</a><span class="footer-brands-sep">·</span>
+    <a href="https://labs67.com/terms.html" target="_blank" rel="noopener">Terms</a>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 svyatlitsa · LABS67</div>
+    <div class="footer-ai"><span class="dot-live"></span>AI-POWERED CLINIC</div>
+  </div>
+</footer>
+
+<!-- CHAT -->
 <button id="sv-chat-bubble" onclick="svToggleChat()">&#128172;</button>
 <div id="sv-chat-win">
   <div class="sv-chat-head">svyatlitsa <span class="sv-online">&#9679; Online</span></div>
@@ -390,192 +759,265 @@
     <button onclick="svSendChat()">&rarr;</button>
   </div>
 </div>
-<button class="back-to-top" id="btt" aria-label="Top">↑</button><script src="lang.js"></script><script src="labs67-i18n.js"></script><script src="form-validator.js"></script><script>
-var hb=document.getElementById('hamburger');
-var mm=document.getElementById('mobile-menu');
-var mainNav=document.getElementById('main-nav');
-var bttBtn=document.getElementById('btt');
 
-// Hamburger
-hb.addEventListener('click',function(){
-  hb.classList.toggle('active');
-  mm.classList.toggle('open');
-  document.body.style.overflow=mm.classList.contains('open')?'hidden':'';
-});
-function closeMM(){hb.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';}
+<button class="back-to-top" id="btt" aria-label="Top">↑</button>
 
-// Nav scroll
-window.addEventListener('scroll',function(){
-  if(window.scrollY>60) mainNav.classList.add('scrolled');
-  else mainNav.classList.remove('scrolled');
-  if(bttBtn){
-    if(window.scrollY>600) bttBtn.classList.add('visible');
-    else bttBtn.classList.remove('visible');
-  }
-});
-if(bttBtn) bttBtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-
-// Lang handled by labs67-i18n.js plugin
-// Custom: render services & form select on lang change
-window.onLangChange = function(lang) {
-  var d = window.T && window.T[lang];
-  if (!d) return;
-  // Render services list
-  var sl = document.getElementById('services-list');
-  if (sl && d.services) {
-    sl.innerHTML = d.services.map(function(s,i){
-      return '<div class="service-card reveal'+(i>0?' rd'+i:'')+'">' +
-        '<div class="service-name">'+s.name+'</div>' +
-        '<div class="service-desc">'+s.desc+'</div>' +
-        '<div class="service-price">'+s.price+'</div></div>';
-    }).join('');
-    document.querySelectorAll('.service-card.reveal').forEach(function(el){ro.observe(el);});
-  }
-  // Render form service options
-  var fs = document.getElementById('fs');
-  if (fs && d.form_services) {
-    var ph = fs.querySelector('option[value=""]');
-    fs.innerHTML = '';
-    if (ph) fs.appendChild(ph);
-    d.form_services.forEach(function(s){ var o=document.createElement('option'); o.value=s; o.textContent=s; fs.appendChild(o); });
-  }
-};
-
-// Reveal
-const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-
-// Form validation handled by form-validator.js
-
-// ── CHAT ──
-let svChatOpen=false;
-const svChatData={
-  services:{answer:'Мы прапануем: тэрапію, артапедыю, хірургію і імплантацыю, тварную хірургію, прафілактыку, артадонтыю і дзіцячую стаматалогію. Усе працэдуры з AI-асістэнтам.',follow:['Запісацца','Кошт','Тэхналогіі']},
-  booking:{answer:'Запоўніце форму на старонцы або звяжыцеся напрамую: +48 571 719 800 · dental@labs67.com. Адкажам на працягу 30 хвілін.',follow:['Паслугі','Рэжым працы']},
-  tech:{answer:'svyatlitsa — клініка з AI-сістэмай SCYRA: распазнаванне пацыентаў на ўваходзе, AI-аналіз здымкаў, галасавы пратакол, разумнае асяроддзе. Усе даныя — лакальна.',follow:['Запісацца','Паслугі','SCYRA.AI']},
-  prices:{answer:'Кошт залежыць ад працэдуры. Тэрапія — ад 115 PLN / 27 €, імплантацыя — ад 160 PLN / 37 €, артадонтыя — ад 2 060 PLN / 480 €. Кансультацыя — бясплатна.',follow:['Запісацца','Паслугі']},
-};
-function svToggleChat(){svChatOpen=!svChatOpen;document.getElementById('sv-chat-win').classList.toggle('open',svChatOpen);}
-function svAddMsg(t,isBot){const m=document.getElementById('sv-chat-msgs');const d=document.createElement('div');d.className='sv-msg '+(isBot?'sv-msg-bot':'sv-msg-user');if(isBot)d.innerHTML='<span class="sv-msg-sender">// svyatlitsa AI</span>'+t;else d.textContent=t;m.appendChild(d);m.scrollTop=m.scrollHeight;}
-function svShowOpts(opts){const el=document.getElementById('sv-chat-opts');el.innerHTML='';opts.forEach(o=>{const b=document.createElement('button');b.className='sv-chat-opt';b.textContent=o;b.onclick=()=>svSendMsg(o);el.appendChild(b);});}
-function svSelect(key){const d=svChatData[key];if(!d)return;document.getElementById('sv-chat-opts').innerHTML='';svAddMsg(key.toUpperCase(),false);setTimeout(()=>{svAddMsg(d.answer,true);setTimeout(()=>svShowOpts(d.follow||[]),400);},500);}
-function svSendMsg(text){document.getElementById('sv-chat-opts').innerHTML='';svAddMsg(text,false);setTimeout(()=>{const l=text.toLowerCase();if(l.includes('паслуг')||l.includes('servic')||l.includes('услуг'))svSelect('services');else if(l.includes('запіс')||l.includes('book')||l.includes('запис'))svSelect('booking');else if(l.includes('тэхнал')||l.includes('tech')||l.includes('scyra')||l.includes('ai'))svSelect('tech');else if(l.includes('кошт')||l.includes('цан')||l.includes('price')||l.includes('стоим'))svSelect('prices');else if(l.includes('рэжым')||l.includes('час')||l.includes('hour')||l.includes('график')){svAddMsg('Пн–Сб · 9:00–20:00. Тэл: +48 571 719 800',true);svShowOpts(['Запісацца','Паслугі']);}else{svAddMsg('Для дэталёвага адказу звяжыцеся з намі: +48 571 719 800 · dental@labs67.com',true);svShowOpts(['Паслугі','Запіс','Кошт','Тэхналогіі']);}},500);}
-function svSendChat(){const i=document.getElementById('sv-chat-input');const v=i.value.trim();if(!v)return;i.value='';svSendMsg(v);}
-
-// Initial lang applied by labs67-i18n.js on DOMContentLoaded
-</script><!-- Side Panel -->
+<!-- SIDE PANEL -->
 <aside class="side-panel">
   <a href="https://labs67.com" class="sp-link" style="--c:#B8860B"><span class="sp-dot"></span><span class="sp-name">LABS67</span></a>
-  <a href="https://svyatlitsa.com" class="sp-link active" style="--c:#CF101A"><span class="sp-dot"></span><span class="sp-name">Svyatlitsa</span></a>
+  <a href="https://svyatlitsa.com" class="sp-link active" style="--c:#C49A2D"><span class="sp-dot"></span><span class="sp-name">Svyatlitsa</span></a>
   <a href="https://scyra.labs67.com" class="sp-link" style="--c:#00D4FF"><span class="sp-dot"></span><span class="sp-name">ŠČYRA.AI</span></a>
   <a href="https://academi67.com" class="sp-link" style="--c:#1df59a"><span class="sp-dot"></span><span class="sp-name">SLYAH.AI</span></a>
   <a href="https://trade.labs67.com" class="sp-link" style="--c:#30dcff"><span class="sp-dot"></span><span class="sp-name">Skarby</span></a>
   <a href="https://svita.labs67.com" class="sp-link" style="--c:#ff4d6d"><span class="sp-dot"></span><span class="sp-name">SVITA</span></a>
 </aside>
 
+<!-- SCRIPTS -->
+<script src="lang.js"></script>
+<script src="labs67-i18n.js"></script>
+<script src="form-validator.js"></script>
+<script>
+/* ─── NAV & HAMBURGER ─── */
+var hb = document.getElementById('hamburger');
+var mm = document.getElementById('mobile-menu');
+var mainNav = document.getElementById('main-nav');
+var bttBtn = document.getElementById('btt');
+var scrollProg = document.getElementById('scrollProgress');
+
+hb.addEventListener('click', function() {
+  hb.classList.toggle('active');
+  mm.classList.toggle('open');
+  document.body.style.overflow = mm.classList.contains('open') ? 'hidden' : '';
+});
+function closeMM() { hb.classList.remove('active'); mm.classList.remove('open'); document.body.style.overflow = ''; }
+
+/* ─── SCROLL EVENTS ─── */
+window.addEventListener('scroll', function() {
+  var sy = window.scrollY;
+  // Nav
+  if (sy > 60) mainNav.classList.add('scrolled');
+  else mainNav.classList.remove('scrolled');
+  // Back to top
+  if (sy > 600) bttBtn.classList.add('visible');
+  else bttBtn.classList.remove('visible');
+  // Progress bar
+  var h = document.documentElement.scrollHeight - window.innerHeight;
+  if (h > 0) scrollProg.style.width = (sy / h * 100) + '%';
+}, { passive: true });
+
+bttBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+/* ─── CURSOR GLOW ─── */
+var glow = document.getElementById('cursorGlow');
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', function(e) {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+}
+
+/* ─── REVEAL OBSERVER ─── */
+var ro = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) { ro.observe(el); });
+
+/* ─── COUNTER ANIMATION ─── */
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      var el = e.target;
+      var target = parseInt(el.getAttribute('data-count'));
+      var duration = 2000;
+      var start = performance.now();
+      function tick(now) {
+        var t = Math.min((now - start) / duration, 1);
+        t = 1 - Math.pow(1 - t, 3); // ease out cubic
+        el.textContent = Math.round(target * t);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(function(el) { counterObserver.observe(el); });
+
+/* ─── FEATURE CARD GLOW ─── */
+document.querySelectorAll('.feature').forEach(function(card) {
+  var glow = card.querySelector('.feature-glow');
+  if (!glow) return;
+  card.addEventListener('mousemove', function(e) {
+    var r = card.getBoundingClientRect();
+    glow.style.left = (e.clientX - r.left) + 'px';
+    glow.style.top = (e.clientY - r.top) + 'px';
+  });
+});
+
+/* ─── RIPPLE ON BUTTONS ─── */
+document.querySelectorAll('.btn-primary, .form-submit').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    var ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    var r = btn.getBoundingClientRect();
+    var size = Math.max(r.width, r.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - r.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - r.top - size / 2) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(function() { ripple.remove(); }, 600);
+  });
+});
+
+/* ─── LANG CALLBACK ─── */
+window.onLangChange = function(lang) {
+  var d = window.T && window.T[lang];
+  if (!d) return;
+  var sl = document.getElementById('services-list');
+  if (sl && d.services) {
+    sl.innerHTML = d.services.map(function(s, i) {
+      return '<div class="service-card reveal' + (i > 0 ? ' rd' + i : '') + '">' +
+        '<div class="service-name">' + s.name + '</div>' +
+        '<div class="service-desc">' + s.desc + '</div>' +
+        '<div class="service-price">' + s.price + '</div></div>';
+    }).join('');
+    sl.querySelectorAll('.service-card.reveal').forEach(function(el) { ro.observe(el); });
+  }
+  var fs = document.getElementById('fs');
+  if (fs && d.form_services) {
+    var ph = fs.querySelector('option[value=""]');
+    fs.innerHTML = '';
+    if (ph) fs.appendChild(ph);
+    d.form_services.forEach(function(s) { var o = document.createElement('option'); o.value = s; o.textContent = s; fs.appendChild(o); });
+  }
+};
+
+/* ─── CHAT ─── */
+var svChatOpen = false;
+var svChatData = {
+  services: { answer: 'Мы прапануем: тэрапію, артапедыю, хірургію і імплантацыю, тварную хірургію, прафілактыку, артадонтыю і дзіцячую стаматалогію. Усе працэдуры з AI-асістэнтам.', follow: ['Запісацца', 'Кошт', 'Тэхналогіі'] },
+  booking: { answer: 'Запоўніце форму на старонцы або звяжыцеся напрамую: +48 571 719 800 · dental@labs67.com. Адкажам на працягу 30 хвілін.', follow: ['Паслугі', 'Рэжым працы'] },
+  tech: { answer: 'svyatlitsa — клініка з AI-сістэмай SCYRA: распазнаванне пацыентаў на ўваходзе, AI-аналіз здымкаў, галасавы пратакол, разумнае асяроддзе. Усе даныя — лакальна.', follow: ['Запісацца', 'Паслугі', 'SCYRA.AI'] },
+  prices: { answer: 'Кошт залежыць ад працэдуры. Тэрапія — ад 115 PLN / 27 €, імплантацыя — ад 160 PLN / 37 €, артадонтыя — ад 2 060 PLN / 480 €. Кансультацыя — бясплатна.', follow: ['Запісацца', 'Паслугі'] },
+};
+function svToggleChat() { svChatOpen = !svChatOpen; document.getElementById('sv-chat-win').classList.toggle('open', svChatOpen); }
+function svAddMsg(t, isBot) { var m = document.getElementById('sv-chat-msgs'); var d = document.createElement('div'); d.className = 'sv-msg ' + (isBot ? 'sv-msg-bot' : 'sv-msg-user'); if (isBot) d.innerHTML = '<span class="sv-msg-sender">// svyatlitsa AI</span>' + t; else d.textContent = t; m.appendChild(d); m.scrollTop = m.scrollHeight; }
+function svShowOpts(opts) { var el = document.getElementById('sv-chat-opts'); el.innerHTML = ''; opts.forEach(function(o) { var b = document.createElement('button'); b.className = 'sv-chat-opt'; b.textContent = o; b.onclick = function() { svSendMsg(o); }; el.appendChild(b); }); }
+function svSelect(key) { var d = svChatData[key]; if (!d) return; document.getElementById('sv-chat-opts').innerHTML = ''; svAddMsg(key.toUpperCase(), false); setTimeout(function() { svAddMsg(d.answer, true); setTimeout(function() { svShowOpts(d.follow || []); }, 400); }, 500); }
+function svSendMsg(text) { document.getElementById('sv-chat-opts').innerHTML = ''; svAddMsg(text, false); setTimeout(function() { var l = text.toLowerCase(); if (l.includes('паслуг') || l.includes('servic') || l.includes('услуг')) svSelect('services'); else if (l.includes('запіс') || l.includes('book') || l.includes('запис')) svSelect('booking'); else if (l.includes('тэхнал') || l.includes('tech') || l.includes('scyra') || l.includes('ai')) svSelect('tech'); else if (l.includes('кошт') || l.includes('цан') || l.includes('price') || l.includes('стоим')) svSelect('prices'); else if (l.includes('рэжым') || l.includes('час') || l.includes('hour') || l.includes('график')) { svAddMsg('Пн–Сб · 9:00–20:00. Тэл: +48 571 719 800', true); svShowOpts(['Запісацца', 'Паслугі']); } else { svAddMsg('Для дэталёвага адказу звяжыцеся з намі: +48 571 719 800 · dental@labs67.com', true); svShowOpts(['Паслугі', 'Запіс', 'Кошт', 'Тэхналогіі']); } }, 500); }
+function svSendChat() { var i = document.getElementById('sv-chat-input'); var v = i.value.trim(); if (!v) return; i.value = ''; svSendMsg(v); }
+</script>
+
 <!-- HERO GRAVITY CANVAS -->
 <script>
-(function(){
+(function() {
   var hc = document.getElementById('heroCanvas');
   if (!hc) return;
-  var hctx = hc.getContext('2d');
-  var hW=0, hH=0, hdpr=1, hmx=-999, hmy=-999;
+  var ctx = hc.getContext('2d');
+  var W = 0, H = 0, dpr = 1, mx = -999, my = -999;
 
   var WORDS = [
-    { text:'svyatlitsa', font:'300 42px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.28)' },
-    { text:'aesthetic dentistry', font:'300 18px Inter,sans-serif', color:'rgba(196,154,45,0.20)' },
-    { text:'AI-powered', font:'400 14px Inter,sans-serif', color:'rgba(42,42,40,0.14)' },
-    { text:'diagnostics', font:'300 16px Inter,sans-serif', color:'rgba(196,154,45,0.16)' },
-    { text:'ceiling-down', font:'300 13px Inter,sans-serif', color:'rgba(42,42,40,0.12)' },
-    { text:'SCYRA.AI', font:'400 12px "JetBrains Mono",monospace', color:'rgba(0,180,200,0.14)' },
-    { text:'smart spaces', font:'300 15px Inter,sans-serif', color:'rgba(196,154,45,0.14)' },
-    { text:'edge computing', font:'300 11px "JetBrains Mono",monospace', color:'rgba(42,42,40,0.12)' },
-    { text:'Warszawa', font:'400 20px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.20)' },
-    { text:'7 кабінетаў', font:'300 14px Inter,sans-serif', color:'rgba(42,42,40,0.14)' },
-    { text:'premium', font:'300 22px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.16)' },
-    { text:'implants', font:'300 13px Inter,sans-serif', color:'rgba(42,42,40,0.12)' },
-    { text:'veneers', font:'300 13px Inter,sans-serif', color:'rgba(196,154,45,0.14)' },
-    { text:'whitening', font:'300 12px Inter,sans-serif', color:'rgba(42,42,40,0.10)' },
-    { text:'labs67', font:'400 11px "JetBrains Mono",monospace', color:'rgba(196,154,45,0.12)' },
+    { text: 'svyatlitsa', font: '300 44px "Playfair Display",Georgia,serif', color: 'rgba(196,154,45,0.22)' },
+    { text: 'aesthetic dentistry', font: '300 18px Inter,sans-serif', color: 'rgba(196,154,45,0.16)' },
+    { text: 'AI-powered', font: '400 14px Inter,sans-serif', color: 'rgba(42,42,40,0.12)' },
+    { text: 'diagnostics', font: '300 16px Inter,sans-serif', color: 'rgba(196,154,45,0.14)' },
+    { text: 'ceiling-down', font: '300 13px Inter,sans-serif', color: 'rgba(42,42,40,0.10)' },
+    { text: 'SCYRA.AI', font: '400 12px "JetBrains Mono",monospace', color: 'rgba(0,180,200,0.12)' },
+    { text: 'smart spaces', font: '300 15px Inter,sans-serif', color: 'rgba(196,154,45,0.12)' },
+    { text: 'edge computing', font: '300 11px "JetBrains Mono",monospace', color: 'rgba(42,42,40,0.10)' },
+    { text: 'Warszawa', font: '400 22px "Playfair Display",Georgia,serif', color: 'rgba(196,154,45,0.18)' },
+    { text: '7 кабінетаў', font: '300 14px Inter,sans-serif', color: 'rgba(42,42,40,0.12)' },
+    { text: 'premium', font: '300 24px "Playfair Display",Georgia,serif', color: 'rgba(196,154,45,0.14)' },
+    { text: 'implants', font: '300 13px Inter,sans-serif', color: 'rgba(42,42,40,0.10)' },
+    { text: 'veneers', font: '300 13px Inter,sans-serif', color: 'rgba(196,154,45,0.12)' },
+    { text: 'whitening', font: '300 12px Inter,sans-serif', color: 'rgba(42,42,40,0.08)' },
+    { text: 'labs67', font: '400 11px "JetBrains Mono",monospace', color: 'rgba(196,154,45,0.10)' },
   ];
 
-  var particles = WORDS.map(function(w){
+  var particles = WORDS.map(function(w) {
     return {
-      text:w.text, font:w.font, color:w.color,
-      baseX:0.08+Math.random()*0.84, baseY:0.08+Math.random()*0.84,
-      phase:Math.random()*Math.PI*2
+      text: w.text, font: w.font, color: w.color,
+      baseX: 0.06 + Math.random() * 0.88,
+      baseY: 0.06 + Math.random() * 0.88,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.003 + Math.random() * 0.005
     };
   });
 
-  function hResize(){
+  function resize() {
     var hero = hc.parentElement;
-    hdpr = window.devicePixelRatio||1;
-    hW = hero.offsetWidth;
-    hH = hero.offsetHeight;
-    hc.width = hW*hdpr;
-    hc.height = hH*hdpr;
-    hctx.setTransform(hdpr,0,0,hdpr,0,0);
+    dpr = window.devicePixelRatio || 1;
+    W = hero.offsetWidth;
+    H = hero.offsetHeight;
+    hc.width = W * dpr;
+    hc.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  var hTime=0;
-  function hDraw(){
-    hTime++;
-    hctx.clearRect(0,0,hW,hH);
+  var time = 0;
+  function draw() {
+    time++;
+    ctx.clearRect(0, 0, W, H);
 
-    if(hmx>0){
-      var grd=hctx.createRadialGradient(hmx,hmy,0,hmx,hmy,200);
-      grd.addColorStop(0,'rgba(196,154,45,0.04)');
-      grd.addColorStop(1,'transparent');
-      hctx.fillStyle=grd;
-      hctx.fillRect(0,0,hW,hH);
+    // Cursor glow on canvas
+    if (mx > 0) {
+      var grd = ctx.createRadialGradient(mx, my, 0, mx, my, 250);
+      grd.addColorStop(0, 'rgba(196,154,45,0.06)');
+      grd.addColorStop(1, 'transparent');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, W, H);
     }
 
-    hctx.textBaseline='middle';
+    ctx.textBaseline = 'middle';
 
-    for(var i=0;i<particles.length;i++){
-      var p=particles[i];
-      var floatX=Math.sin(hTime*0.008+p.phase)*30;
-      var floatY=Math.cos(hTime*0.006+p.phase*1.3)*20;
-      var px=p.baseX*hW+floatX;
-      var py=p.baseY*hH+floatY;
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      var floatX = Math.sin(time * p.speed + p.phase) * 35;
+      var floatY = Math.cos(time * (p.speed * 0.8) + p.phase * 1.3) * 25;
+      var px = p.baseX * W + floatX;
+      var py = p.baseY * H + floatY;
 
-      if(hmx>0){
-        var dx=hmx-px, dy=hmy-py;
-        var dist=Math.sqrt(dx*dx+dy*dy)||1;
-        var force=Math.min(50,10000/(dist+80));
-        px+=(dx/dist)*force*0.2;
-        py+=(dy/dist)*force*0.12;
+      // Gravity toward cursor
+      if (mx > 0) {
+        var dx = mx - px, dy = my - py;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var force = Math.min(60, 12000 / (dist + 80));
+        px += (dx / dist) * force * 0.25;
+        py += (dy / dist) * force * 0.15;
       }
 
-      var alpha=1;
-      if(hmx>0){
-        var d=Math.sqrt((hmx-px)*(hmx-px)+(hmy-py)*(hmy-py));
-        alpha=Math.min(3,1+(300-Math.min(d,300))/120);
+      // Alpha boost near cursor
+      var alpha = 1;
+      if (mx > 0) {
+        var d = Math.sqrt((mx - px) * (mx - px) + (my - py) * (my - py));
+        alpha = Math.min(3.5, 1 + (300 - Math.min(d, 300)) / 100);
       }
 
-      hctx.globalAlpha=alpha;
-      hctx.font=p.font;
-      hctx.fillStyle=p.color;
-      hctx.fillText(p.text,px,py);
+      ctx.globalAlpha = alpha;
+      ctx.font = p.font;
+      ctx.fillStyle = p.color;
+      ctx.fillText(p.text, px, py);
     }
 
-    hctx.globalAlpha=1;
-    requestAnimationFrame(hDraw);
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
   }
 
-  var heroEl=document.querySelector('.hero');
-  heroEl.addEventListener('mousemove',function(e){
-    var rect=heroEl.getBoundingClientRect();
-    hmx=e.clientX-rect.left;
-    hmy=e.clientY-rect.top;
+  var heroEl = document.querySelector('.hero');
+  heroEl.addEventListener('mousemove', function(e) {
+    var rect = heroEl.getBoundingClientRect();
+    mx = e.clientX - rect.left;
+    my = e.clientY - rect.top;
   });
-  heroEl.addEventListener('mouseleave',function(){hmx=-999;hmy=-999;});
+  heroEl.addEventListener('mouseleave', function() { mx = -999; my = -999; });
 
-  window.addEventListener('resize',hResize);
-  if(document.fonts&&document.fonts.ready){
-    document.fonts.ready.then(function(){hResize();hDraw();});
-  }else{
-    window.addEventListener('load',function(){hResize();hDraw();});
+  window.addEventListener('resize', resize);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() { resize(); draw(); });
+  } else {
+    window.addEventListener('load', function() { resize(); draw(); });
   }
 })();
 </script>
