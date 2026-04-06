@@ -73,7 +73,7 @@
   .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
   .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--gray2); }
   .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(196,154,45,0.04) 0%, transparent 70%); pointer-events: none; }
-  #heroCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.6; }
+  #heroCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.6; background: transparent !important; }
   .hero-sub { font-size: 10px; letter-spacing: 8px; color: var(--gold); text-transform: lowercase; margin-bottom: 24px; position: relative; font-weight: 400; }
   .hero-line { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 32px; position: relative; }
   .hero-title { font-family: var(--font-display); font-size: clamp(48px, 14vw, 160px); font-weight: 400; letter-spacing: 6px; color: var(--black); text-align: center; line-height: 0.95; position: relative; text-transform: lowercase; }
@@ -452,116 +452,109 @@ function svSendChat(){const i=document.getElementById('sv-chat-input');const v=i
 </aside>
 
 <!-- HERO GRAVITY CANVAS -->
-<script type="module">
-import {prepareWithSegments, layoutWithLines} from './pretext.js';
+<script>
+(function(){
+  var hc = document.getElementById('heroCanvas');
+  if (!hc) return;
+  var hctx = hc.getContext('2d');
+  var hW=0, hH=0, hdpr=1, hmx=-999, hmy=-999;
 
-const hc = document.getElementById('heroCanvas');
-if (hc) {
-  const hctx = hc.getContext('2d');
-  let hW, hH, hdpr, hmx = -999, hmy = -999;
-
-  const WORDS = [
-    { text: 'svyatlitsa', font: '300 42px "Playfair Display"', color: 'rgba(196,154,45,0.12)' },
-    { text: 'aesthetic dentistry', font: '300 18px Inter', color: 'rgba(196,154,45,0.08)' },
-    { text: 'AI-powered', font: '400 14px Inter', color: 'rgba(42,42,40,0.06)' },
-    { text: 'diagnostics', font: '300 16px Inter', color: 'rgba(196,154,45,0.07)' },
-    { text: 'ceiling-down', font: '300 13px Inter', color: 'rgba(42,42,40,0.05)' },
-    { text: 'SCYRA.AI', font: '400 12px "JetBrains Mono"', color: 'rgba(0,180,200,0.06)' },
-    { text: 'smart spaces', font: '300 15px Inter', color: 'rgba(196,154,45,0.06)' },
-    { text: 'edge computing', font: '300 11px "JetBrains Mono"', color: 'rgba(42,42,40,0.05)' },
-    { text: 'Warszawa', font: '400 20px "Playfair Display"', color: 'rgba(196,154,45,0.09)' },
-    { text: '7 кабінетаў', font: '300 14px Inter', color: 'rgba(42,42,40,0.06)' },
-    { text: 'premium', font: '300 22px "Playfair Display"', color: 'rgba(196,154,45,0.07)' },
-    { text: 'implants', font: '300 13px Inter', color: 'rgba(42,42,40,0.05)' },
-    { text: 'veneers', font: '300 13px Inter', color: 'rgba(196,154,45,0.06)' },
-    { text: 'whitening', font: '300 12px Inter', color: 'rgba(42,42,40,0.04)' },
-    { text: 'labs67', font: '400 11px "JetBrains Mono"', color: 'rgba(196,154,45,0.05)' },
+  var WORDS = [
+    { text:'svyatlitsa', font:'300 42px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.14)' },
+    { text:'aesthetic dentistry', font:'300 18px Inter,sans-serif', color:'rgba(196,154,45,0.10)' },
+    { text:'AI-powered', font:'400 14px Inter,sans-serif', color:'rgba(42,42,40,0.07)' },
+    { text:'diagnostics', font:'300 16px Inter,sans-serif', color:'rgba(196,154,45,0.08)' },
+    { text:'ceiling-down', font:'300 13px Inter,sans-serif', color:'rgba(42,42,40,0.06)' },
+    { text:'SCYRA.AI', font:'400 12px "JetBrains Mono",monospace', color:'rgba(0,180,200,0.07)' },
+    { text:'smart spaces', font:'300 15px Inter,sans-serif', color:'rgba(196,154,45,0.07)' },
+    { text:'edge computing', font:'300 11px "JetBrains Mono",monospace', color:'rgba(42,42,40,0.06)' },
+    { text:'Warszawa', font:'400 20px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.10)' },
+    { text:'7 кабінетаў', font:'300 14px Inter,sans-serif', color:'rgba(42,42,40,0.07)' },
+    { text:'premium', font:'300 22px "Playfair Display",Georgia,serif', color:'rgba(196,154,45,0.08)' },
+    { text:'implants', font:'300 13px Inter,sans-serif', color:'rgba(42,42,40,0.06)' },
+    { text:'veneers', font:'300 13px Inter,sans-serif', color:'rgba(196,154,45,0.07)' },
+    { text:'whitening', font:'300 12px Inter,sans-serif', color:'rgba(42,42,40,0.05)' },
+    { text:'labs67', font:'400 11px "JetBrains Mono",monospace', color:'rgba(196,154,45,0.06)' },
   ];
 
-  // Floating word particles
-  const particles = WORDS.map((w, i) => ({
-    ...w,
-    x: Math.random(), y: Math.random(),
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.2,
-    baseX: Math.random(), baseY: Math.random(),
-    phase: Math.random() * Math.PI * 2,
-  }));
+  var particles = WORDS.map(function(w){
+    return {
+      text:w.text, font:w.font, color:w.color,
+      baseX:0.08+Math.random()*0.84, baseY:0.08+Math.random()*0.84,
+      phase:Math.random()*Math.PI*2
+    };
+  });
 
-  function hResize() {
-    const hero = hc.parentElement;
-    hdpr = window.devicePixelRatio || 1;
+  function hResize(){
+    var hero = hc.parentElement;
+    hdpr = window.devicePixelRatio||1;
     hW = hero.offsetWidth;
     hH = hero.offsetHeight;
-    hc.width = hW * hdpr;
-    hc.height = hH * hdpr;
-    hctx.setTransform(hdpr, 0, 0, hdpr, 0, 0);
+    hc.width = hW*hdpr;
+    hc.height = hH*hdpr;
+    hctx.setTransform(hdpr,0,0,hdpr,0,0);
   }
 
-  let hTime = 0;
-  function hDraw() {
+  var hTime=0;
+  function hDraw(){
     hTime++;
-    hctx.clearRect(0, 0, hW, hH);
+    hctx.clearRect(0,0,hW,hH);
 
-    // Subtle gold gradient that follows mouse
-    if (hmx > 0) {
-      const grd = hctx.createRadialGradient(hmx, hmy, 0, hmx, hmy, 200);
-      grd.addColorStop(0, 'rgba(196,154,45,0.03)');
-      grd.addColorStop(1, 'transparent');
-      hctx.fillStyle = grd;
-      hctx.fillRect(0, 0, hW, hH);
+    if(hmx>0){
+      var grd=hctx.createRadialGradient(hmx,hmy,0,hmx,hmy,200);
+      grd.addColorStop(0,'rgba(196,154,45,0.04)');
+      grd.addColorStop(1,'transparent');
+      hctx.fillStyle=grd;
+      hctx.fillRect(0,0,hW,hH);
     }
 
-    hctx.textBaseline = 'middle';
+    hctx.textBaseline='middle';
 
-    for (const p of particles) {
-      // Gentle floating
-      const floatX = Math.sin(hTime * 0.008 + p.phase) * 30;
-      const floatY = Math.cos(hTime * 0.006 + p.phase * 1.3) * 20;
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      var floatX=Math.sin(hTime*0.008+p.phase)*30;
+      var floatY=Math.cos(hTime*0.006+p.phase*1.3)*20;
+      var px=p.baseX*hW+floatX;
+      var py=p.baseY*hH+floatY;
 
-      let px = p.baseX * hW + floatX;
-      let py = p.baseY * hH + floatY;
-
-      // Gravity toward mouse
-      if (hmx > 0) {
-        const dx = hmx - px;
-        const dy = hmy - py;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = Math.min(40, 8000 / (dist + 100));
-        px += (dx / dist) * force * 0.15;
-        py += (dy / dist) * force * 0.1;
+      if(hmx>0){
+        var dx=hmx-px, dy=hmy-py;
+        var dist=Math.sqrt(dx*dx+dy*dy)||1;
+        var force=Math.min(50,10000/(dist+80));
+        px+=(dx/dist)*force*0.2;
+        py+=(dy/dist)*force*0.12;
       }
 
-      // Distance-based opacity boost near mouse
-      let alpha = 1;
-      if (hmx > 0) {
-        const d = Math.sqrt((hmx - px) ** 2 + (hmy - py) ** 2);
-        alpha = Math.min(2.5, 1 + (250 - Math.min(d, 250)) / 100);
+      var alpha=1;
+      if(hmx>0){
+        var d=Math.sqrt((hmx-px)*(hmx-px)+(hmy-py)*(hmy-py));
+        alpha=Math.min(3,1+(300-Math.min(d,300))/120);
       }
 
-      hctx.globalAlpha = alpha;
-      hctx.font = p.font;
-      hctx.fillStyle = p.color;
-      hctx.fillText(p.text, px, py);
+      hctx.globalAlpha=alpha;
+      hctx.font=p.font;
+      hctx.fillStyle=p.color;
+      hctx.fillText(p.text,px,py);
     }
 
-    hctx.globalAlpha = 1;
+    hctx.globalAlpha=1;
     requestAnimationFrame(hDraw);
   }
 
-  // Only track mouse on hero
-  const heroEl = document.querySelector('.hero');
-  heroEl.addEventListener('mousemove', e => {
-    const rect = heroEl.getBoundingClientRect();
-    hmx = e.clientX - rect.left;
-    hmy = e.clientY - rect.top;
+  var heroEl=document.querySelector('.hero');
+  heroEl.addEventListener('mousemove',function(e){
+    var rect=heroEl.getBoundingClientRect();
+    hmx=e.clientX-rect.left;
+    hmy=e.clientY-rect.top;
   });
-  heroEl.addEventListener('mouseleave', () => { hmx = -999; hmy = -999; });
-  heroEl.style.pointerEvents = 'auto';
-  hc.style.pointerEvents = 'none';
+  heroEl.addEventListener('mouseleave',function(){hmx=-999;hmy=-999;});
 
-  window.addEventListener('resize', hResize);
-  document.fonts.ready.then(() => { hResize(); hDraw(); });
-}
+  window.addEventListener('resize',hResize);
+  if(document.fonts&&document.fonts.ready){
+    document.fonts.ready.then(function(){hResize();hDraw();});
+  }else{
+    window.addEventListener('load',function(){hResize();hDraw();});
+  }
+})();
 </script>
 </body></html>
