@@ -194,6 +194,14 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
       <div class="login-toggle" data-i18n="cab_has_account">Ёсць уліковы запіс? <a onclick="showLogin()">Увайсці</a></div>
     </div>
 
+    <!-- Confirmation message -->
+    <div id="confirmMsg" style="display:none;text-align:center">
+      <div style="font-size:40px;margin-bottom:16px">&#9993;</div>
+      <div style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-bottom:8px" data-i18n="cab_check_email">Праверце пошту</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px" data-i18n="cab_confirm_text">Мы адправілі спасылку для пацверджання на вашу пошту. Пасля пацверджання вы зможаце ўвайсці.</div>
+      <a onclick="showLogin()" style="color:var(--blue);cursor:pointer;font-size:13px" data-i18n="cab_back_to_login">← Вярнуцца да ўваходу</a>
+    </div>
+
     <a href="/" class="login-back">&larr; svyatlitsa.com</a>
   </div>
 </div>
@@ -382,8 +390,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 <script src="lang.js"></script>
 <script src="labs67-i18n.js"></script>
 <script>
-const SUPABASE_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const SUPABASE_URL = 'https://rkjvqwiwdednvorhhozb.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJranZxd2l3ZGVkbnZvcmhob3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODIwOTUsImV4cCI6MjA5MTA1ODA5NX0.BhgxhJR7dtITrMBTS-V1h3eplH2KmWfIDxQYldfb3kE';
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let patient = null;
@@ -421,13 +429,16 @@ async function handleRegister() {
   if (!name || !email || !pw) { err.textContent = 'Запоўніце ўсе палі'; return; }
   btn.disabled = true;
   err.textContent = '';
-  var r = await sb.auth.signUp({ email: email, password: pw });
+  var r = await sb.auth.signUp({
+    email: email,
+    password: pw,
+    options: { data: { name: name, phone: phone } }
+  });
   if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
-  // Create patient record
-  var pr = await sb.from('patients').insert({ user_id: r.data.user.id, name: name, email: email, phone: phone });
-  if (pr.error) { err.textContent = pr.error.message; btn.disabled = false; return; }
-  await loadPatient(r.data.user);
-  showApp();
+  // Show confirmation message — trigger auto-creates patient record
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('confirmMsg').style.display = '';
 }
 
 async function handleLogout() {
@@ -440,22 +451,18 @@ async function handleLogout() {
 function showLogin() {
   document.getElementById('loginForm').style.display = '';
   document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('confirmMsg').style.display = 'none';
 }
 function showRegister() {
   document.getElementById('loginForm').style.display = 'none';
   document.getElementById('registerForm').style.display = '';
+  document.getElementById('confirmMsg').style.display = 'none';
 }
 
 /* ── PATIENT ── */
 async function loadPatient(user) {
   var r = await sb.from('patients').select('*').eq('user_id', user.id).single();
-  if (r.data) {
-    patient = r.data;
-  } else {
-    // Auto-create patient if missing
-    var ins = await sb.from('patients').insert({ user_id: user.id, name: user.email.split('@')[0], email: user.email }).select().single();
-    patient = ins.data;
-  }
+  patient = r.data || null;
 }
 
 function showApp() {
