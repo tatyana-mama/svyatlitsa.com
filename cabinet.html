@@ -19,27 +19,28 @@
   --ease:cubic-bezier(.16,1,.3,1);
   --shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.02);
   --shadow-md:0 4px 12px rgba(0,0,0,.04),0 2px 4px rgba(0,0,0,.02);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.06),0 4px 8px rgba(0,0,0,.03);
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-weight:300;line-height:1.6}
 
 /* ── LOGIN ── */
-.login-wrap{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
-.login-box{width:100%;max-width:400px;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:48px 36px;box-shadow:var(--shadow-md)}
+.login-wrap{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,var(--bg) 0%,var(--blue-ice) 50%,var(--warm) 100%)}
+.login-box{width:100%;max-width:400px;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:48px 36px;box-shadow:var(--shadow-lg)}
 .login-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
-.login-logo img{width:32px;height:32px}
-.login-logo-text{font-family:var(--font-display);font-size:24px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
+.login-logo img{width:36px;height:36px}
+.login-logo-text{font-family:var(--font-display);font-size:26px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
 .login-sub{font-family:var(--font-label);font-size:9px;letter-spacing:4px;color:var(--blue);text-transform:uppercase;text-align:center;margin-bottom:36px}
 .login-field{margin-bottom:20px}
 .login-label{display:block;font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
-.login-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:transparent;font-family:var(--font-body);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-weight:300}
-.login-input:focus{border-color:var(--blue)}
-.login-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);border:none;border-radius:8px;font-family:var(--font-label);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:8px}
-.login-btn:hover{background:var(--blue-dark)}
-.login-btn:disabled{opacity:.5;cursor:not-allowed}
+.login-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg);font-family:var(--font-body);font-size:14px;color:var(--text);outline:none;transition:all .2s;font-weight:300}
+.login-input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(126,184,212,.15)}
+.login-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);border:none;border-radius:10px;font-family:var(--font-label);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(126,184,212,.3)}
+.login-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .login-error{font-size:11px;color:var(--red);text-align:center;margin-top:16px;min-height:20px}
 .login-toggle{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
-.login-toggle a{color:var(--blue);text-decoration:none;cursor:pointer}
+.login-toggle a{color:var(--blue);text-decoration:none;cursor:pointer;font-weight:400}
 .login-toggle a:hover{color:var(--blue-dark)}
 .login-back{display:block;text-align:center;margin-top:24px;font-size:11px;color:var(--muted);text-decoration:none;font-family:var(--font-label);letter-spacing:1px}
 .login-back:hover{color:var(--blue)}
@@ -48,12 +49,13 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 .app{display:none;min-height:100vh}
 
 /* NAV */
-.cab-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 24px;background:rgba(248,251,253,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--border)}
+.cab-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 24px;background:rgba(248,251,253,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--border)}
 .cab-nav-left{display:flex;align-items:center;gap:12px}
 .cab-nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
 .cab-nav-logo img{width:24px;height:24px}
 .cab-nav-logo span{font-family:var(--font-display);font-size:16px;letter-spacing:3px;color:var(--navy);text-transform:lowercase}
 .cab-nav-badge{font-family:var(--font-label);font-size:8px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;padding:3px 8px;border:1px solid var(--blue-light);border-radius:4px;background:var(--blue-ice)}
+.cab-nav-badge.admin{color:var(--orange);border-color:rgba(230,126,34,.3);background:var(--orange-bg)}
 .cab-nav-right{display:flex;align-items:center;gap:12px}
 .cab-nav-user{font-size:11px;color:var(--muted);font-weight:400}
 .cab-nav-btn{padding:6px 14px;border-radius:6px;font-family:var(--font-label);font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
@@ -70,32 +72,60 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 .lang-opt.active{color:var(--blue-dark)}
 
 /* LAYOUT */
-.cab-body{padding-top:48px;min-height:100vh}
-.cab-sidebar{position:fixed;top:48px;left:0;bottom:0;width:220px;background:var(--white);border-right:1px solid var(--border);padding:20px 12px;overflow-y:auto;z-index:50}
-.cab-sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:400;color:var(--muted);border:none;background:none;width:100%;text-align:left;font-family:var(--font-body);transition:all .15s}
+.cab-body{padding-top:52px;min-height:100vh}
+.cab-sidebar{position:fixed;top:52px;left:0;bottom:0;width:230px;background:var(--white);border-right:1px solid var(--border);padding:20px 12px;overflow-y:auto;z-index:50}
+.cab-sidebar-section{font-family:var(--font-label);font-size:8px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:16px 14px 8px;opacity:.6}
+.cab-sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:400;color:var(--muted);border:none;background:none;width:100%;text-align:left;font-family:var(--font-body);transition:all .15s}
 .cab-sidebar-item:hover{background:var(--warm);color:var(--text)}
 .cab-sidebar-item.active{background:var(--blue-ice);color:var(--blue-dark);font-weight:500}
+.cab-sidebar-item.admin-item.active{background:var(--orange-bg);color:var(--orange)}
 .cab-sidebar-item .ico{font-size:16px;width:22px;text-align:center}
-.cab-sidebar-sep{height:1px;background:var(--border);margin:12px 8px}
+.cab-sidebar-sep{height:1px;background:var(--border);margin:8px 8px}
 
-.cab-main{margin-left:220px;padding:28px 32px;max-width:900px}
+.cab-main{margin-left:230px;padding:32px 40px;max-width:960px}
 .cab-page{display:none}
 .cab-page.active{display:block}
 
 /* PAGE HEADER */
-.cab-page-title{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--navy);margin-bottom:4px}
+.cab-page-title{font-family:var(--font-display);font-size:30px;font-weight:400;color:var(--navy);margin-bottom:4px}
 .cab-page-sub{font-size:12px;color:var(--muted);margin-bottom:28px}
 
+/* WELCOME HERO */
+.cab-hero{background:linear-gradient(135deg,var(--blue-ice) 0%,rgba(126,184,212,.15) 100%);border:1px solid var(--blue-light);border-radius:16px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden}
+.cab-hero::after{content:'';position:absolute;right:-20px;bottom:-20px;width:140px;height:140px;background:radial-gradient(circle,rgba(126,184,212,.2) 0%,transparent 70%);border-radius:50%}
+.cab-hero-greeting{font-family:var(--font-display);font-size:26px;color:var(--navy);margin-bottom:4px}
+.cab-hero-sub{font-size:13px;color:var(--muted);line-height:1.5}
+.cab-hero-date{font-family:var(--font-label);font-size:10px;letter-spacing:1px;color:var(--blue-dark);margin-top:12px}
+
 /* CARDS */
-.cab-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
-.cab-card-title{font-family:var(--font-label);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.cab-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow);transition:box-shadow .2s}
+.cab-card:hover{box-shadow:var(--shadow-md)}
+.cab-card-title{font-family:var(--font-label);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.cab-card-title .card-ico{font-size:14px}
 
 /* STATS */
-.cab-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
-.cab-stat{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:var(--shadow)}
-.cab-stat-label{font-size:10px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px}
-.cab-stat-num{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--navy)}
+.cab-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.cab-stat{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px 24px;box-shadow:var(--shadow);transition:all .2s;position:relative;overflow:hidden}
+.cab-stat:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.cab-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.cab-stat:nth-child(1)::before{background:var(--blue)}
+.cab-stat:nth-child(2)::before{background:var(--green)}
+.cab-stat:nth-child(3)::before{background:var(--gold)}
+.cab-stat-ico{font-size:20px;margin-bottom:8px;opacity:.5}
+.cab-stat-label{font-size:10px;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;font-family:var(--font-label);letter-spacing:1px;text-transform:uppercase}
+.cab-stat-num{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--navy)}
 .cab-stat-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* QUICK ACTIONS */
+.cab-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.cab-action{display:flex;align-items:center;gap:14px;padding:18px 20px;background:var(--white);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text)}
+.cab-action:hover{border-color:var(--blue);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.cab-action-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cab-action-ico.blue{background:var(--blue-ice);color:var(--blue-dark)}
+.cab-action-ico.green{background:var(--green-bg);color:var(--green)}
+.cab-action-ico.orange{background:var(--orange-bg);color:var(--orange)}
+.cab-action-text{font-size:13px;font-weight:400}
+.cab-action-sub{font-size:10px;color:var(--muted);margin-top:2px}
 
 /* TABLE */
 .cab-table{width:100%;border-collapse:collapse}
@@ -105,52 +135,74 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 .cab-table tr:hover td{background:var(--warm)}
 
 /* BADGES */
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:.5px}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:.5px}
 .badge-pending{background:var(--orange-bg);color:var(--orange)}
 .badge-confirmed{background:var(--blue-ice);color:var(--blue-dark)}
 .badge-completed{background:var(--green-bg);color:var(--green)}
 .badge-cancelled{background:var(--red-bg);color:var(--red)}
 
 /* FORM */
-.cab-form{display:grid;gap:16px;max-width:480px}
-.cab-form-row{display:flex;flex-direction:column;gap:4px}
+.cab-form{display:grid;gap:18px;max-width:480px}
+.cab-form-row{display:flex;flex-direction:column;gap:6px}
 .cab-form-label{font-family:var(--font-label);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.cab-form-input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:border-color .2s;font-weight:300;background:transparent}
-.cab-form-input:focus{border-color:var(--blue)}
-.cab-form-select{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;background:var(--white);transition:border-color .2s}
-.cab-form-select:focus{border-color:var(--blue)}
-.cab-form-btn{padding:12px 24px;background:var(--blue);color:var(--white);border:none;border-radius:8px;font-family:var(--font-label);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;justify-self:start}
-.cab-form-btn:hover{background:var(--blue-dark)}
-.cab-form-btn:disabled{opacity:.5;cursor:not-allowed}
+.cab-form-input{padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:all .2s;font-weight:300;background:var(--bg)}
+.cab-form-input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(126,184,212,.12)}
+.cab-form-select{padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;background:var(--white);transition:all .2s;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237A8B99' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.cab-form-select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(126,184,212,.12)}
+.cab-form-btn{padding:13px 28px;background:var(--blue);color:var(--white);border:none;border-radius:10px;font-family:var(--font-label);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;justify-self:start}
+.cab-form-btn:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(126,184,212,.3)}
+.cab-form-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
 /* EMPTY STATE */
 .cab-empty{text-align:center;padding:48px 24px;color:var(--muted)}
 .cab-empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
 .cab-empty-text{font-size:13px;margin-bottom:16px}
 /* BOOKING SUCCESS */
-.cab-booking-success{text-align:center;padding:48px 24px;background:#e8f5e9;border-radius:12px;border:1px solid #a5d6a7}
+.cab-booking-success{text-align:center;padding:48px 24px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:14px;border:1px solid #a5d6a7}
 .cab-booking-success .cab-empty-icon{font-size:48px;opacity:1;color:#43a047}
 .cab-booking-success .cab-empty-text{font-size:15px;color:#2e7d32;font-weight:500}
 
+/* ADMIN TABLE ACTIONS */
+.adm-btn{padding:4px 10px;border-radius:6px;font-family:var(--font-label);font-size:9px;letter-spacing:1px;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:all .15s;text-transform:uppercase}
+.adm-btn:hover{box-shadow:var(--shadow)}
+.adm-btn.confirm{color:var(--green);border-color:rgba(58,157,92,.3)}
+.adm-btn.confirm:hover{background:var(--green-bg)}
+.adm-btn.cancel{color:var(--red);border-color:rgba(192,57,43,.3)}
+.adm-btn.cancel:hover{background:var(--red-bg)}
+.adm-btn.assign{color:var(--blue-dark);border-color:var(--blue-light)}
+.adm-btn.assign:hover{background:var(--blue-ice)}
+.adm-select{padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;background:var(--white);outline:none}
+
+/* ADMIN STATS ROW */
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.adm-stat{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px 18px;text-align:center;box-shadow:var(--shadow)}
+.adm-stat-num{font-family:var(--font-display);font-size:28px;color:var(--navy)}
+.adm-stat-label{font-size:9px;color:var(--muted);font-family:var(--font-label);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
 /* TOAST */
-.cab-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:12px 20px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+.cab-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:14px 22px;border-radius:10px;font-size:12px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.15)}
 .cab-toast.show{opacity:1;transform:translateY(0)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
   .cab-sidebar{display:none}
   .cab-main{margin-left:0;padding:20px 16px}
-  .cab-nav{padding:0 16px}
+  .cab-nav{padding:0 16px;height:48px}
+  .cab-body{padding-top:48px}
   .cab-nav-user{display:none}
   .cab-mobile-tabs{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:100;padding:4px 8px env(safe-area-inset-bottom,8px)}
-  .cab-mobile-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border:none;background:none;font-family:var(--font-body);font-size:9px;color:var(--muted);cursor:pointer}
+  .cab-mobile-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border:none;background:none;font-family:var(--font-body);font-size:9px;color:var(--muted);cursor:pointer;transition:color .15s}
   .cab-mobile-tab .ico{font-size:20px}
   .cab-mobile-tab.active{color:var(--blue-dark)}
   .cab-body{padding-bottom:72px}
   .cab-stats{grid-template-columns:1fr 1fr}
+  .cab-actions{grid-template-columns:1fr}
   .cab-table{font-size:12px}
   .cab-table th,.cab-table td{padding:8px}
-  .login-box{padding:32px 24px;border-radius:12px}
+  .login-box{padding:32px 24px;border-radius:14px}
+  .cab-hero{padding:24px}
+  .cab-hero-greeting{font-size:22px}
+  .adm-stats{grid-template-columns:1fr 1fr}
 }
 @media(min-width:769px){
   .cab-mobile-tabs{display:none}
@@ -212,7 +264,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
       <div style="font-size:40px;margin-bottom:16px">&#9993;</div>
       <div style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-bottom:8px" data-i18n="cab_check_email">Праверце пошту</div>
       <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px" data-i18n="cab_confirm_text">Мы адправілі спасылку для пацверджання на вашу пошту. Пасля пацверджання вы зможаце ўвайсці.</div>
-      <a onclick="showLogin()" style="color:var(--blue);cursor:pointer;font-size:13px" data-i18n="cab_back_to_login">← Вярнуцца да ўваходу</a>
+      <a onclick="showLogin()" style="color:var(--blue);cursor:pointer;font-size:13px" data-i18n="cab_back_to_login">&larr; Вярнуцца да ўваходу</a>
     </div>
 
     <a href="/" class="login-back">&larr; svyatlitsa.com</a>
@@ -226,7 +278,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
   <nav class="cab-nav">
     <div class="cab-nav-left">
       <a class="cab-nav-logo" href="/"><img src="/logo.svg" alt=""><span>svyatlitsa</span></a>
-      <span class="cab-nav-badge" data-i18n="cab_badge">кабінет</span>
+      <span class="cab-nav-badge" id="navBadge" data-i18n="cab_badge">кабінет</span>
     </div>
     <div class="cab-nav-right">
       <span class="cab-nav-user" id="navUserName"></span>
@@ -237,17 +289,27 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 
   <div class="cab-body">
     <!-- SIDEBAR -->
-    <div class="cab-sidebar">
+    <div class="cab-sidebar" id="sidebar">
+      <div class="cab-sidebar-section">Пацыент</div>
       <button class="cab-sidebar-item active" data-page="overview" onclick="showPage('overview')"><span class="ico">&#9670;</span><span data-i18n="cab_overview">Агляд</span></button>
       <button class="cab-sidebar-item" data-page="appointments" onclick="showPage('appointments')"><span class="ico">&#128197;</span><span data-i18n="cab_appointments">Запісы</span></button>
       <button class="cab-sidebar-item" data-page="booking" onclick="showPage('booking')"><span class="ico">&#10010;</span><span data-i18n="cab_new_booking">Новы запіс</span></button>
       <div class="cab-sidebar-sep"></div>
       <button class="cab-sidebar-item" data-page="documents" onclick="showPage('documents')"><span class="ico">&#128196;</span><span data-i18n="cab_documents">Дакументы</span></button>
       <button class="cab-sidebar-item" data-page="profile" onclick="showPage('profile')"><span class="ico">&#9881;</span><span data-i18n="cab_profile">Профіль</span></button>
+      <!-- Admin section (hidden by default) -->
+      <div id="adminSidebar" style="display:none">
+        <div class="cab-sidebar-sep"></div>
+        <div class="cab-sidebar-section">Адміністратар</div>
+        <button class="cab-sidebar-item admin-item" data-page="adm-pending" onclick="showPage('adm-pending')"><span class="ico">&#9200;</span><span>Чакаюць</span></button>
+        <button class="cab-sidebar-item admin-item" data-page="adm-all" onclick="showPage('adm-all')"><span class="ico">&#128203;</span><span>Усе запісы</span></button>
+        <button class="cab-sidebar-item admin-item" data-page="adm-patients" onclick="showPage('adm-patients')"><span class="ico">&#128101;</span><span>Пацыенты</span></button>
+        <button class="cab-sidebar-item admin-item" data-page="adm-doctors" onclick="showPage('adm-doctors')"><span class="ico">&#129657;</span><span>Урачы</span></button>
+      </div>
     </div>
 
     <!-- MOBILE TABS -->
-    <div class="cab-mobile-tabs">
+    <div class="cab-mobile-tabs" id="mobileTabs">
       <button class="cab-mobile-tab active" data-page="overview" onclick="showPage('overview')"><span class="ico">&#9670;</span><span data-i18n="cab_overview">Агляд</span></button>
       <button class="cab-mobile-tab" data-page="appointments" onclick="showPage('appointments')"><span class="ico">&#128197;</span><span data-i18n="cab_appointments">Запісы</span></button>
       <button class="cab-mobile-tab" data-page="booking" onclick="showPage('booking')"><span class="ico">&#10010;</span><span data-i18n="cab_new_booking">Новы</span></button>
@@ -260,26 +322,47 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 
       <!-- OVERVIEW -->
       <div class="cab-page active" id="page-overview">
-        <div class="cab-page-title" data-i18n="cab_welcome">Вітаем</div>
-        <div class="cab-page-sub" id="overviewGreeting"></div>
+        <div class="cab-hero">
+          <div class="cab-hero-greeting" id="overviewGreeting">Вітаем</div>
+          <div class="cab-hero-sub">Кіруйце сваімі запісамі, дакументамі і профілем</div>
+          <div class="cab-hero-date" id="heroDate"></div>
+        </div>
 
         <div class="cab-stats">
           <div class="cab-stat">
+            <div class="cab-stat-ico">&#128197;</div>
             <div class="cab-stat-label" data-i18n="cab_total_visits">Усяго візітаў</div>
             <div class="cab-stat-num" id="statTotal">0</div>
           </div>
           <div class="cab-stat">
+            <div class="cab-stat-ico">&#128338;</div>
             <div class="cab-stat-label" data-i18n="cab_upcoming">Бліжэйшы запіс</div>
-            <div class="cab-stat-num" id="statNext" style="font-size:18px">—</div>
+            <div class="cab-stat-num" id="statNext" style="font-size:18px">&mdash;</div>
           </div>
           <div class="cab-stat">
+            <div class="cab-stat-ico">&#128196;</div>
             <div class="cab-stat-label" data-i18n="cab_docs_count">Дакументаў</div>
             <div class="cab-stat-num" id="statDocs">0</div>
           </div>
         </div>
 
+        <div class="cab-actions">
+          <a class="cab-action" onclick="showPage('booking')">
+            <div class="cab-action-ico blue">&#10010;</div>
+            <div><div class="cab-action-text">Новы запіс</div><div class="cab-action-sub">Запісацца на прыём</div></div>
+          </a>
+          <a class="cab-action" onclick="showPage('appointments')">
+            <div class="cab-action-ico green">&#128197;</div>
+            <div><div class="cab-action-text">Мае запісы</div><div class="cab-action-sub">Гісторыя візітаў</div></div>
+          </a>
+          <a class="cab-action" onclick="showPage('profile')">
+            <div class="cab-action-ico orange">&#9881;</div>
+            <div><div class="cab-action-text">Профіль</div><div class="cab-action-sub">Рэдагаваць даныя</div></div>
+          </a>
+        </div>
+
         <div class="cab-card">
-          <div class="cab-card-title" data-i18n="cab_recent">Апошнія запісы</div>
+          <div class="cab-card-title"><span class="card-ico">&#128203;</span> <span data-i18n="cab_recent">Апошнія запісы</span></div>
           <div id="recentList"></div>
         </div>
       </div>
@@ -393,6 +476,45 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
         </div>
       </div>
 
+      <!-- ═══════ ADMIN PAGES ═══════ -->
+
+      <!-- ADMIN: PENDING -->
+      <div class="cab-page" id="page-adm-pending">
+        <div class="cab-page-title">Чакаюць пацверджання</div>
+        <div class="cab-page-sub">Запісы якія трэба пацвердзіць або адхіліць</div>
+        <div class="adm-stats" id="admStats"></div>
+        <div class="cab-card">
+          <div id="admPendingList"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN: ALL -->
+      <div class="cab-page" id="page-adm-all">
+        <div class="cab-page-title">Усе запісы</div>
+        <div class="cab-page-sub">Поўная гісторыя запісаў</div>
+        <div class="cab-card">
+          <div id="admAllList"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN: PATIENTS -->
+      <div class="cab-page" id="page-adm-patients">
+        <div class="cab-page-title">Пацыенты</div>
+        <div class="cab-page-sub">Зарэгістраваныя пацыенты</div>
+        <div class="cab-card">
+          <div id="admPatientsList"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN: DOCTORS -->
+      <div class="cab-page" id="page-adm-doctors">
+        <div class="cab-page-title">Урачы</div>
+        <div class="cab-page-sub">Персанал клінікі</div>
+        <div class="cab-card">
+          <div id="admDoctorsList"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -407,13 +529,18 @@ const SUPABASE_URL = 'https://rkjvqwiwdednvorhhozb.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJranZxd2l3ZGVkbnZvcmhob3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODIwOTUsImV4cCI6MjA5MTA1ODA5NX0.BhgxhJR7dtITrMBTS-V1h3eplH2KmWfIDxQYldfb3kE';
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let patient = null;
+var patient = null;
+var staffRole = null;
+var staffId = null;
+var loaded = {};
+var doctors = [];
 
 /* ── AUTH ── */
 async function checkSession() {
   var s = await sb.auth.getSession();
   if (s.data.session) {
     await loadPatient(s.data.session.user);
+    await checkStaffRole(s.data.session.user);
     showApp();
   }
 }
@@ -429,6 +556,7 @@ async function handleLogin() {
   var r = await sb.auth.signInWithPassword({ email: email, password: pw });
   if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
   await loadPatient(r.data.user);
+  await checkStaffRole(r.data.user);
   showApp();
 }
 
@@ -448,7 +576,6 @@ async function handleRegister() {
     options: { data: { name: name, phone: phone } }
   });
   if (r.error) { err.textContent = r.error.message; btn.disabled = false; return; }
-  // Show confirmation message — trigger auto-creates patient record
   document.getElementById('registerForm').style.display = 'none';
   document.getElementById('loginForm').style.display = 'none';
   document.getElementById('confirmMsg').style.display = '';
@@ -457,6 +584,7 @@ async function handleRegister() {
 async function handleLogout() {
   await sb.auth.signOut();
   patient = null;
+  staffRole = null;
   document.getElementById('appWrap').style.display = 'none';
   document.getElementById('loginWrap').style.display = 'flex';
 }
@@ -478,7 +606,15 @@ async function loadPatient(user) {
   patient = r.data || null;
 }
 
-var loaded = {};
+/* ── STAFF ROLE ── */
+async function checkStaffRole(user) {
+  var r = await sb.from('staff').select('*').eq('user_id', user.id).single();
+  if (r.data) {
+    staffRole = r.data.role;
+    staffId = r.data.id;
+  }
+}
+
 function showApp() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appWrap').style.display = 'block';
@@ -487,11 +623,24 @@ function showApp() {
   document.getElementById('profEmail').value = patient ? patient.email : '';
   document.getElementById('profPhone').value = patient ? (patient.phone || '') : '';
   document.getElementById('profBirth').value = patient ? (patient.birth_date || '') : '';
+  // Hero date
+  var now = new Date();
+  var days = ['Нядзеля','Панядзелак','Аўторак','Серада','Чацвер','Пятніца','Субота'];
+  var months = ['студзеня','лютага','сакавіка','красавіка','мая','чэрвеня','ліпеня','жніўня','верасня','кастрычніка','лістапада','снежня'];
+  document.getElementById('heroDate').textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  document.getElementById('overviewGreeting').textContent = 'Вітаем, ' + (patient ? patient.name : '');
   // Set min date for booking
-  var today = new Date().toISOString().split('T')[0];
+  var today = now.toISOString().split('T')[0];
   document.getElementById('bookDate').setAttribute('min', today);
   loaded = {};
   loadOverview();
+
+  // Show admin section if admin
+  if (staffRole === 'admin') {
+    document.getElementById('adminSidebar').style.display = '';
+    document.getElementById('navBadge').textContent = 'адмін';
+    document.getElementById('navBadge').classList.add('admin');
+  }
 }
 
 /* ── PAGES ── */
@@ -503,12 +652,16 @@ function showPage(name) {
   });
   if (name === 'appointments' && !loaded.appointments) { loaded.appointments = true; loadAppointments(); }
   if (name === 'documents' && !loaded.documents) { loaded.documents = true; loadDocuments(); }
+  // Admin pages
+  if (name === 'adm-pending' && !loaded.admPending) { loaded.admPending = true; loadAdmPending(); loadAdmStats(); }
+  if (name === 'adm-all' && !loaded.admAll) { loaded.admAll = true; loadAdmAll(); }
+  if (name === 'adm-patients' && !loaded.admPatients) { loaded.admPatients = true; loadAdmPatients(); }
+  if (name === 'adm-doctors' && !loaded.admDoctors) { loaded.admDoctors = true; loadAdmDoctors(); }
 }
 
 /* ── OVERVIEW ── */
 async function loadOverview() {
   if (!patient) return;
-  document.getElementById('overviewGreeting').textContent = patient.name;
   var today = new Date().toISOString().split('T')[0];
   var results = await Promise.all([
     sb.from('patient_appointments').select('*', { count: 'exact' }).eq('patient_id', patient.id),
@@ -520,11 +673,17 @@ async function loadOverview() {
   if (results[1].data && results[1].data.length) {
     document.getElementById('statNext').textContent = results[1].data[0].date + (results[1].data[0].time ? ' ' + results[1].data[0].time : '');
   } else {
-    document.getElementById('statNext').textContent = '—';
+    document.getElementById('statNext').textContent = '\u2014';
   }
   document.getElementById('statDocs').textContent = results[2].count || 0;
   renderRecentList(results[3].data || []);
 }
+
+var svcNames = {therapy:'Тэрапія',ortho:'Артапедыя',surgery:'Хірургія',facial:'Тварная хірургія',hygiene:'Гігіена',orthodontics:'Артадонтыя',kids:'Дзіцячая',consultation:'Кансультацыя'};
+var statusNames = {pending:'Чакае',confirmed:'Пацверджаны',completed:'Завершаны',cancelled:'Адхілены'};
+
+function svcName(v) { return svcNames[v] || v; }
+function statusName(v) { return statusNames[v] || v; }
 
 function renderRecentList(items) {
   var el = document.getElementById('recentList');
@@ -534,7 +693,7 @@ function renderRecentList(items) {
   }
   var html = '<table class="cab-table"><thead><tr><th>Дата</th><th>Паслуга</th><th>Статус</th></tr></thead><tbody>';
   items.forEach(function(a) {
-    html += '<tr><td>' + a.date + (a.time ? ' ' + a.time : '') + '</td><td>' + a.service + '</td><td><span class="badge badge-' + a.status + '">' + a.status + '</span></td></tr>';
+    html += '<tr><td>' + a.date + (a.time ? ' ' + a.time : '') + '</td><td>' + svcName(a.service) + '</td><td><span class="badge badge-' + a.status + '">' + statusName(a.status) + '</span></td></tr>';
   });
   html += '</tbody></table>';
   el.innerHTML = html;
@@ -552,7 +711,7 @@ async function loadAppointments() {
   }
   var html = '<table class="cab-table"><thead><tr><th>Дата</th><th>Час</th><th>Паслуга</th><th>Статус</th></tr></thead><tbody>';
   items.forEach(function(a) {
-    html += '<tr><td>' + a.date + '</td><td>' + (a.time || '—') + '</td><td>' + a.service + '</td><td><span class="badge badge-' + a.status + '">' + a.status + '</span></td></tr>';
+    html += '<tr><td>' + a.date + '</td><td>' + (a.time || '\u2014') + '</td><td>' + svcName(a.service) + '</td><td><span class="badge badge-' + a.status + '">' + statusName(a.status) + '</span></td></tr>';
   });
   html += '</tbody></table>';
   el.innerHTML = html;
@@ -581,6 +740,8 @@ async function handleBooking(e) {
   document.getElementById('bookingSuccess').style.display = '';
   toast('Запіс створаны!');
   loaded.appointments = false;
+  loaded.admPending = false;
+  loaded.admAll = false;
   loadOverview();
   setTimeout(function() {
     document.getElementById('bookingForm').style.display = '';
@@ -620,8 +781,129 @@ async function handleProfileSave(e) {
     birth_date: document.getElementById('profBirth').value || null,
     updated_at: new Date().toISOString()
   }).eq('id', patient.id);
-  if (r.error) { toast(r.error.message); } else { toast('Захавана'); patient.name = document.getElementById('profName').value.trim(); document.getElementById('navUserName').textContent = patient.name; }
+  if (r.error) { toast(r.error.message); } else { toast('Захавана'); patient.name = document.getElementById('profName').value.trim(); document.getElementById('navUserName').textContent = patient.name; document.getElementById('overviewGreeting').textContent = 'Вітаем, ' + patient.name; }
   btn.disabled = false;
+}
+
+/* ═══════ ADMIN FUNCTIONS ═══════ */
+
+async function loadAdmStats() {
+  var results = await Promise.all([
+    sb.from('patient_appointments').select('*', { count: 'exact' }).eq('status', 'pending'),
+    sb.from('patient_appointments').select('*', { count: 'exact' }).eq('status', 'confirmed'),
+    sb.from('patient_appointments').select('*', { count: 'exact' }).eq('date', new Date().toISOString().split('T')[0]),
+    sb.from('patients').select('*', { count: 'exact' })
+  ]);
+  document.getElementById('admStats').innerHTML =
+    '<div class="adm-stat"><div class="adm-stat-num" style="color:var(--orange)">' + (results[0].count||0) + '</div><div class="adm-stat-label">Чакаюць</div></div>' +
+    '<div class="adm-stat"><div class="adm-stat-num" style="color:var(--blue-dark)">' + (results[1].count||0) + '</div><div class="adm-stat-label">Пацверджана</div></div>' +
+    '<div class="adm-stat"><div class="adm-stat-num" style="color:var(--green)">' + (results[2].count||0) + '</div><div class="adm-stat-label">Сёння</div></div>' +
+    '<div class="adm-stat"><div class="adm-stat-num">' + (results[3].count||0) + '</div><div class="adm-stat-label">Пацыентаў</div></div>';
+}
+
+async function loadAdmPending() {
+  var r = await sb.from('patient_appointments').select('*, patients(name, phone, email)').eq('status', 'pending').order('date', { ascending: true });
+  var el = document.getElementById('admPendingList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#10003;</div><div class="cab-empty-text">Усё пацверджана</div></div>';
+    return;
+  }
+  // Load doctors for assignment
+  if (!doctors.length) {
+    var dr = await sb.from('staff').select('id, name').eq('role', 'doctor').eq('active', true);
+    doctors = dr.data || [];
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Пацыент</th><th>Тэл.</th><th>Паслуга</th><th>Дата</th><th>Час</th><th>Урач</th><th>Дзеянні</th></tr></thead><tbody>';
+  items.forEach(function(a) {
+    var p = a.patients || {};
+    var docOpts = '<option value="">—</option>';
+    doctors.forEach(function(d) { docOpts += '<option value="' + d.id + '"' + (a.doctor_id === d.id ? ' selected' : '') + '>' + d.name + '</option>'; });
+    html += '<tr>' +
+      '<td><strong>' + (p.name||'—') + '</strong></td>' +
+      '<td>' + (p.phone||'—') + '</td>' +
+      '<td>' + svcName(a.service) + '</td>' +
+      '<td>' + a.date + '</td>' +
+      '<td>' + (a.time||'—') + '</td>' +
+      '<td><select class="adm-select" onchange="admAssignDoctor(\'' + a.id + '\', this.value)">' + docOpts + '</select></td>' +
+      '<td style="white-space:nowrap">' +
+        '<button class="adm-btn confirm" onclick="admConfirm(\'' + a.id + '\')">&#10003; Так</button> ' +
+        '<button class="adm-btn cancel" onclick="admCancel(\'' + a.id + '\')">&#10007; Не</button>' +
+      '</td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function loadAdmAll() {
+  var r = await sb.from('patient_appointments').select('*, patients(name)').order('date', { ascending: false }).limit(50);
+  var el = document.getElementById('admAllList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#128197;</div><div class="cab-empty-text">Няма запісаў</div></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Пацыент</th><th>Паслуга</th><th>Дата</th><th>Час</th><th>Статус</th></tr></thead><tbody>';
+  items.forEach(function(a) {
+    var p = a.patients || {};
+    html += '<tr><td>' + (p.name||'—') + '</td><td>' + svcName(a.service) + '</td><td>' + a.date + '</td><td>' + (a.time||'—') + '</td><td><span class="badge badge-' + a.status + '">' + statusName(a.status) + '</span></td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function loadAdmPatients() {
+  var r = await sb.from('patients').select('*').order('name');
+  var el = document.getElementById('admPatientsList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#128101;</div><div class="cab-empty-text">Няма пацыентаў</div></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Імя</th><th>Email</th><th>Тэлефон</th><th>Дата нар.</th><th>Створаны</th></tr></thead><tbody>';
+  items.forEach(function(p) {
+    html += '<tr><td><strong>' + p.name + '</strong></td><td>' + p.email + '</td><td>' + (p.phone||'—') + '</td><td>' + (p.birth_date||'—') + '</td><td>' + (p.created_at||'').split('T')[0] + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function loadAdmDoctors() {
+  var r = await sb.from('staff').select('*').order('name');
+  var el = document.getElementById('admDoctorsList');
+  var items = r.data || [];
+  if (!items.length) {
+    el.innerHTML = '<div class="cab-empty"><div class="cab-empty-icon">&#129657;</div><div class="cab-empty-text">Няма ўрачоў</div></div>';
+    return;
+  }
+  var html = '<table class="cab-table"><thead><tr><th>Імя</th><th>Роля</th><th>Спец.</th><th>Email</th><th>Тэл.</th><th>Статус</th></tr></thead><tbody>';
+  items.forEach(function(s) {
+    html += '<tr><td><strong>' + s.name + '</strong></td><td>' + s.role + '</td><td>' + (s.specialization||'—') + '</td><td>' + (s.email||'—') + '</td><td>' + (s.phone||'—') + '</td><td>' + (s.active ? '<span class="badge badge-confirmed">Актыўны</span>' : '<span class="badge badge-cancelled">Неактыўны</span>') + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function admConfirm(id) {
+  var r = await sb.from('patient_appointments').update({ status: 'confirmed' }).eq('id', id);
+  if (r.error) { toast(r.error.message); return; }
+  toast('Пацверджана');
+  loaded.admPending = false; loaded.admAll = false;
+  loadAdmPending(); loadAdmStats();
+}
+
+async function admCancel(id) {
+  var r = await sb.from('patient_appointments').update({ status: 'cancelled' }).eq('id', id);
+  if (r.error) { toast(r.error.message); return; }
+  toast('Адхілена');
+  loaded.admPending = false; loaded.admAll = false;
+  loadAdmPending(); loadAdmStats();
+}
+
+async function admAssignDoctor(apptId, doctorId) {
+  var r = await sb.from('patient_appointments').update({ doctor_id: doctorId || null }).eq('id', apptId);
+  if (r.error) { toast(r.error.message); return; }
+  toast('Урач прызначаны');
 }
 
 /* ── TOAST ── */
