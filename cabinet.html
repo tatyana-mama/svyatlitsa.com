@@ -127,6 +127,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
 .cab-empty{text-align:center;padding:48px 24px;color:var(--muted)}
 .cab-empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
 .cab-empty-text{font-size:13px;margin-bottom:16px}
+/* BOOKING SUCCESS */
+.cab-booking-success{text-align:center;padding:48px 24px;background:#e8f5e9;border-radius:12px;border:1px solid #a5d6a7}
+.cab-booking-success .cab-empty-icon{font-size:48px;opacity:1;color:#43a047}
+.cab-booking-success .cab-empty-text{font-size:15px;color:#2e7d32;font-weight:500}
 
 /* TOAST */
 .cab-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:12px 20px;border-radius:8px;font-size:12px;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
@@ -346,7 +350,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit
             </div>
             <button class="cab-form-btn" type="submit" data-i18n="cab_book_submit">Запісацца</button>
           </form>
-          <div id="bookingSuccess" style="display:none" class="cab-empty">
+          <div id="bookingSuccess" style="display:none" class="cab-booking-success">
             <div class="cab-empty-icon">&#10003;</div>
             <div class="cab-empty-text" data-i18n="cab_book_ok">Запіс створаны. Мы звяжамся для пацверджання.</div>
           </div>
@@ -571,19 +575,19 @@ async function handleBooking(e) {
     time: time,
     notes: notes || null,
     status: 'pending'
-  });
-  if (r.error) { toast(r.error.message); btn.disabled = false; return; }
+  }).select();
+  if (r.error) { console.error('Booking error:', r.error); toast(r.error.message); btn.disabled = false; return; }
   document.getElementById('bookingForm').style.display = 'none';
   document.getElementById('bookingSuccess').style.display = '';
-  toast('Запіс створаны');
+  toast('Запіс створаны!');
   loaded.appointments = false;
+  loadOverview();
   setTimeout(function() {
     document.getElementById('bookingForm').style.display = '';
     document.getElementById('bookingForm').reset();
     document.getElementById('bookingSuccess').style.display = 'none';
     btn.disabled = false;
-  }, 3000);
-  loadOverview();
+  }, 5000);
 }
 
 /* ── DOCUMENTS ── */
